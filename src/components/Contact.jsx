@@ -26,7 +26,7 @@ function Contact() {
           </a>
 
           <a
-            href="https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME"
+            href="www.linkedin.com/in/anveshvemuri"
             target="_blank"
             rel="noreferrer"
             className="rounded-lg border border-slate-700 px-5 py-3 font-semibold text-white transition hover:border-cyan-400 hover:text-cyan-300"
