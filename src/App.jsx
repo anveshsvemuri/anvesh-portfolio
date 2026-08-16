@@ -259,17 +259,28 @@ function Hero() {
           <div className="availability"><span /> Jersey City, NJ · New York metro</div>
           <div className="hero-role-line">DATA ENGINEER · 4+ YEARS EXPERIENCE</div>
           <h1>
-            Building data systems
-            <span>at production scale.</span>
+            I build reliable data platforms
+            <span>that scale.</span>
           </h1>
           <p className="hero-lede">
-            Scalable pipelines, distributed processing, cloud analytics platforms, API ingestion, and automated data quality with Python, SQL, Spark, Databricks, and AWS.
+            Production data engineering across cloud ingestion, distributed processing, orchestration, analytics warehouses, and automated data quality.
           </p>
 
-          <div className="hero-facts" aria-label="Key qualifications">
-            <div><strong>20M+</strong><span>records processed daily</span></div>
-            <div><strong>20+</strong><span>external platforms integrated</span></div>
-            <div><strong>50+</strong><span>workflows migrated to Databricks</span></div>
+          <div className="hero-skills" aria-label="Core technical skills">
+            <span className="hero-skills-label">Core stack</span>
+            <div className="hero-skill-list">
+              {['Python', 'SQL', 'PySpark', 'Databricks', 'AWS', 'Airflow', 'Redshift', 'Snowflake'].map((skill, index) => (
+                <span className={index < 5 ? 'is-core' : ''} key={skill}>{skill}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="hero-proof" aria-label="Selected engineering impact">
+            <div><strong>20M+</strong><span>records / day</span></div>
+            <i />
+            <div><strong>20+</strong><span>platforms integrated</span></div>
+            <i />
+            <div><strong>50+</strong><span>workflows migrated</span></div>
           </div>
 
           <div className="hero-actions">
@@ -284,7 +295,7 @@ function Hero() {
       </div>
 
       <div className="hero-foot reveal reveal-delay-2">
-        <span>Python · SQL · Spark · PySpark · Databricks · AWS · Airflow · Redshift</span>
+        <span>Cloud data engineering · distributed systems · analytics platforms</span>
         <a href="#experience">Explore experience <span className="scroll-arrow">↓</span></a>
       </div>
     </section>
@@ -457,11 +468,16 @@ function Stack() {
       <div className="skills-grid">
         {skillGroups.map((group, index) => (
           <article className={`skill-panel reveal reveal-delay-${index + 1}`} key={group.title}>
-            <span className="skill-eyebrow">{group.eyebrow}</span>
+            <div className="skill-panel-top">
+              <span className="skill-eyebrow">{group.eyebrow}</span>
+              <span className="skill-number">0{index + 1}</span>
+            </div>
             <h3>{group.title}</h3>
             <p>{group.copy}</p>
             <div className="skill-tags">
-              {group.items.map((item) => <span key={item}>{item}</span>)}
+              {group.items.map((item, itemIndex) => (
+                <span className={itemIndex < 3 ? 'is-featured' : ''} key={item}>{item}</span>
+              ))}
             </div>
           </article>
         ))}
