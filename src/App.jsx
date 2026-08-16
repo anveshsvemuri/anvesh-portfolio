@@ -61,6 +61,13 @@ const experiences = [
       ['10h', 'weekly QA effort saved', 'Built automated data quality, reconciliation, schema-change and mapping validation frameworks.'],
     ],
     stack: ['Databricks', 'PySpark', 'Python', 'SQL', 'AWS', 'Redshift', 'REST APIs'],
+    details: [
+      'Designed and maintained ETL/ELT pipelines across 20+ external platforms, reducing reporting latency by 40%.',
+      'Led the migration of 50+ Alteryx workflows to Databricks using PySpark and SQL, cutting execution time by 35%.',
+      'Built reusable API, SFTP, and cloud-storage ingestion patterns supporting standardized reporting across 100+ dashboards.',
+      'Engineered Redshift SQL transformations and stored procedures for incremental processing and large-scale aggregations.',
+      'Automated reconciliation, schema-change detection, mapping validation, and source-to-target QA, saving about 10 hours per week.',
+    ],
   },
   {
     company: 'JPMorgan Chase & Co.',
@@ -75,6 +82,12 @@ const experiences = [
       ['25+', 'Airflow workflows automated', 'Integrated orchestration with AWS Lake Formation while strengthening governance.'],
     ],
     stack: ['PySpark', 'Airflow', 'Hive', 'Snowflake', 'AWS Lake Formation', 'Parquet'],
+    details: [
+      'Developed distributed PySpark ETL pipelines processing 20M+ enterprise records daily from transactional systems.',
+      'Built 100+ HiveQL and Snowflake SQL transformations for enterprise-scale financial datasets.',
+      'Optimized Spark and Hive workloads with partition-aware processing, Parquet storage, and Spark SQL tuning.',
+      'Automated 25+ Airflow workflows integrated with AWS Lake Formation, reducing manual intervention by 12 hours per week.',
+    ],
   },
   {
     company: 'Dixon Technologies',
@@ -89,6 +102,12 @@ const experiences = [
       ['25%', 'cloud compute cost reduction', 'Improved S3 ingestion and object management with Boto3-powered automation.'],
     ],
     stack: ['Airflow', 'Spark Streaming', 'AWS Lambda', 'S3', 'Glue', 'Boto3', 'Redshift'],
+    details: [
+      'Developed 15+ custom Airflow operators in Python to integrate Snowflake, Slack, and Tableau workflows.',
+      'Designed Redshift warehouse schemas and ETL pipelines that improved query performance and reporting speed.',
+      'Built Spark Streaming and AWS Lambda pipelines processing 5M+ real-time events daily for anomaly detection.',
+      'Automated S3 ingestion and object management with Boto3, contributing to a 25% reduction in cloud compute costs.',
+    ],
   },
 ]
 
@@ -133,6 +152,24 @@ const projects = [
     tech: ['Python', 'Lakehouse', 'Data Quality', 'Testing'],
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
     flow: ['Ingest', 'Transform', 'Validate', 'Serve'],
+  },
+]
+
+const recruiterSnapshot = [
+  {
+    label: 'Profile',
+    title: 'Data Engineer · 4+ years',
+    copy: 'Production experience across cloud data platforms, distributed processing, warehouse engineering, orchestration, APIs, and data quality.',
+  },
+  {
+    label: 'Core stack',
+    title: 'Python · SQL · Spark · Databricks · AWS',
+    copy: 'Also hands-on with Airflow, Kafka, dbt, Redshift, Snowflake, S3, Glue, Lambda, Hive, REST APIs, Docker, and Git.',
+  },
+  {
+    label: 'Best fit',
+    title: 'Data Engineering · Data Platform · ML Data Infrastructure',
+    copy: 'Strongest fit for roles that need reliable ingestion, large-scale transformations, cloud analytics infrastructure, and AI-ready data systems.',
   },
 ]
 
@@ -197,10 +234,10 @@ function SectionHeading({ index, eyebrow, title, copy }) {
 function Navbar() {
   const [open, setOpen] = useState(false)
   const links = [
-    ['Work', '#experience'],
+    ['Experience', '#experience'],
+    ['Skills', '#stack'],
     ['Projects', '#projects'],
-    ['Stack', '#stack'],
-    ['About', '#about'],
+    ['Education', '#about'],
   ]
 
   return (
@@ -248,42 +285,27 @@ function Navbar() {
 }
 
 function SystemMap() {
-  const [active, setActive] = useState(2)
-  const stage = systemStages[active]
-
   return (
     <div className="system-card reveal reveal-delay-2">
       <div className="system-card-top">
         <div>
-          <span className="micro-label">Production system / interactive</span>
-          <h3>From raw signal to trusted data.</h3>
+          <span className="micro-label">How I build / production data systems</span>
+          <h3>From source data to trusted analytics.</h3>
         </div>
-        <div className="live-pill"><span /> operating model</div>
+        <div className="live-pill"><span /> all stages visible</div>
       </div>
 
-      <div className="system-flow" role="tablist" aria-label="Data engineering system stages">
-        {systemStages.map((item, index) => (
-          <button
-            key={item.name}
-            type="button"
-            role="tab"
-            aria-selected={index === active}
-            className={`system-node ${index === active ? 'is-active' : ''}`}
-            onClick={() => setActive(index)}
-          >
-            <span className="node-index">{item.short}</span>
-            <span className="node-name">{item.name}</span>
-            <span className="node-label">{item.label}</span>
-          </button>
+      <div className="system-visible-list" aria-label="Data engineering system stages">
+        {systemStages.map((item) => (
+          <div className="system-visible-row" key={item.name}>
+            <span className="system-visible-index">{item.short}</span>
+            <div>
+              <strong>{item.name}</strong>
+              <small>{item.label}</small>
+              <p>{item.detail}</p>
+            </div>
+          </div>
         ))}
-      </div>
-
-      <div className="system-detail" key={stage.name}>
-        <div className="system-detail-number">{stage.short}</div>
-        <div>
-          <span>{stage.name}</span>
-          <p>{stage.detail}</p>
-        </div>
       </div>
     </div>
   )
@@ -294,17 +316,25 @@ function Hero() {
     <section id="top" className="hero section-shell">
       <div className="hero-grid">
         <div className="hero-copy reveal">
-          <div className="availability"><span /> Jersey City · New York</div>
+          <div className="availability"><span /> Jersey City, NJ · New York metro</div>
+          <div className="hero-role-line">DATA ENGINEER · 4+ YEARS EXPERIENCE</div>
           <h1>
-            I build data systems
-            <span>that make complexity usable.</span>
+            Data engineering
+            <span>built for production scale.</span>
           </h1>
           <p className="hero-lede">
-            Data Engineer with 4+ years of experience building scalable ETL/ELT pipelines, distributed processing systems, cloud analytics platforms, and AI-ready data foundations.
+            I build scalable ETL/ELT pipelines, distributed Spark workloads, cloud analytics platforms, API-driven ingestion, and automated data quality systems using Python, SQL, PySpark, Databricks, AWS, Redshift, and Snowflake.
           </p>
+
+          <div className="hero-facts" aria-label="Key qualifications">
+            <div><strong>20M+</strong><span>records processed daily</span></div>
+            <div><strong>20+</strong><span>external platforms integrated</span></div>
+            <div><strong>50+</strong><span>workflows migrated to Databricks</span></div>
+          </div>
+
           <div className="hero-actions">
-            <a className="primary-button" href="#projects">
-              View selected work <ArrowIcon />
+            <a className="primary-button" href="#experience">
+              Review experience <ArrowIcon />
             </a>
             <a className="text-link" href={profile.resume} target="_blank" rel="noreferrer">
               Open résumé <ExternalIcon />
@@ -315,8 +345,28 @@ function Hero() {
       </div>
 
       <div className="hero-foot reveal reveal-delay-3">
-        <span>Python · SQL · Spark · Databricks · AWS</span>
-        <a href="#proof">Scroll to explore <span className="scroll-arrow">↓</span></a>
+        <span>Python · SQL · Spark · PySpark · Databricks · AWS · Airflow · Redshift</span>
+        <a href="#snapshot">Recruiter overview <span className="scroll-arrow">↓</span></a>
+      </div>
+    </section>
+  )
+}
+
+function RecruiterSnapshot() {
+  return (
+    <section id="snapshot" className="section-shell snapshot-section">
+      <div className="snapshot-heading reveal">
+        <span className="micro-label">30-second recruiter snapshot</span>
+        <h2>What I can contribute immediately.</h2>
+      </div>
+      <div className="snapshot-grid">
+        {recruiterSnapshot.map((item, index) => (
+          <article className={`snapshot-card reveal reveal-delay-${index + 1}`} key={item.label}>
+            <span>0{index + 1} · {item.label}</span>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </article>
+        ))}
       </div>
     </section>
   )
@@ -348,9 +398,9 @@ function Experience() {
     <section id="experience" className="section-shell section-block">
       <SectionHeading
         index="01"
-        eyebrow="Experience"
-        title="Built in production."
-        copy="A progression from orchestration and streaming systems to enterprise-scale cloud data platforms."
+        eyebrow="Professional experience"
+        title="Experience recruiters can scan quickly."
+        copy="Every role below shows the systems I worked on, measurable impact, responsibilities, and the technologies used."
       />
 
       <div className="experience-list">
@@ -376,7 +426,15 @@ function Experience() {
                   </div>
                 ))}
               </div>
-              <div className="stack-line">
+
+              <div className="responsibilities">
+                <span className="micro-label">Selected responsibilities & impact</span>
+                <ul>
+                  {job.details.map((detail) => <li key={detail}>{detail}</li>)}
+                </ul>
+              </div>
+
+              <div className="stack-line" aria-label={`${job.company} technology stack`}>
                 {job.stack.map((item) => <span key={item}>{item}</span>)}
               </div>
             </div>
@@ -391,10 +449,10 @@ function Projects() {
   return (
     <section id="projects" className="section-shell section-block">
       <SectionHeading
-        index="02"
+        index="03"
         eyebrow="Selected work"
-        title="Projects with a point of view."
-        copy="A small set of projects that show how I think about data products, analytics, and reliable systems."
+        title="Projects that demonstrate the work."
+        copy="Each project is labeled by status and shows exactly what it does, the technology used, and the repository a recruiter can inspect."
       />
 
       <div className="projects-list">
@@ -451,10 +509,10 @@ function Stack() {
   return (
     <section id="stack" className="section-shell section-block">
       <SectionHeading
-        index="03"
-        eyebrow="Capabilities"
-        title="The stack is a means, not the story."
-        copy="I use the tools that make data systems easier to scale, reason about, test, and operate."
+        index="02"
+        eyebrow="Technical skills"
+        title="Technical skills, grouped by how I use them."
+        copy="A recruiter-friendly view of the languages, processing frameworks, cloud services, databases, orchestration, and engineering tools in my current toolkit."
       />
 
       <div className="skills-grid">
@@ -484,7 +542,7 @@ function Stack() {
 function About() {
   return (
     <section id="about" className="section-shell section-block about-section">
-      <SectionHeading index="04" eyebrow="About" title="Data engineering with product instincts." />
+      <SectionHeading index="04" eyebrow="Education & direction" title="Foundation now. Applied AI next." />
 
       <div className="about-grid">
         <div className="about-statement reveal">
@@ -518,9 +576,9 @@ function Contact() {
     <section id="contact" className="section-shell contact-section">
       <div className="contact-card reveal">
         <div className="contact-kicker"><span /> Open to the right conversation</div>
-        <h2>Have a data problem worth solving?</h2>
+        <h2>Hiring for a data engineering or platform role?</h2>
         <p>
-          I’m interested in data engineering, data platform, distributed systems, and applied AI opportunities where reliability and scale actually matter.
+          My strongest fit is production data engineering: scalable pipelines, distributed processing, cloud analytics platforms, API ingestion, orchestration, and data quality. I’m also building toward ML and AI data infrastructure.
         </p>
         <a className="contact-email" href={`mailto:${profile.email}`}>
           {profile.email} <ArrowIcon size={22} />
@@ -600,10 +658,11 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Proof />
+        <RecruiterSnapshot />
         <Experience />
-        <Projects />
+        <Proof />
         <Stack />
+        <Projects />
         <About />
         <Contact />
       </main>
