@@ -1674,7 +1674,7 @@
 }
 
 
-/* Recruiter clarity pass */
+/* Information clarity pass */
 .hero-role-line {
   margin-top: 22px;
   color: #a79cff;
@@ -1914,5 +1914,66 @@
 
   .responsibilities {
     padding: 18px;
+  }
+}
+
+
+/* V3 — compact opening hero */
+.hero {
+  min-height: auto;
+  padding-top: 156px;
+  padding-bottom: 54px;
+}
+
+.hero-grid {
+  display: block;
+  min-height: 0;
+}
+
+.hero-copy {
+  max-width: 980px;
+}
+
+.hero-copy h1 {
+  max-width: 920px;
+  margin-top: 22px;
+  font-size: clamp(56px, 6.2vw, 88px);
+  line-height: 0.96;
+}
+
+.hero-lede {
+  max-width: 780px;
+  margin-top: 25px;
+}
+
+.hero-facts {
+  max-width: 860px;
+  margin-top: 32px;
+}
+
+.hero-actions {
+  margin-top: 30px;
+}
+
+.hero-foot {
+  margin-top: 64px;
+}
+
+.snapshot-section {
+  padding-top: 92px;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-top: 124px;
+    padding-bottom: 34px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(48px, 14vw, 66px);
+  }
+
+  .hero-foot {
+    margin-top: 44px;
   }
 }

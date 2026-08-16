@@ -7,39 +7,6 @@ const profile = {
   resume: '/resume/AnveshSVemuri_Resume.pdf',
 }
 
-const systemStages = [
-  {
-    short: '01',
-    name: 'Ingest',
-    label: 'APIs · SFTP · files',
-    detail: 'Reusable ingestion patterns bring external platform data into a dependable cloud landing layer.',
-  },
-  {
-    short: '02',
-    name: 'Orchestrate',
-    label: 'Airflow · Databricks',
-    detail: 'Scheduled workflows coordinate dependencies, retries, transformations, quality checks, and delivery.',
-  },
-  {
-    short: '03',
-    name: 'Transform',
-    label: 'Spark · PySpark · SQL',
-    detail: 'Distributed transformations turn raw events into modeled, query-ready datasets at enterprise scale.',
-  },
-  {
-    short: '04',
-    name: 'Serve',
-    label: 'S3 · Redshift · Snowflake',
-    detail: 'Curated datasets are organized for fast analytics, reporting, and downstream applications.',
-  },
-  {
-    short: '05',
-    name: 'Observe',
-    label: 'Quality · reconciliation',
-    detail: 'Automated validation and monitoring catch schema shifts, mapping issues, and source-to-target mismatches.',
-  },
-]
-
 const metrics = [
   { value: '20M+', label: 'records processed daily', note: 'Distributed PySpark workloads' },
   { value: '50+', label: 'legacy workflows migrated', note: 'Alteryx → Databricks' },
@@ -155,9 +122,9 @@ const projects = [
   },
 ]
 
-const recruiterSnapshot = [
+const overviewItems = [
   {
-    label: 'Profile',
+    label: 'Experience',
     title: 'Data Engineer · 4+ years',
     copy: 'Production experience across cloud data platforms, distributed processing, warehouse engineering, orchestration, APIs, and data quality.',
   },
@@ -167,9 +134,9 @@ const recruiterSnapshot = [
     copy: 'Also hands-on with Airflow, Kafka, dbt, Redshift, Snowflake, S3, Glue, Lambda, Hive, REST APIs, Docker, and Git.',
   },
   {
-    label: 'Best fit',
-    title: 'Data Engineering · Data Platform · ML Data Infrastructure',
-    copy: 'Strongest fit for roles that need reliable ingestion, large-scale transformations, cloud analytics infrastructure, and AI-ready data systems.',
+    label: 'Focus',
+    title: 'Reliable data platforms at scale',
+    copy: 'I focus on dependable ingestion, large-scale transformations, cloud analytics infrastructure, and the data foundation behind AI-ready systems.',
   },
 ]
 
@@ -284,33 +251,6 @@ function Navbar() {
   )
 }
 
-function SystemMap() {
-  return (
-    <div className="system-card reveal reveal-delay-2">
-      <div className="system-card-top">
-        <div>
-          <span className="micro-label">How I build / production data systems</span>
-          <h3>From source data to trusted analytics.</h3>
-        </div>
-        <div className="live-pill"><span /> all stages visible</div>
-      </div>
-
-      <div className="system-visible-list" aria-label="Data engineering system stages">
-        {systemStages.map((item) => (
-          <div className="system-visible-row" key={item.name}>
-            <span className="system-visible-index">{item.short}</span>
-            <div>
-              <strong>{item.name}</strong>
-              <small>{item.label}</small>
-              <p>{item.detail}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 function Hero() {
   return (
     <section id="top" className="hero section-shell">
@@ -319,11 +259,11 @@ function Hero() {
           <div className="availability"><span /> Jersey City, NJ · New York metro</div>
           <div className="hero-role-line">DATA ENGINEER · 4+ YEARS EXPERIENCE</div>
           <h1>
-            Data engineering
-            <span>built for production scale.</span>
+            Building data systems
+            <span>at production scale.</span>
           </h1>
           <p className="hero-lede">
-            I build scalable ETL/ELT pipelines, distributed Spark workloads, cloud analytics platforms, API-driven ingestion, and automated data quality systems using Python, SQL, PySpark, Databricks, AWS, Redshift, and Snowflake.
+            Scalable pipelines, distributed processing, cloud analytics platforms, API ingestion, and automated data quality with Python, SQL, Spark, Databricks, and AWS.
           </p>
 
           <div className="hero-facts" aria-label="Key qualifications">
@@ -334,33 +274,32 @@ function Hero() {
 
           <div className="hero-actions">
             <a className="primary-button" href="#experience">
-              Review experience <ArrowIcon />
+              View experience <ArrowIcon />
             </a>
             <a className="text-link" href={profile.resume} target="_blank" rel="noreferrer">
               Open résumé <ExternalIcon />
             </a>
           </div>
         </div>
-        <SystemMap />
       </div>
 
-      <div className="hero-foot reveal reveal-delay-3">
+      <div className="hero-foot reveal reveal-delay-2">
         <span>Python · SQL · Spark · PySpark · Databricks · AWS · Airflow · Redshift</span>
-        <a href="#snapshot">Recruiter overview <span className="scroll-arrow">↓</span></a>
+        <a href="#experience">Explore experience <span className="scroll-arrow">↓</span></a>
       </div>
     </section>
   )
 }
 
-function RecruiterSnapshot() {
+function Overview() {
   return (
-    <section id="snapshot" className="section-shell snapshot-section">
+    <section id="overview" className="section-shell snapshot-section">
       <div className="snapshot-heading reveal">
-        <span className="micro-label">30-second recruiter snapshot</span>
-        <h2>What I can contribute immediately.</h2>
+        <span className="micro-label">At a glance</span>
+        <h2>Production data engineering, clearly defined.</h2>
       </div>
       <div className="snapshot-grid">
-        {recruiterSnapshot.map((item, index) => (
+        {overviewItems.map((item, index) => (
           <article className={`snapshot-card reveal reveal-delay-${index + 1}`} key={item.label}>
             <span>0{index + 1} · {item.label}</span>
             <h3>{item.title}</h3>
@@ -399,8 +338,8 @@ function Experience() {
       <SectionHeading
         index="01"
         eyebrow="Professional experience"
-        title="Experience recruiters can scan quickly."
-        copy="Every role below shows the systems I worked on, measurable impact, responsibilities, and the technologies used."
+        title="Building reliable data systems at production scale."
+        copy="Across each role, I focus on scalable processing, dependable delivery, measurable performance improvements, and systems teams can trust."
       />
 
       <div className="experience-list">
@@ -452,7 +391,7 @@ function Projects() {
         index="03"
         eyebrow="Selected work"
         title="Projects that demonstrate the work."
-        copy="Each project is labeled by status and shows exactly what it does, the technology used, and the repository a recruiter can inspect."
+        copy="Selected projects that show how I approach data products, analytics workflows, and the foundation for AI-enabled systems."
       />
 
       <div className="projects-list">
@@ -512,7 +451,7 @@ function Stack() {
         index="02"
         eyebrow="Technical skills"
         title="Technical skills, grouped by how I use them."
-        copy="A recruiter-friendly view of the languages, processing frameworks, cloud services, databases, orchestration, and engineering tools in my current toolkit."
+        copy="Languages, processing frameworks, cloud services, databases, orchestration, and engineering tools I use to build production data systems."
       />
 
       <div className="skills-grid">
@@ -658,7 +597,7 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <RecruiterSnapshot />
+        <Overview />
         <Experience />
         <Proof />
         <Stack />
