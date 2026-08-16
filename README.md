@@ -1,16 +1,56 @@
-# React + Vite
+# Anvesh Sai Vemuri — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A premium, responsive portfolio for a Data Engineer focused on scalable data platforms, distributed processing, cloud analytics, and applied AI.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- Vite
+- CSS (no UI framework required)
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the Oxlint configuration
+## Build
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm run build
+```
+
+## Replace your existing repo files
+
+The simplest approach is to copy these files into the existing `anvesh-portfolio` repository, replacing the current `src`, `index.html`, `package.json`, `vite.config.js`, and `public/resume/AnveshSVemuri_Resume.pdf`.
+
+Then run:
+
+```bash
+npm install
+npm run build
+git add .
+git commit -m "Redesign portfolio"
+git push origin main
+```
+
+Your existing Vercel project should redeploy from the repository automatically if it is still connected to `main`.
+
+## Where to update content later
+
+All portfolio content currently lives near the top of `src/App.jsx` in plain data arrays:
+
+- `profile`
+- `systemStages`
+- `metrics`
+- `experiences`
+- `skillGroups`
+- `projects`
+- `foundations`
+
+When you begin your PhD, add it to `foundations` or create a dedicated AI / Research section without redesigning the whole site.
+
+## GitHub Pages later
+
+The site is Vite-compatible and can be moved to GitHub Pages later. For a project-site URL such as `anveshsvemuri.github.io/anvesh-portfolio/`, the Vite `base` path and a GitHub Actions deployment workflow should be added at that time. A custom domain can use `/` as the base.

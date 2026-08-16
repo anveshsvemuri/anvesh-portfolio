@@ -1,27 +1,615 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Skills from "./components/Skills";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+import { useEffect, useMemo, useRef, useState } from 'react'
+
+const profile = {
+  email: 'anveshsvemuri@gmail.com',
+  github: 'https://github.com/anveshsvemuri',
+  linkedin: 'https://www.linkedin.com/in/anveshvemuri',
+  resume: '/resume/AnveshSVemuri_Resume.pdf',
+}
+
+const systemStages = [
+  {
+    short: '01',
+    name: 'Ingest',
+    label: 'APIs · SFTP · files',
+    detail: 'Reusable ingestion patterns bring external platform data into a dependable cloud landing layer.',
+  },
+  {
+    short: '02',
+    name: 'Orchestrate',
+    label: 'Airflow · Databricks',
+    detail: 'Scheduled workflows coordinate dependencies, retries, transformations, quality checks, and delivery.',
+  },
+  {
+    short: '03',
+    name: 'Transform',
+    label: 'Spark · PySpark · SQL',
+    detail: 'Distributed transformations turn raw events into modeled, query-ready datasets at enterprise scale.',
+  },
+  {
+    short: '04',
+    name: 'Serve',
+    label: 'S3 · Redshift · Snowflake',
+    detail: 'Curated datasets are organized for fast analytics, reporting, and downstream applications.',
+  },
+  {
+    short: '05',
+    name: 'Observe',
+    label: 'Quality · reconciliation',
+    detail: 'Automated validation and monitoring catch schema shifts, mapping issues, and source-to-target mismatches.',
+  },
+]
+
+const metrics = [
+  { value: '20M+', label: 'records processed daily', note: 'Distributed PySpark workloads' },
+  { value: '50+', label: 'legacy workflows migrated', note: 'Alteryx → Databricks' },
+  { value: '20+', label: 'external platforms integrated', note: 'APIs, SFTP & cloud storage' },
+  { value: '100+', label: 'dashboards supported', note: 'Standardized reporting pipelines' },
+]
+
+const experiences = [
+  {
+    company: 'Publicis Groupe',
+    role: 'Data Engineer',
+    period: 'Sep 2024 — Present',
+    index: '01',
+    summary:
+      'Designing and operating cloud data pipelines that unify data from external platforms into reliable analytics systems.',
+    highlights: [
+      ['40%', 'lower reporting latency', 'Python, SQL, Databricks, S3, Redshift and REST API pipelines across 20+ external platforms.'],
+      ['35%', 'faster execution', 'Led migration of 50+ legacy Alteryx workflows to scalable PySpark and SQL workloads in Databricks.'],
+      ['10h', 'weekly QA effort saved', 'Built automated data quality, reconciliation, schema-change and mapping validation frameworks.'],
+    ],
+    stack: ['Databricks', 'PySpark', 'Python', 'SQL', 'AWS', 'Redshift', 'REST APIs'],
+  },
+  {
+    company: 'JPMorgan Chase & Co.',
+    role: 'Data Engineer',
+    period: 'Sep 2023 — Aug 2024',
+    index: '02',
+    summary:
+      'Built distributed data processing and governed orchestration for enterprise-scale financial datasets.',
+    highlights: [
+      ['20M+', 'records processed daily', 'Developed PySpark ETL pipelines for high-volume transactional data.'],
+      ['45%', 'processing improvement', 'Optimized distributed processing patterns for downstream analytics and reporting.'],
+      ['25+', 'Airflow workflows automated', 'Integrated orchestration with AWS Lake Formation while strengthening governance.'],
+    ],
+    stack: ['PySpark', 'Airflow', 'Hive', 'Snowflake', 'AWS Lake Formation', 'Parquet'],
+  },
+  {
+    company: 'Dixon Technologies',
+    role: 'Data Engineer',
+    period: 'Aug 2020 — Jul 2021',
+    index: '03',
+    summary:
+      'Developed warehouse, streaming, and automation systems across AWS, Spark, Airflow, Snowflake, and Tableau.',
+    highlights: [
+      ['5M+', 'real-time events daily', 'Built Spark Streaming and AWS Lambda pipelines for low-latency anomaly detection.'],
+      ['15+', 'custom Airflow operators', 'Automated Snowflake, Slack, and Tableau workflow integrations in Python.'],
+      ['25%', 'cloud compute cost reduction', 'Improved S3 ingestion and object management with Boto3-powered automation.'],
+    ],
+    stack: ['Airflow', 'Spark Streaming', 'AWS Lambda', 'S3', 'Glue', 'Boto3', 'Redshift'],
+  },
+]
+
+const skillGroups = [
+  {
+    eyebrow: 'Processing',
+    title: 'Distributed data engineering',
+    copy: 'Batch, streaming, incremental processing and large-scale transformation patterns.',
+    items: ['Apache Spark', 'PySpark', 'Databricks', 'Kafka', 'Hadoop', 'Hive', 'Pandas'],
+  },
+  {
+    eyebrow: 'Cloud',
+    title: 'Analytics platforms',
+    copy: 'Cloud-native storage, compute, warehouses and governed analytics infrastructure.',
+    items: ['Amazon S3', 'AWS Glue', 'AWS Lambda', 'Redshift', 'Athena', 'Lake Formation', 'Snowflake'],
+  },
+  {
+    eyebrow: 'Engineering',
+    title: 'Reliable delivery',
+    copy: 'Orchestration, modeling, automation, APIs, version control and production quality.',
+    items: ['Python', 'SQL', 'Airflow', 'dbt', 'REST APIs', 'Docker', 'GitHub', 'Jenkins'],
+  },
+]
+
+const projects = [
+  {
+    number: '01',
+    status: 'Built',
+    title: 'AI Analytics Assistant',
+    description:
+      'A Streamlit analytics application for uploading CSV data, profiling datasets, generating charts, and asking AI-powered questions about the data.',
+    tech: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'OpenAI API'],
+    href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
+    flow: ['CSV', 'Profile', 'Visualize', 'Ask AI'],
+  },
+  {
+    number: '02',
+    status: 'In progress',
+    title: 'Housing Data Lakehouse',
+    description:
+      'A work-in-progress data engineering repository structured around ingestion, transformations, data quality, and tests—the foundation for a complete lakehouse case study.',
+    tech: ['Python', 'Lakehouse', 'Data Quality', 'Testing'],
+    href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
+    flow: ['Ingest', 'Transform', 'Validate', 'Serve'],
+  },
+]
+
+const foundations = [
+  {
+    kind: 'Education',
+    title: 'M.S. Computer Information Systems',
+    meta: 'New England College · 2023',
+  },
+  {
+    kind: 'Certification',
+    title: 'SQL (Advanced) Certificate',
+    meta: 'HackerRank · 2026',
+  },
+  {
+    kind: 'Training',
+    title: 'Advanced Data Engineering',
+    meta: 'Databricks Academy · 2025',
+  },
+]
+
+function ArrowIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ExternalIcon({ size = 15 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M14 5h5v5M10 14 19 5M19 13v6H5V5h6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function MenuIcon({ open }) {
+  return (
+    <span className={`menu-icon ${open ? 'is-open' : ''}`} aria-hidden="true">
+      <i />
+      <i />
+    </span>
+  )
+}
+
+function SectionHeading({ index, eyebrow, title, copy }) {
+  return (
+    <div className="section-heading reveal">
+      <div className="section-kicker">
+        <span>{index}</span>
+        <span>{eyebrow}</span>
+      </div>
+      <div className="section-heading-main">
+        <h2>{title}</h2>
+        {copy && <p>{copy}</p>}
+      </div>
+    </div>
+  )
+}
+
+function Navbar() {
+  const [open, setOpen] = useState(false)
+  const links = [
+    ['Work', '#experience'],
+    ['Projects', '#projects'],
+    ['Stack', '#stack'],
+    ['About', '#about'],
+  ]
+
+  return (
+    <header className="nav-wrap">
+      <nav className="nav-shell" aria-label="Primary navigation">
+        <a className="brand" href="#top" aria-label="Anvesh Vemuri home">
+          <span className="brand-mark">AV</span>
+          <span className="brand-name">Anvesh Vemuri</span>
+        </a>
+
+        <div className="nav-links desktop-nav">
+          {links.map(([label, href]) => (
+            <a key={label} href={href}>{label}</a>
+          ))}
+        </div>
+
+        <div className="nav-actions">
+          <a className="nav-resume" href={profile.resume} target="_blank" rel="noreferrer">
+            Résumé <ExternalIcon size={13} />
+          </a>
+          <button
+            className="menu-button"
+            type="button"
+            aria-expanded={open}
+            aria-label={open ? 'Close navigation' : 'Open navigation'}
+            onClick={() => setOpen((value) => !value)}
+          >
+            <MenuIcon open={open} />
+          </button>
+        </div>
+      </nav>
+
+      <div className={`mobile-menu ${open ? 'is-open' : ''}`}>
+        {links.map(([label, href], index) => (
+          <a key={label} href={href} onClick={() => setOpen(false)}>
+            <span>0{index + 1}</span>{label}
+          </a>
+        ))}
+        <a href={`mailto:${profile.email}`} onClick={() => setOpen(false)}>
+          <span>05</span>Contact
+        </a>
+      </div>
+    </header>
+  )
+}
+
+function SystemMap() {
+  const [active, setActive] = useState(2)
+  const stage = systemStages[active]
+
+  return (
+    <div className="system-card reveal reveal-delay-2">
+      <div className="system-card-top">
+        <div>
+          <span className="micro-label">Production system / interactive</span>
+          <h3>From raw signal to trusted data.</h3>
+        </div>
+        <div className="live-pill"><span /> operating model</div>
+      </div>
+
+      <div className="system-flow" role="tablist" aria-label="Data engineering system stages">
+        {systemStages.map((item, index) => (
+          <button
+            key={item.name}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            className={`system-node ${index === active ? 'is-active' : ''}`}
+            onClick={() => setActive(index)}
+          >
+            <span className="node-index">{item.short}</span>
+            <span className="node-name">{item.name}</span>
+            <span className="node-label">{item.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="system-detail" key={stage.name}>
+        <div className="system-detail-number">{stage.short}</div>
+        <div>
+          <span>{stage.name}</span>
+          <p>{stage.detail}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Hero() {
+  return (
+    <section id="top" className="hero section-shell">
+      <div className="hero-grid">
+        <div className="hero-copy reveal">
+          <div className="availability"><span /> Jersey City · New York</div>
+          <h1>
+            I build data systems
+            <span>that make complexity usable.</span>
+          </h1>
+          <p className="hero-lede">
+            Data Engineer with 4+ years of experience building scalable ETL/ELT pipelines, distributed processing systems, cloud analytics platforms, and AI-ready data foundations.
+          </p>
+          <div className="hero-actions">
+            <a className="primary-button" href="#projects">
+              View selected work <ArrowIcon />
+            </a>
+            <a className="text-link" href={profile.resume} target="_blank" rel="noreferrer">
+              Open résumé <ExternalIcon />
+            </a>
+          </div>
+        </div>
+        <SystemMap />
+      </div>
+
+      <div className="hero-foot reveal reveal-delay-3">
+        <span>Python · SQL · Spark · Databricks · AWS</span>
+        <a href="#proof">Scroll to explore <span className="scroll-arrow">↓</span></a>
+      </div>
+    </section>
+  )
+}
+
+function Proof() {
+  return (
+    <section id="proof" className="section-shell proof-section">
+      <div className="proof-intro reveal">
+        <p className="micro-label">Proof, not buzzwords</p>
+        <h2>Engineering measured in throughput, reliability, and time returned.</h2>
+      </div>
+      <div className="metric-grid">
+        {metrics.map((metric, index) => (
+          <article className={`metric-card reveal reveal-delay-${(index % 3) + 1}`} key={metric.label}>
+            <div className="metric-index">0{index + 1}</div>
+            <strong>{metric.value}</strong>
+            <h3>{metric.label}</h3>
+            <p>{metric.note}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="section-shell section-block">
+      <SectionHeading
+        index="01"
+        eyebrow="Experience"
+        title="Built in production."
+        copy="A progression from orchestration and streaming systems to enterprise-scale cloud data platforms."
+      />
+
+      <div className="experience-list">
+        {experiences.map((job) => (
+          <article className="experience-row reveal" key={job.company}>
+            <div className="experience-meta">
+              <span>{job.index}</span>
+              <div>
+                <p>{job.period}</p>
+                <h3>{job.company}</h3>
+                <span>{job.role}</span>
+              </div>
+            </div>
+
+            <div className="experience-body">
+              <p className="experience-summary">{job.summary}</p>
+              <div className="highlight-grid">
+                {job.highlights.map(([value, label, copy]) => (
+                  <div className="highlight" key={label}>
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                    <p>{copy}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="stack-line">
+                {job.stack.map((item) => <span key={item}>{item}</span>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Projects() {
+  return (
+    <section id="projects" className="section-shell section-block">
+      <SectionHeading
+        index="02"
+        eyebrow="Selected work"
+        title="Projects with a point of view."
+        copy="A small set of projects that show how I think about data products, analytics, and reliable systems."
+      />
+
+      <div className="projects-list">
+        {projects.map((project) => (
+          <article className="project-case reveal" key={project.title}>
+            <div className="project-copy">
+              <div className="project-topline">
+                <span>{project.number}</span>
+                <span className={`project-status ${project.status === 'Built' ? 'is-built' : ''}`}>
+                  <i /> {project.status}
+                </span>
+              </div>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div className="project-tech">
+                {project.tech.map((item) => <span key={item}>{item}</span>)}
+              </div>
+              <a className="case-link" href={project.href} target="_blank" rel="noreferrer">
+                View repository <ExternalIcon />
+              </a>
+            </div>
+
+            <div className="project-visual" aria-label={`${project.title} workflow`}>
+              <div className="visual-toolbar">
+                <span /><span /><span />
+                <p>{project.title.toLowerCase().replaceAll(' ', '-')}.pipeline</p>
+              </div>
+              <div className="visual-flow">
+                {project.flow.map((step, index) => (
+                  <div className="flow-step-wrap" key={step}>
+                    <div className="flow-step">
+                      <span>0{index + 1}</span>
+                      <strong>{step}</strong>
+                    </div>
+                    {index < project.flow.length - 1 && <div className="flow-connector"><i /></div>}
+                  </div>
+                ))}
+              </div>
+              <div className="visual-console">
+                <span className="console-prompt">›</span>
+                <span>pipeline.status</span>
+                <span className="console-result">ready</span>
+                <span className="console-cursor" />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Stack() {
+  return (
+    <section id="stack" className="section-shell section-block">
+      <SectionHeading
+        index="03"
+        eyebrow="Capabilities"
+        title="The stack is a means, not the story."
+        copy="I use the tools that make data systems easier to scale, reason about, test, and operate."
+      />
+
+      <div className="skills-grid">
+        {skillGroups.map((group, index) => (
+          <article className={`skill-panel reveal reveal-delay-${index + 1}`} key={group.title}>
+            <span className="skill-eyebrow">{group.eyebrow}</span>
+            <h3>{group.title}</h3>
+            <p>{group.copy}</p>
+            <div className="skill-tags">
+              {group.items.map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="marquee reveal" aria-label="Technology stack">
+        <div className="marquee-track">
+          {[...skillGroups.flatMap((group) => group.items), ...skillGroups.flatMap((group) => group.items)].map((item, index) => (
+            <span key={`${item}-${index}`}>{item}<i>·</i></span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function About() {
+  return (
+    <section id="about" className="section-shell section-block about-section">
+      <SectionHeading index="04" eyebrow="About" title="Data engineering with product instincts." />
+
+      <div className="about-grid">
+        <div className="about-statement reveal">
+          <p>
+            I’m most interested in the layer where <strong>data infrastructure meets real decisions</strong>: dependable ingestion, scalable processing, understandable models, and quality checks that make teams trust what they see.
+          </p>
+          <p>
+            My current work is centered on production data engineering. I’m also building toward deeper applied AI and ML systems work, with a strong data-platform foundation underneath it.
+          </p>
+        </div>
+
+        <div className="foundation-list reveal reveal-delay-2">
+          {foundations.map((item, index) => (
+            <div className="foundation-row" key={item.title}>
+              <span>0{index + 1}</span>
+              <div>
+                <p>{item.kind}</p>
+                <h3>{item.title}</h3>
+                <small>{item.meta}</small>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Contact() {
+  return (
+    <section id="contact" className="section-shell contact-section">
+      <div className="contact-card reveal">
+        <div className="contact-kicker"><span /> Open to the right conversation</div>
+        <h2>Have a data problem worth solving?</h2>
+        <p>
+          I’m interested in data engineering, data platform, distributed systems, and applied AI opportunities where reliability and scale actually matter.
+        </p>
+        <a className="contact-email" href={`mailto:${profile.email}`}>
+          {profile.email} <ArrowIcon size={22} />
+        </a>
+        <div className="contact-links">
+          <a href={profile.github} target="_blank" rel="noreferrer">GitHub <ExternalIcon /></a>
+          <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a>
+          <a href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon /></a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Footer() {
+  const year = useMemo(() => new Date().getFullYear(), [])
+  return (
+    <footer className="section-shell footer">
+      <span>© {year} Anvesh Sai Vemuri</span>
+      <span>Designed for clarity. Built in React.</span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  )
+}
 
 function App() {
+  const rootRef = useRef(null)
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return undefined
+
+    const onPointerMove = (event) => {
+      root.style.setProperty('--pointer-x', `${event.clientX}px`)
+      root.style.setProperty('--pointer-y', `${event.clientY}px`)
+    }
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    return () => window.removeEventListener('pointermove', onPointerMove)
+  }, [])
+
+  useEffect(() => {
+    const nodes = document.querySelectorAll('.reveal')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -5% 0px' },
+    )
+
+    nodes.forEach((node) => observer.observe(node))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const progress = document.querySelector('.scroll-progress')
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      const ratio = max > 0 ? window.scrollY / max : 0
+      progress?.style.setProperty('--scroll', `${Math.min(1, Math.max(0, ratio)) * 100}%`)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="app-shell" ref={rootRef}>
+      <div className="scroll-progress" aria-hidden="true" />
+      <div className="pointer-glow" aria-hidden="true" />
+      <div className="page-grid" aria-hidden="true" />
       <Navbar />
       <main>
         <Hero />
-        <About />
-        <Skills />
+        <Proof />
         <Experience />
         <Projects />
+        <Stack />
+        <About />
         <Contact />
       </main>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
