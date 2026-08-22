@@ -260,7 +260,7 @@ function Hero() {
           <div className="hero-role-line">DATA ENGINEER · 4+ YEARS EXPERIENCE</div>
           <h1>
             I build reliable data platforms
-            <span>that scale.</span>
+            <span> that scale.</span>
           </h1>
           <p className="hero-lede">
             Production data engineering across cloud ingestion, distributed processing, orchestration, analytics warehouses, and automated data quality.
