@@ -93,32 +93,44 @@ const skillGroups = [
   },
   {
     eyebrow: 'Engineering',
-    title: 'Reliable delivery',
-    copy: 'Orchestration, modeling, automation, APIs, version control and production quality.',
-    items: ['Python', 'SQL', 'Airflow', 'dbt', 'REST APIs', 'Docker', 'GitHub', 'Jenkins'],
+    title: 'Reliable data & AI delivery',
+    copy: 'Orchestration, analytics applications, typed AI integrations, automation, APIs, testing, and CI.',
+    items: ['Python', 'SQL', 'Airflow', 'dbt', 'REST APIs', 'OpenAI API', 'Pydantic', 'Streamlit', 'Docker', 'GitHub Actions'],
   },
 ]
 
 const projects = [
   {
     number: '01',
-    status: 'Built',
+    status: 'Working application',
+    isWorking: true,
     title: 'AI Analytics Assistant',
     description:
-      'A Streamlit analytics application for uploading CSV data, profiling datasets, generating charts, and asking AI-powered questions about the data.',
-    tech: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'OpenAI API'],
+      'A tested Streamlit application that safely profiles CSV datasets, answers common analytics questions without an API key, and uses schema-validated OpenAI responses for open-ended analysis and chart configuration.',
+    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI Responses API', 'Pydantic', 'Pytest'],
     href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
-    flow: ['CSV', 'Profile', 'Visualize', 'Ask AI'],
+    flow: ['Upload', 'Profile', 'Analyze', 'Explain'],
+    outcomes: [
+      'Guarded ingestion for CSVs up to 25 MB, 200,000 rows, and 200 columns.',
+      'Deterministic summaries, quality checks, aggregations, rankings, and correlations without an API key.',
+      'Structured AI outputs, hallucinated-column checks, and 15 automated tests in CI.',
+    ],
   },
   {
     number: '02',
-    status: 'In progress',
+    status: 'Working pipeline',
+    isWorking: true,
     title: 'Housing Data Lakehouse',
     description:
-      'A work-in-progress data engineering repository structured around ingestion, transformations, data quality, and tests—the foundation for a complete lakehouse case study.',
-    tech: ['Python', 'Lakehouse', 'Data Quality', 'Testing'],
+      'A reproducible PySpark medallion pipeline that generates housing data, builds typed and deduplicated Silver records, quarantines rejected rows, and produces partitioned Gold market KPIs with auditable run manifests.',
+    tech: ['Python', 'PySpark', 'Parquet', 'Medallion Architecture', 'Data Quality', 'Pytest'],
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
-    flow: ['Ingest', 'Transform', 'Validate', 'Serve'],
+    flow: ['Generate', 'Bronze', 'Silver', 'Gold'],
+    outcomes: [
+      'Runs Bronze → Silver → Gold locally with explicit schemas and partitioned Parquet outputs.',
+      'Preserves invalid and superseded records with machine-readable rejection reasons.',
+      'Reconciles layer counts through idempotent audit manifests and 18 automated tests.',
+    ],
   },
 ]
 
@@ -135,8 +147,8 @@ const overviewItems = [
   },
   {
     label: 'Focus',
-    title: 'Reliable data platforms at scale',
-    copy: 'I focus on dependable ingestion, large-scale transformations, cloud analytics infrastructure, and the data foundation behind AI-ready systems.',
+    title: 'Reliable data platforms for analytics and AI',
+    copy: 'I focus on dependable ingestion, large-scale transformations, cloud analytics infrastructure, and tested applications that make data useful for people and AI systems.',
   },
 ]
 
@@ -154,7 +166,7 @@ const foundations = [
   {
     kind: 'Training',
     title: 'Advanced Data Engineering',
-    meta: 'Databricks Academy · 2025',
+    meta: 'Databricks Academy · 2026',
   },
 ]
 
@@ -229,6 +241,7 @@ function Navbar() {
             className="menu-button"
             type="button"
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             aria-label={open ? 'Close navigation' : 'Open navigation'}
             onClick={() => setOpen((value) => !value)}
           >
@@ -237,13 +250,17 @@ function Navbar() {
         </div>
       </nav>
 
-      <div className={`mobile-menu ${open ? 'is-open' : ''}`}>
+      <div
+        id="mobile-navigation"
+        className={`mobile-menu ${open ? 'is-open' : ''}`}
+        aria-hidden={!open}
+      >
         {links.map(([label, href], index) => (
-          <a key={label} href={href} onClick={() => setOpen(false)}>
+          <a key={label} href={href} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
             <span>0{index + 1}</span>{label}
           </a>
         ))}
-        <a href={`mailto:${profile.email}`} onClick={() => setOpen(false)}>
+        <a href={`mailto:${profile.email}`} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
           <span>05</span>Contact
         </a>
       </div>
@@ -257,13 +274,13 @@ function Hero() {
       <div className="hero-grid">
         <div className="hero-copy reveal">
           <div className="availability"><span /> Jersey City, NJ · New York metro</div>
-          <div className="hero-role-line">DATA ENGINEER · 4+ YEARS EXPERIENCE</div>
+          <div className="hero-role-line">DATA & AI ENGINEER · 4+ YEARS IN DATA ENGINEERING</div>
           <h1>
-            I build reliable data platforms
-            <span> that scale.</span>
+            I build reliable data systems
+            <span> for analytics and AI.</span>
           </h1>
           <p className="hero-lede">
-            Production data engineering across cloud ingestion, distributed processing, orchestration, analytics warehouses, and automated data quality.
+            Production data engineering across cloud ingestion, distributed processing, orchestration, analytics warehouses, automated data quality, and applied AI applications.
           </p>
 
           <div className="hero-skills" aria-label="Core technical skills">
@@ -295,7 +312,7 @@ function Hero() {
       </div>
 
       <div className="hero-foot reveal reveal-delay-2">
-        <span>Cloud data engineering · distributed systems · analytics platforms</span>
+        <span>Cloud data engineering · distributed systems · applied AI</span>
         <a href="#experience">Explore experience <span className="scroll-arrow">↓</span></a>
       </div>
     </section>
@@ -411,16 +428,25 @@ function Projects() {
             <div className="project-copy">
               <div className="project-topline">
                 <span>{project.number}</span>
-                <span className={`project-status ${project.status === 'Built' ? 'is-built' : ''}`}>
+                <span className={`project-status ${project.isWorking ? 'is-built' : ''}`}>
                   <i /> {project.status}
                 </span>
               </div>
               <h3>{project.title}</h3>
               <p>{project.description}</p>
+              <ul className="project-outcomes" aria-label={`${project.title} engineering outcomes`}>
+                {project.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
+              </ul>
               <div className="project-tech">
                 {project.tech.map((item) => <span key={item}>{item}</span>)}
               </div>
-              <a className="case-link" href={project.href} target="_blank" rel="noreferrer">
+              <a
+                className="case-link"
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`View ${project.title} repository on GitHub`}
+              >
                 View repository <ExternalIcon />
               </a>
             </div>
@@ -531,9 +557,9 @@ function Contact() {
     <section id="contact" className="section-shell contact-section">
       <div className="contact-card reveal">
         <div className="contact-kicker"><span /> Open to the right conversation</div>
-        <h2>Hiring for a data engineering or platform role?</h2>
+        <h2>Hiring for a data, platform, or applied AI role?</h2>
         <p>
-          My strongest fit is production data engineering: scalable pipelines, distributed processing, cloud analytics platforms, API ingestion, orchestration, and data quality. I’m also building toward ML and AI data infrastructure.
+          My strongest foundation is production data engineering: scalable pipelines, distributed processing, cloud analytics platforms, API ingestion, orchestration, and data quality. I also build tested AI-enabled analytics applications on top of that foundation.
         </p>
         <a className="contact-email" href={`mailto:${profile.email}`}>
           {profile.email} <ArrowIcon size={22} />
@@ -571,6 +597,10 @@ function App() {
       root.style.setProperty('--pointer-y', `${event.clientY}px`)
     }
 
+    const supportsPointerEffect = window.matchMedia('(pointer: fine)').matches
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!supportsPointerEffect) return undefined
+
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     return () => window.removeEventListener('pointermove', onPointerMove)
   }, [])
@@ -607,11 +637,12 @@ function App() {
 
   return (
     <div className="app-shell" ref={rootRef}>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <div className="scroll-progress" aria-hidden="true" />
       <div className="pointer-glow" aria-hidden="true" />
       <div className="page-grid" aria-hidden="true" />
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <Overview />
         <Experience />
