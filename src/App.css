@@ -114,10 +114,11 @@
 }
 
 .hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(360px, 0.84fr);
-  gap: clamp(45px, 7vw, 95px);
-  align-items: center;
+  display: block;
+}
+
+.hero-copy {
+  max-width: 1000px;
 }
 
 .availability,
@@ -148,7 +149,7 @@
 }
 
 .hero-copy h1 {
-  max-width: 760px;
+  max-width: 960px;
   margin: 24px 0 0;
   color: #f4f9ff;
   font-size: clamp(58px, 6.8vw, 92px);
@@ -165,7 +166,7 @@
 }
 
 .hero-lede {
-  max-width: 690px;
+  max-width: 760px;
   margin: 28px 0 0;
   color: #a8b8cb;
   font-size: 17px;
@@ -276,126 +277,6 @@
   font-weight: 700;
 }
 
-.hero-visual {
-  position: relative;
-  min-height: 520px;
-}
-
-.visual-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(2px);
-}
-
-.visual-orb-one {
-  top: 30px;
-  right: -50px;
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle at 35% 35%, rgba(93, 238, 217, 0.55), rgba(93, 238, 217, 0.02) 70%);
-}
-
-.visual-orb-two {
-  bottom: 30px;
-  left: -30px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle at 60% 45%, rgba(119, 103, 255, 0.42), rgba(119, 103, 255, 0.02) 70%);
-}
-
-.blueprint-card {
-  position: absolute;
-  inset: 55px 0 45px 20px;
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-  border: 1px solid rgba(146, 194, 224, 0.16);
-  border-radius: 30px;
-  background: linear-gradient(150deg, rgba(19, 42, 70, 0.96), rgba(12, 25, 47, 0.9));
-  box-shadow: 0 36px 90px rgba(0, 8, 24, 0.45);
-  backdrop-filter: blur(24px);
-  transform: rotate(2deg);
-}
-
-.blueprint-header,
-.blueprint-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.blueprint-header > span {
-  color: #dce8f7;
-  font-size: 12px;
-  font-weight: 750;
-}
-
-.blueprint-header > i {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(89, 228, 190, 0.13);
-  color: #6de7c6;
-  font-size: 9px;
-  font-style: normal;
-  text-transform: uppercase;
-}
-
-.blueprint-flow {
-  display: grid;
-  gap: 12px;
-  margin: auto 0;
-}
-
-.blueprint-flow > div {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 4px 13px;
-  padding: 17px;
-  border-radius: 17px;
-  background: rgba(121, 157, 197, 0.09);
-}
-
-.blueprint-flow span {
-  grid-row: span 2;
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(92, 232, 211, 0.24), rgba(123, 107, 255, 0.26));
-  color: #7be8dc;
-  font-size: 10px;
-}
-
-.blueprint-flow strong {
-  color: #ecf5ff;
-  font-size: 15px;
-}
-
-.blueprint-flow small {
-  color: #7990aa;
-  font-size: 10px;
-}
-
-.blueprint-footer {
-  gap: 12px;
-  color: #8399b2;
-  font-size: 9px;
-}
-
-.blueprint-footer span {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.blueprint-footer i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #5ce4bd;
-}
-
 .section-block {
   padding-top: 115px;
   padding-bottom: 35px;
@@ -466,8 +347,7 @@
 
 .experience-meta > span,
 .skill-number,
-.project-topline > span:first-child,
-.foundation-row > span {
+.project-topline > span:first-child {
   color: #58dfd0;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
@@ -750,76 +630,140 @@
   font-style: normal;
 }
 
-.about-grid {
+.education-grid,
+.credential-grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
 }
 
-.about-statement,
-.foundation-list {
-  padding: 36px;
+.education-card {
+  min-height: 280px;
+  padding: clamp(28px, 4vw, 44px);
   border-radius: 28px;
-  background: rgba(18, 40, 67, 0.72);
+  background: linear-gradient(145deg, rgba(24, 57, 87, 0.92), rgba(18, 39, 68, 0.78));
 }
 
-.about-statement p {
-  margin: 0;
-  color: #b1c1d4;
-  font-size: clamp(19px, 2.3vw, 29px);
-  line-height: 1.45;
-  letter-spacing: -0.03em;
+.education-card:first-child {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(116, 105, 255, 0.3), transparent 17rem),
+    linear-gradient(145deg, rgba(27, 66, 93, 0.95), rgba(19, 42, 76, 0.88));
 }
 
-.about-statement p + p {
-  margin-top: 24px;
-  color: #8398b0;
-  font-size: 14px;
-  line-height: 1.7;
-  letter-spacing: 0;
-}
-
-.about-statement strong {
-  color: #73e7d7;
-}
-
-.foundation-list {
-  display: grid;
-  gap: 12px;
-}
-
-.foundation-row {
-  display: grid;
-  grid-template-columns: 35px 1fr;
-  gap: 13px;
+.education-card-top {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-radius: 18px;
-  background: rgba(109, 143, 184, 0.08);
 }
 
-.foundation-row p,
-.foundation-row h3,
-.foundation-row small {
-  margin: 0;
-}
-
-.foundation-row p {
-  color: #66dfd1;
-  font-size: 9px;
+.education-card-top span,
+.credential-card > span {
+  color: #6fe5d6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.foundation-row h3 {
-  margin-top: 6px;
-  color: #e4edf8;
-  font-size: 15px;
+.education-card-top i {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(101, 233, 215, 0.12);
+  color: #86ede0;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
 }
 
-.foundation-row small {
+.education-card h3 {
+  max-width: 470px;
+  margin: 60px 0 0;
+  color: #eef5ff;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.education-card p,
+.education-card small,
+.credential-card p,
+.credential-card small,
+.credentials-heading p {
+  margin: 0;
+}
+
+.education-card p {
+  margin-top: 20px;
+  color: #b2c5da;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.education-card small {
   display: block;
-  margin-top: 5px;
-  color: #8095ad;
+  margin-top: 7px;
+  color: #7f96b0;
+  font-size: 11px;
+}
+
+.credentials-section {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 54px;
+  padding: 34px;
+  border-radius: 28px;
+  background: rgba(12, 29, 52, 0.62);
+}
+
+.credentials-heading h3 {
+  margin: 22px 0 0;
+  color: #edf5ff;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.credentials-heading p {
+  max-width: 310px;
+  margin-top: 12px;
+  color: #8297af;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.credential-card {
+  position: relative;
+  min-height: 180px;
+  padding: 26px;
+  border-radius: 21px;
+  background: rgba(78, 112, 152, 0.11);
+}
+
+.credential-card h4 {
+  max-width: 330px;
+  margin: 42px 0 0;
+  color: #e8f0fa;
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.credential-card p {
+  margin-top: 12px;
+  color: #9db1c8;
+  font-size: 12px;
+}
+
+.credential-card small {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  color: #7088a3;
   font-size: 10px;
 }
 
@@ -913,10 +857,7 @@
 }
 
 @media (max-width: 1050px) {
-  .hero-grid { grid-template-columns: 1fr; }
   .hero-copy { max-width: 830px; }
-  .hero-visual { min-height: 430px; }
-  .blueprint-card { inset: 20px 8%; }
   .experience-row { grid-template-columns: 230px 1fr; gap: 28px; }
   .project-case { grid-template-columns: 1fr; }
   .project-copy { min-height: 390px; }
@@ -975,7 +916,7 @@
   .mobile-menu a span { color: #62e4d3; font-size: 9px; }
   .section-heading,
   .experience-row,
-  .about-grid { grid-template-columns: 1fr; }
+  .credentials-section { grid-template-columns: 1fr; }
   .section-heading { gap: 20px; }
   .highlight-grid,
   .skills-grid { grid-template-columns: 1fr; }
@@ -991,7 +932,6 @@
   .nav-shell { min-height: 58px; border-radius: 18px; }
   .brand-name { display: none; }
   .hero { min-height: auto; padding-top: 112px; padding-bottom: 50px; }
-  .hero-grid { gap: 28px; }
   .hero-copy h1 { font-size: clamp(45px, 14vw, 65px); }
   .hero-lede { font-size: 14px; }
   .hero-skills { grid-template-columns: 1fr; gap: 10px; }
@@ -1000,14 +940,14 @@
   .hero-proof > i { display: none; }
   .hero-proof strong { font-size: 18px; }
   .hero-actions { align-items: flex-start; flex-direction: column; }
-  .hero-visual { min-height: 370px; }
-  .blueprint-card { inset: 5px 0; padding: 19px; transform: none; }
-  .blueprint-footer { flex-wrap: wrap; }
   .section-block { padding-top: 80px; }
   .experience-row,
-  .project-case,
-  .about-statement,
-  .foundation-list { padding: 22px; border-radius: 22px; }
+  .project-case { padding: 22px; border-radius: 22px; }
+  .education-grid,
+  .credential-grid { grid-template-columns: 1fr; }
+  .education-card { min-height: 245px; padding: 24px; border-radius: 22px; }
+  .education-card h3 { margin-top: 42px; }
+  .credentials-section { margin-top: 34px; padding: 22px; border-radius: 22px; }
   .project-copy { min-height: 420px; padding: 12px 4px 15px; }
   .project-visual { border-radius: 16px; }
   .project-visual figcaption { display: none; }

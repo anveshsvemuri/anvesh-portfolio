@@ -131,21 +131,33 @@ const projects = [
   },
 ]
 
-const foundations = [
+const education = [
   {
-    kind: 'Education',
-    title: 'M.S. Computer Information Systems',
-    meta: 'New England College · 2023',
+    degree: 'Ph.D. in Technology & Artificial Intelligence',
+    school: 'Southwest Baptist University',
+    period: 'Starting September 2026',
+    status: 'Incoming doctoral student',
   },
+  {
+    degree: 'M.S. in Computer Information Systems',
+    school: 'New England College',
+    period: 'Completed 2023',
+    status: 'Graduate degree',
+  },
+]
+
+const credentials = [
   {
     kind: 'Certification',
     title: 'SQL (Advanced) Certificate',
-    meta: 'HackerRank · 2026',
+    issuer: 'HackerRank',
+    year: '2026',
   },
   {
-    kind: 'Training',
+    kind: 'Professional training',
     title: 'Advanced Data Engineering',
-    meta: 'Databricks Academy · 2026',
+    issuer: 'Databricks Academy',
+    year: '2026',
   },
 ]
 
@@ -195,7 +207,7 @@ function Navbar() {
     ['Experience', '#experience'],
     ['Projects', '#projects'],
     ['Skills', '#stack'],
-    ['About', '#about'],
+    ['Education', '#about'],
   ]
 
   return (
@@ -288,26 +300,6 @@ function Hero() {
             </a>
           </div>
         </div>
-        <aside className="hero-visual reveal reveal-delay-2" aria-label="Data systems blueprint">
-          <div className="visual-orb visual-orb-one" />
-          <div className="visual-orb visual-orb-two" />
-          <div className="blueprint-card">
-            <div className="blueprint-header">
-              <span>Production blueprint</span>
-              <i>Live</i>
-            </div>
-            <div className="blueprint-flow">
-              <div><span>01</span><strong>Ingest</strong><small>APIs · S3 · Kafka</small></div>
-              <div><span>02</span><strong>Transform</strong><small>Spark · Databricks</small></div>
-              <div><span>03</span><strong>Serve</strong><small>Warehouse · AI</small></div>
-            </div>
-            <div className="blueprint-footer">
-              <span><i /> Quality gates</span>
-              <span><i /> Observable</span>
-              <span><i /> Automated</span>
-            </div>
-          </div>
-        </aside>
       </div>
     </section>
   )
@@ -457,28 +449,41 @@ function Stack() {
 function About() {
   return (
     <section id="about" className="section-shell section-block about-section">
-      <SectionHeading index="04" eyebrow="Education & direction" title="Foundation now. Applied AI next." />
+      <SectionHeading
+        index="04"
+        eyebrow="Education"
+        title="Academic foundation for data and AI."
+        copy="Graduate study that supports my work across data platforms, applied AI, and production engineering."
+      />
 
-      <div className="about-grid">
-        <div className="about-statement reveal">
-          <p>
-            I’m most interested in the layer where <strong>data infrastructure meets real decisions</strong>: dependable ingestion, scalable processing, understandable models, and quality checks that make teams trust what they see.
-          </p>
-          <p>
-            My current work is centered on production data engineering. I’m also building toward deeper applied AI and ML systems work, with a strong data-platform foundation underneath it.
-          </p>
-        </div>
-
-        <div className="foundation-list reveal reveal-delay-2">
-          {foundations.map((item, index) => (
-            <div className="foundation-row" key={item.title}>
-              <span>0{index + 1}</span>
-              <div>
-                <p>{item.kind}</p>
-                <h3>{item.title}</h3>
-                <small>{item.meta}</small>
-              </div>
+      <div className="education-grid">
+        {education.map((item, index) => (
+          <article className={`education-card reveal reveal-delay-${index + 1}`} key={item.degree}>
+            <div className="education-card-top">
+              <span>{item.status}</span>
+              <i>{index === 0 ? 'Ph.D.' : 'M.S.'}</i>
             </div>
+            <h3>{item.degree}</h3>
+            <p>{item.school}</p>
+            <small>{item.period}</small>
+          </article>
+        ))}
+      </div>
+
+      <div className="credentials-section">
+        <div className="credentials-heading reveal">
+          <span className="micro-label">Professional development</span>
+          <h3>Certifications & training</h3>
+          <p>Industry learning presented separately from academic degrees.</p>
+        </div>
+        <div className="credential-grid">
+          {credentials.map((item, index) => (
+            <article className={`credential-card reveal reveal-delay-${index + 1}`} key={item.title}>
+              <span>{item.kind}</span>
+              <h4>{item.title}</h4>
+              <p>{item.issuer}</p>
+              <small>{item.year}</small>
+            </article>
           ))}
         </div>
       </div>
