@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">AI Analytics Assistant product preview</title>
+  <desc id="desc">A colorful analytics workspace with dataset health, revenue chart, and a grounded natural-language answer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#151b4b"/>
+      <stop offset="1" stop-color="#07152d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#54e6cb"/>
+      <stop offset="1" stop-color="#8b7cff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="25" flood-color="#020817" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" rx="42" fill="url(#bg)"/>
+  <circle cx="1040" cy="80" r="280" fill="#714eff" opacity=".13"/>
+  <circle cx="130" cy="730" r="260" fill="#25d9bf" opacity=".1"/>
+  <g filter="url(#shadow)">
+    <rect x="68" y="62" width="1064" height="676" rx="28" fill="#0c1731" stroke="#7891c6" stroke-opacity=".28"/>
+    <rect x="68" y="62" width="1064" height="74" rx="28" fill="#111f40"/>
+    <rect x="68" y="108" width="1064" height="28" fill="#111f40"/>
+    <circle cx="112" cy="99" r="9" fill="#ff6e88"/>
+    <circle cx="143" cy="99" r="9" fill="#ffc65c"/>
+    <circle cx="174" cy="99" r="9" fill="#51dfb3"/>
+    <text x="220" y="107" fill="#f4f7ff" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">AI Analytics Assistant</text>
+    <rect x="906" y="84" width="178" height="34" rx="17" fill="#1b3151"/>
+    <circle cx="932" cy="101" r="7" fill="#51dfb3"/>
+    <text x="951" y="108" fill="#b9c9e8" font-family="Inter,Arial,sans-serif" font-size="15">No-key mode</text>
+  </g>
+  <rect x="98" y="170" width="258" height="534" rx="22" fill="#101e3c" stroke="#7186b4" stroke-opacity=".22"/>
+  <text x="126" y="211" fill="#8fa6cc" font-family="Inter,Arial,sans-serif" font-size="15" letter-spacing="2">DATASET PROFILE</text>
+  <text x="126" y="257" fill="#f7f9ff" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">97%</text>
+  <text x="206" y="253" fill="#91a5c9" font-family="Inter,Arial,sans-serif" font-size="16">health score</text>
+  <rect x="126" y="278" width="202" height="8" rx="4" fill="#263858"/>
+  <rect x="126" y="278" width="190" height="8" rx="4" fill="url(#accent)"/>
+  <g font-family="Inter,Arial,sans-serif">
+    <text x="126" y="340" fill="#8fa6cc" font-size="14">ROWS</text><text x="292" y="340" fill="#eef4ff" font-size="16" text-anchor="end">24,800</text>
+    <text x="126" y="390" fill="#8fa6cc" font-size="14">COLUMNS</text><text x="292" y="390" fill="#eef4ff" font-size="16" text-anchor="end">18</text>
+    <text x="126" y="440" fill="#8fa6cc" font-size="14">MISSING</text><text x="292" y="440" fill="#eef4ff" font-size="16" text-anchor="end">0.8%</text>
+    <text x="126" y="490" fill="#8fa6cc" font-size="14">DUPLICATES</text><text x="292" y="490" fill="#eef4ff" font-size="16" text-anchor="end">12</text>
+  </g>
+  <rect x="126" y="552" width="202" height="112" rx="16" fill="#14294b"/>
+  <text x="146" y="584" fill="#8fa6cc" font-family="Inter,Arial,sans-serif" font-size="13">ACTIVE DATASET</text>
+  <text x="146" y="617" fill="#eef4ff" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700">Campaign performance</text>
+  <text x="146" y="646" fill="#54e6cb" font-family="Inter,Arial,sans-serif" font-size="14">✓ Ready to analyze</text>
+  <rect x="384" y="170" width="718" height="294" rx="22" fill="#101e3c" stroke="#7186b4" stroke-opacity=".22"/>
+  <text x="416" y="211" fill="#8fa6cc" font-family="Inter,Arial,sans-serif" font-size="15" letter-spacing="2">REVENUE BY CHANNEL</text>
+  <text x="416" y="252" fill="#f7f9ff" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="700">$1.24M</text>
+  <text x="525" y="250" fill="#54e6cb" font-family="Inter,Arial,sans-serif" font-size="15">↑ 18.4%</text>
+  <line x1="424" y1="405" x2="1062" y2="405" stroke="#61749b" stroke-opacity=".25"/>
+  <g fill="url(#accent)">
+    <rect x="450" y="330" width="72" height="75" rx="10"/><rect x="565" y="285" width="72" height="120" rx="10"/>
+    <rect x="680" y="310" width="72" height="95" rx="10"/><rect x="795" y="245" width="72" height="160" rx="10"/>
+    <rect x="910" y="270" width="72" height="135" rx="10"/>
+  </g>
+  <g fill="#8fa6cc" font-family="Inter,Arial,sans-serif" font-size="13" text-anchor="middle">
+    <text x="486" y="432">Search</text><text x="601" y="432">Social</text><text x="716" y="432">Email</text><text x="831" y="432">Display</text><text x="946" y="432">Video</text>
+  </g>
+  <rect x="384" y="492" width="718" height="212" rx="22" fill="#101e3c" stroke="#7186b4" stroke-opacity=".22"/>
+  <circle cx="431" cy="540" r="22" fill="#6d63ff"/>
+  <text x="431" y="547" fill="white" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" text-anchor="middle">AI</text>
+  <text x="471" y="535" fill="#eef4ff" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700">Which channel performed best?</text>
+  <text x="471" y="564" fill="#8fa6cc" font-family="Inter,Arial,sans-serif" font-size="14">Grounded answer · 3 verified columns</text>
+  <rect x="420" y="590" width="646" height="80" rx="14" fill="#14294b"/>
+  <text x="444" y="622" fill="#dce8ff" font-family="Inter,Arial,sans-serif" font-size="16">Display led revenue at $382K, while Social delivered the</text>
+  <text x="444" y="649" fill="#dce8ff" font-family="Inter,Arial,sans-serif" font-size="16">highest return on ad spend. No unsupported columns used.</text>
+</svg>

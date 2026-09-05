@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const profile = {
   email: 'anveshsvemuri@gmail.com',
@@ -6,13 +6,6 @@ const profile = {
   linkedin: 'https://www.linkedin.com/in/anveshvemuri',
   resume: '/resume/AnveshSVemuri_Resume.pdf',
 }
-
-const metrics = [
-  { value: '20M+', label: 'records processed daily', note: 'Distributed PySpark workloads' },
-  { value: '50+', label: 'legacy workflows migrated', note: 'Alteryx → Databricks' },
-  { value: '20+', label: 'external platforms integrated', note: 'APIs, SFTP & cloud storage' },
-  { value: '100+', label: 'dashboards supported', note: 'Standardized reporting pipelines' },
-]
 
 const experiences = [
   {
@@ -109,6 +102,8 @@ const projects = [
       'A tested Streamlit application that safely profiles CSV datasets, answers common analytics questions without an API key, and uses schema-validated OpenAI responses for open-ended analysis and chart configuration.',
     tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI Responses API', 'Pydantic', 'GitHub Actions'],
     href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
+    image: '/projects/ai-analytics-preview.svg',
+    imageAlt: 'AI Analytics Assistant interface showing a dataset profile, chart, and grounded answer',
     flow: ['Upload', 'Profile', 'Analyze', 'Explain'],
     outcomes: [
       'Guarded ingestion for CSVs up to 25 MB, 200,000 rows, and 200 columns.',
@@ -125,30 +120,14 @@ const projects = [
       'A reproducible PySpark medallion pipeline with incremental Bronze processing, typed Silver records, rejected-row quarantine, partitioned Gold KPIs, and Terraform-defined AWS storage.',
     tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform', 'GitHub Actions'],
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
+    image: '/projects/housing-lakehouse-preview.svg',
+    imageAlt: 'Housing lakehouse architecture showing Bronze, Silver, and Gold data layers on AWS',
     flow: ['Generate', 'Bronze', 'Silver', 'Gold'],
     outcomes: [
       'Runs incremental Bronze → Silver → Gold processing with explicit schemas, checkpoints, and partitioned Parquet outputs.',
       'Preserves invalid and superseded records with machine-readable rejection reasons.',
       'Reconciles layer counts through idempotent audits; 24 tests and CI-validated secure AWS infrastructure.',
     ],
-  },
-]
-
-const overviewItems = [
-  {
-    label: 'Experience',
-    title: 'Data Engineer · 4+ years',
-    copy: 'Production experience across cloud data platforms, distributed processing, warehouse engineering, orchestration, APIs, and data quality.',
-  },
-  {
-    label: 'Core stack',
-    title: 'Python · SQL · Spark · Databricks · AWS',
-    copy: 'Also hands-on with Airflow, Kafka, dbt, Redshift, Snowflake, S3, Glue, Lambda, Hive, REST APIs, Docker, and Git.',
-  },
-  {
-    label: 'Focus',
-    title: 'Reliable data platforms for analytics and AI',
-    copy: 'I focus on dependable ingestion, large-scale transformations, cloud analytics infrastructure, and tested applications that make data useful for people and AI systems.',
   },
 ]
 
@@ -214,9 +193,9 @@ function Navbar() {
   const [open, setOpen] = useState(false)
   const links = [
     ['Experience', '#experience'],
-    ['Skills', '#stack'],
     ['Projects', '#projects'],
-    ['Education', '#about'],
+    ['Skills', '#stack'],
+    ['About', '#about'],
   ]
 
   return (
@@ -309,52 +288,26 @@ function Hero() {
             </a>
           </div>
         </div>
-      </div>
-
-      <div className="hero-foot reveal reveal-delay-2">
-        <span>Cloud data engineering · distributed systems · applied AI</span>
-        <a href="#experience">Explore experience <span className="scroll-arrow">↓</span></a>
-      </div>
-    </section>
-  )
-}
-
-function Overview() {
-  return (
-    <section id="overview" className="section-shell snapshot-section">
-      <div className="snapshot-heading reveal">
-        <span className="micro-label">At a glance</span>
-        <h2>Production data engineering, clearly defined.</h2>
-      </div>
-      <div className="snapshot-grid">
-        {overviewItems.map((item, index) => (
-          <article className={`snapshot-card reveal reveal-delay-${index + 1}`} key={item.label}>
-            <span>0{index + 1} · {item.label}</span>
-            <h3>{item.title}</h3>
-            <p>{item.copy}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function Proof() {
-  return (
-    <section id="proof" className="section-shell proof-section">
-      <div className="proof-intro reveal">
-        <p className="micro-label">Proof, not buzzwords</p>
-        <h2>Engineering measured in throughput, reliability, and time returned.</h2>
-      </div>
-      <div className="metric-grid">
-        {metrics.map((metric, index) => (
-          <article className={`metric-card reveal reveal-delay-${(index % 3) + 1}`} key={metric.label}>
-            <div className="metric-index">0{index + 1}</div>
-            <strong>{metric.value}</strong>
-            <h3>{metric.label}</h3>
-            <p>{metric.note}</p>
-          </article>
-        ))}
+        <aside className="hero-visual reveal reveal-delay-2" aria-label="Data systems blueprint">
+          <div className="visual-orb visual-orb-one" />
+          <div className="visual-orb visual-orb-two" />
+          <div className="blueprint-card">
+            <div className="blueprint-header">
+              <span>Production blueprint</span>
+              <i>Live</i>
+            </div>
+            <div className="blueprint-flow">
+              <div><span>01</span><strong>Ingest</strong><small>APIs · S3 · Kafka</small></div>
+              <div><span>02</span><strong>Transform</strong><small>Spark · Databricks</small></div>
+              <div><span>03</span><strong>Serve</strong><small>Warehouse · AI</small></div>
+            </div>
+            <div className="blueprint-footer">
+              <span><i /> Quality gates</span>
+              <span><i /> Observable</span>
+              <span><i /> Automated</span>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   )
@@ -416,7 +369,7 @@ function Projects() {
   return (
     <section id="projects" className="section-shell section-block">
       <SectionHeading
-        index="03"
+        index="02"
         eyebrow="Selected work"
         title="Projects that demonstrate the work."
         copy="Selected projects that show how I approach data products, analytics workflows, and the foundation for AI-enabled systems."
@@ -451,29 +404,10 @@ function Projects() {
               </a>
             </div>
 
-            <div className="project-visual" aria-label={`${project.title} workflow`}>
-              <div className="visual-toolbar">
-                <span /><span /><span />
-                <p>{project.title.toLowerCase().replaceAll(' ', '-')}.pipeline</p>
-              </div>
-              <div className="visual-flow">
-                {project.flow.map((step, index) => (
-                  <div className="flow-step-wrap" key={step}>
-                    <div className="flow-step">
-                      <span>0{index + 1}</span>
-                      <strong>{step}</strong>
-                    </div>
-                    {index < project.flow.length - 1 && <div className="flow-connector"><i /></div>}
-                  </div>
-                ))}
-              </div>
-              <div className="visual-console">
-                <span className="console-prompt">›</span>
-                <span>pipeline.status</span>
-                <span className="console-result">ready</span>
-                <span className="console-cursor" />
-              </div>
-            </div>
+            <figure className="project-visual">
+              <img src={project.image} alt={project.imageAlt} loading="lazy" />
+              <figcaption>{project.flow.join('  ·  ')}</figcaption>
+            </figure>
           </article>
         ))}
       </div>
@@ -485,7 +419,7 @@ function Stack() {
   return (
     <section id="stack" className="section-shell section-block">
       <SectionHeading
-        index="02"
+        index="03"
         eyebrow="Technical skills"
         title="Technical skills, grouped by how I use them."
         copy="Languages, processing frameworks, cloud services, databases, orchestration, and engineering tools I use to build production data systems."
@@ -586,25 +520,6 @@ function Footer() {
 }
 
 function App() {
-  const rootRef = useRef(null)
-
-  useEffect(() => {
-    const root = rootRef.current
-    if (!root) return undefined
-
-    const onPointerMove = (event) => {
-      root.style.setProperty('--pointer-x', `${event.clientX}px`)
-      root.style.setProperty('--pointer-y', `${event.clientY}px`)
-    }
-
-    const supportsPointerEffect = window.matchMedia('(pointer: fine)').matches
-      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!supportsPointerEffect) return undefined
-
-    window.addEventListener('pointermove', onPointerMove, { passive: true })
-    return () => window.removeEventListener('pointermove', onPointerMove)
-  }, [])
-
   useEffect(() => {
     const nodes = document.querySelectorAll('.reveal')
     const observer = new IntersectionObserver(
@@ -623,32 +538,15 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => {
-    const progress = document.querySelector('.scroll-progress')
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      const ratio = max > 0 ? window.scrollY / max : 0
-      progress?.style.setProperty('--scroll', `${Math.min(1, Math.max(0, ratio)) * 100}%`)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
-    <div className="app-shell" ref={rootRef}>
+    <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <div className="scroll-progress" aria-hidden="true" />
-      <div className="pointer-glow" aria-hidden="true" />
-      <div className="page-grid" aria-hidden="true" />
       <Navbar />
       <main id="main-content">
         <Hero />
-        <Overview />
         <Experience />
-        <Proof />
-        <Stack />
         <Projects />
+        <Stack />
         <About />
         <Contact />
       </main>
