@@ -18,6 +18,7 @@ npm run dev
 ## Build
 
 ```bash
+npm run lint
 npm run build
 ```
 

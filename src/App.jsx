@@ -18,7 +18,7 @@ const experiences = [
   {
     company: 'Publicis Groupe',
     role: 'Data Engineer',
-    period: 'Sep 2024 — Present',
+    period: 'Sep 2024 — Aug 2026',
     index: '01',
     summary:
       'Designing and operating cloud data pipelines that unify data from external platforms into reliable analytics systems.',
@@ -89,7 +89,7 @@ const skillGroups = [
     eyebrow: 'Cloud',
     title: 'Analytics platforms',
     copy: 'Cloud-native storage, compute, warehouses and governed analytics infrastructure.',
-    items: ['Amazon S3', 'AWS Glue', 'AWS Lambda', 'Redshift', 'Athena', 'Lake Formation', 'Snowflake'],
+    items: ['Amazon S3', 'AWS Glue', 'AWS Lambda', 'Redshift', 'Athena', 'Lake Formation', 'Snowflake', 'Terraform'],
   },
   {
     eyebrow: 'Engineering',
@@ -102,34 +102,34 @@ const skillGroups = [
 const projects = [
   {
     number: '01',
-    status: 'Working application',
+    status: 'Tested application',
     isWorking: true,
     title: 'AI Analytics Assistant',
     description:
       'A tested Streamlit application that safely profiles CSV datasets, answers common analytics questions without an API key, and uses schema-validated OpenAI responses for open-ended analysis and chart configuration.',
-    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI Responses API', 'Pydantic', 'Pytest'],
+    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI Responses API', 'Pydantic', 'GitHub Actions'],
     href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
     flow: ['Upload', 'Profile', 'Analyze', 'Explain'],
     outcomes: [
       'Guarded ingestion for CSVs up to 25 MB, 200,000 rows, and 200 columns.',
       'Deterministic summaries, quality checks, aggregations, rankings, and correlations without an API key.',
-      'Structured AI outputs, hallucinated-column checks, and 15 automated tests in CI.',
+      'One-click sample datasets, structured AI outputs, hallucinated-column checks, and 27 automated tests in CI.',
     ],
   },
   {
     number: '02',
-    status: 'Working pipeline',
+    status: 'Tested pipeline',
     isWorking: true,
     title: 'Housing Data Lakehouse',
     description:
-      'A reproducible PySpark medallion pipeline that generates housing data, builds typed and deduplicated Silver records, quarantines rejected rows, and produces partitioned Gold market KPIs with auditable run manifests.',
-    tech: ['Python', 'PySpark', 'Parquet', 'Medallion Architecture', 'Data Quality', 'Pytest'],
+      'A reproducible PySpark medallion pipeline with incremental Bronze processing, typed Silver records, rejected-row quarantine, partitioned Gold KPIs, and Terraform-defined AWS storage.',
+    tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform', 'GitHub Actions'],
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
     flow: ['Generate', 'Bronze', 'Silver', 'Gold'],
     outcomes: [
-      'Runs Bronze → Silver → Gold locally with explicit schemas and partitioned Parquet outputs.',
+      'Runs incremental Bronze → Silver → Gold processing with explicit schemas, checkpoints, and partitioned Parquet outputs.',
       'Preserves invalid and superseded records with machine-readable rejection reasons.',
-      'Reconciles layer counts through idempotent audit manifests and 18 automated tests.',
+      'Reconciles layer counts through idempotent audits; 24 tests and CI-validated secure AWS infrastructure.',
     ],
   },
 ]
