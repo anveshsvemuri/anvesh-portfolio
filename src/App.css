@@ -37,24 +37,20 @@
 
 .brand {
   display: inline-flex;
-  gap: 11px;
   align-items: center;
   width: max-content;
-  font-size: 13px;
-  font-weight: 700;
+  min-height: 38px;
+}
+
+.brand-name {
+  color: #edf5ff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
 .brand-mark {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border-radius: 13px;
-  background: linear-gradient(145deg, #58ead5, #746eff);
-  box-shadow: 0 8px 24px rgba(71, 216, 203, 0.22);
-  color: #06111d;
-  font-size: 12px;
-  font-weight: 900;
+  display: none;
 }
 
 .nav-links {
@@ -932,7 +928,7 @@
   .mobile-menu { width: min(100% - 28px, 1180px); }
   .nav-wrap { top: 10px; }
   .nav-shell { min-height: 58px; border-radius: 18px; }
-  .brand-name { display: none; }
+  .brand-name { display: inline; font-size: 13px; }
   .hero { min-height: auto; padding-top: 112px; padding-bottom: 50px; }
   .hero-copy h1 { font-size: clamp(45px, 14vw, 65px); }
   .hero-lede { font-size: 14px; }
