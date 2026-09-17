@@ -1,6 +1,6 @@
 :root {
-  color: #f4f8ff;
-  background: #07111f;
+  color: #edf7f0;
+  background: #07110e;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,15 +13,15 @@
 
 html {
   scroll-behavior: smooth;
-  background: #07111f;
+  background: #07110e;
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: #07111f;
-  color: #f4f8ff;
+  background: #07110e;
+  color: #edf7f0;
 }
 
 button,
@@ -39,7 +39,7 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid #6cebd9;
+  outline: 2px solid #8cf4ad;
   outline-offset: 4px;
 }
 
@@ -49,10 +49,10 @@ button {
   top: 10px;
   left: 10px;
   padding: 10px 14px;
-  border-radius: 10px;
-  background: #f4f8ff;
-  color: #07111f;
-  font-size: 12px;
+  border-radius: 8px;
+  background: #8cf4ad;
+  color: #06110b;
+  font-size: 11px;
   font-weight: 800;
   transform: translateY(-160%);
   transition: transform 160ms ease;
@@ -63,20 +63,20 @@ button {
 }
 
 ::selection {
-  background: #69e5d3;
-  color: #06111d;
+  background: #8cf4ad;
+  color: #06110b;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #07111f;
+  background: #07110e;
 }
 
 ::-webkit-scrollbar-thumb {
-  border: 2px solid #07111f;
+  border: 2px solid #07110e;
   border-radius: 999px;
-  background: #28415d;
+  background: #233a2f;
 }
