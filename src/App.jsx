@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import './App.css'
 
 const profile = {
   email: 'anveshsvemuri@gmail.com',
