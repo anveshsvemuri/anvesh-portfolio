@@ -7,13 +7,11 @@ const profile = {
   resume: '/resume/AnveshSVemuri_Resume.pdf',
 }
 
-const signals = [
-  ['PYTHON', 'Production pipelines'],
-  ['SPARK', '20M+ records / day'],
-  ['DATABRICKS', '50+ workflows migrated'],
-  ['AWS', 'Lakehouse & warehouse'],
-  ['AIRFLOW', '25+ workflows'],
-  ['QUALITY', '10h QA saved / week'],
+const metrics = [
+  ['4+', 'years in data engineering'],
+  ['20M+', 'records processed daily'],
+  ['20+', 'external platforms integrated'],
+  ['50+', 'workflows migrated'],
 ]
 
 const experiences = [
@@ -21,11 +19,10 @@ const experiences = [
     company: 'Publicis Groupe',
     role: 'Data Engineer',
     period: 'Sep 2024 — Aug 2026',
-    summary: 'Advertising and eCommerce data infrastructure across enterprise analytics workloads.',
-    metrics: [['20+', 'platforms integrated'], ['40%', 'lower reporting latency'], ['50+', 'workflows migrated']],
-    bullets: [
-      'Built Python, SQL, Databricks, S3, Redshift and REST API pipelines across 20+ external platforms.',
-      'Migrated 50+ legacy Alteryx workflows to PySpark and SQL in Databricks, reducing execution time by 35%.',
+    summary: 'Built and modernized enterprise data pipelines for advertising and eCommerce analytics.',
+    impact: [
+      'Designed Python, SQL, Databricks, S3, Redshift and REST API pipelines across 20+ external platforms.',
+      'Migrated 50+ legacy Alteryx workflows to Databricks with PySpark and SQL, reducing execution time by 35%.',
       'Built reusable API, SFTP and cloud-storage ingestion patterns supporting analytics across 100+ dashboards.',
       'Automated reconciliation, schema-change detection and source-to-target QA, saving about 10 hours per week.',
     ],
@@ -35,23 +32,21 @@ const experiences = [
     company: 'JPMorgan Chase & Co.',
     role: 'Data Engineer',
     period: 'Sep 2023 — Aug 2024',
-    summary: 'Distributed processing and governed orchestration for enterprise-scale financial datasets.',
-    metrics: [['20M+', 'records / day'], ['45%', 'processing improvement'], ['25+', 'Airflow workflows']],
-    bullets: [
-      'Developed distributed PySpark ETL pipelines processing 20M+ financial and transactional records daily.',
+    summary: 'Developed distributed processing and orchestration for enterprise financial datasets.',
+    impact: [
+      'Developed PySpark ETL pipelines processing 20M+ financial and transactional records daily.',
       'Built 100+ SQL and dbt transformations in Snowflake and Hive for analytical workloads.',
       'Optimized Spark and Hive workloads with partition-aware processing, Parquet storage and Spark SQL tuning.',
-      'Automated 25+ Airflow workflows and strengthened data reliability across downstream reporting.',
+      'Automated 25+ Airflow workflows and strengthened reliability across downstream reporting.',
     ],
-    stack: ['PySpark', 'Airflow', 'Snowflake', 'Hive', 'Parquet', 'Data Quality'],
+    stack: ['PySpark', 'Airflow', 'Snowflake', 'Hive', 'Parquet', 'dbt'],
   },
   {
     company: 'Dixon Technologies',
     role: 'Data Engineer',
     period: 'Aug 2020 — Jul 2021',
-    summary: 'Warehouse, streaming and automation systems across AWS, Spark, Airflow and Snowflake.',
-    metrics: [['5M+', 'events / day'], ['15+', 'Airflow operators'], ['25%', 'cloud cost reduction']],
-    bullets: [
+    summary: 'Built warehouse, streaming and automation systems across AWS and distributed data tools.',
+    impact: [
       'Developed custom Airflow operators in Python integrating Snowflake, Slack and Tableau workflows.',
       'Designed Redshift warehouse schemas and ETL pipelines for high-volume analytics workloads.',
       'Built Spark Streaming and AWS Lambda pipelines processing 5M+ real-time events daily.',
@@ -61,27 +56,24 @@ const experiences = [
   },
 ]
 
-const skillGroups = [
+const capabilities = [
   {
-    index: '01',
-    label: 'Processing',
-    title: 'Distributed data systems',
-    copy: 'Batch, streaming, incremental processing and transformation patterns for large datasets.',
-    items: ['Apache Spark', 'PySpark', 'Databricks', 'Kafka', 'Hadoop', 'Hive', 'Pandas'],
+    number: '01',
+    title: 'Data pipelines',
+    copy: 'Reliable batch, streaming and API-driven pipelines built for scale, observability and maintainability.',
+    tools: ['Python', 'SQL', 'PySpark', 'Airflow', 'REST APIs'],
   },
   {
-    index: '02',
-    label: 'Cloud',
-    title: 'Analytics infrastructure',
-    copy: 'Storage, compute, warehouses and governed cloud platforms for reliable analytical systems.',
-    items: ['Amazon S3', 'AWS Glue', 'Lambda', 'Redshift', 'Athena', 'Lake Formation', 'Snowflake', 'Terraform'],
+    number: '02',
+    title: 'Analytics platforms',
+    copy: 'Lakehouse, warehouse and cloud data systems that make trusted data easier to use downstream.',
+    tools: ['Databricks', 'Snowflake', 'Redshift', 'AWS', 'Delta Lake'],
   },
   {
-    index: '03',
-    label: 'Engineering',
-    title: 'Delivery & intelligence',
-    copy: 'Orchestration, testing, APIs, observability and AI-enabled analytics application development.',
-    items: ['Python', 'SQL', 'Airflow', 'dbt', 'REST APIs', 'OpenAI API', 'Pydantic', 'Docker', 'GitHub Actions'],
+    number: '03',
+    title: 'Applied AI systems',
+    copy: 'Tested AI-assisted analytics experiences grounded in structured data, validation and clear system boundaries.',
+    tools: ['OpenAI API', 'Pydantic', 'Streamlit', 'Pandas', 'GitHub Actions'],
   },
 ]
 
@@ -89,32 +81,30 @@ const projects = [
   {
     number: '01',
     title: 'AI Analytics Assistant',
-    status: 'Tested application',
-    description: 'A Streamlit analytics assistant that safely profiles CSV datasets, answers deterministic analytics questions, and uses schema-validated AI responses for open-ended analysis.',
+    label: 'Applied AI / Analytics',
+    description: 'A tested Streamlit application that profiles CSV datasets, answers deterministic analytics questions, and uses schema-validated AI responses for open-ended analysis.',
     href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
     image: '/projects/ai-analytics-preview.svg',
     imageAlt: 'AI Analytics Assistant interface preview',
-    flow: ['Upload', 'Profile', 'Analyze', 'Explain'],
-    stats: [['25 MB', 'guarded uploads'], ['200K', 'rows supported'], ['27', 'automated tests']],
-    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI API', 'Pydantic', 'GitHub Actions'],
+    proof: ['25 MB guarded uploads', '200K rows supported', '27 automated tests'],
+    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI API', 'Pydantic'],
   },
   {
     number: '02',
     title: 'Housing Data Lakehouse',
-    status: 'Tested pipeline',
+    label: 'Lakehouse / Data Platform',
     description: 'A reproducible PySpark medallion pipeline with incremental Bronze processing, typed Silver records, rejected-row quarantine, partitioned Gold KPIs and Terraform-defined AWS storage.',
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
     image: '/projects/housing-lakehouse-preview.svg',
     imageAlt: 'Housing Data Lakehouse architecture preview',
-    flow: ['Generate', 'Bronze', 'Silver', 'Gold'],
-    stats: [['3', 'data layers'], ['24', 'automated tests'], ['AWS', 'infra as code']],
-    tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform', 'GitHub Actions'],
+    proof: ['Bronze → Silver → Gold', '24 automated tests', 'AWS infrastructure as code'],
+    tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform'],
   },
 ]
 
 const education = [
-  ['Ph.D. in Technology & Artificial Intelligence', 'Southwest Baptist University', 'Sep 2026 — Present', 'Doctoral study'],
-  ['M.S. in Computer Information Systems', 'New England College', 'Completed 2023', 'Graduate degree'],
+  ['Ph.D. in Technology & Artificial Intelligence', 'Southwest Baptist University', 'Sep 2026 — Present'],
+  ['M.S. in Computer Information Systems', 'New England College', 'Completed 2023'],
 ]
 
 const credentials = [
@@ -144,26 +134,28 @@ function MenuIcon({ open }) {
 
 function Navbar() {
   const [open, setOpen] = useState(false)
-  const links = [['Experience', '#experience'], ['Projects', '#projects'], ['Stack', '#stack'], ['Education', '#education']]
+  const links = [['Experience', '#experience'], ['Projects', '#projects'], ['Skills', '#skills'], ['Education', '#education']]
 
   return (
     <header className="nav-wrap">
       <nav className="nav-shell" aria-label="Primary navigation">
         <a className="brand" href="#top" aria-label="Anvesh Vemuri home">
-          <span className="brand-glyph">A</span>
-          <span>Anvesh Vemuri</span>
+          <span className="brand-mark">AV</span>
+          <span className="brand-name">Anvesh Vemuri</span>
         </a>
+
         <div className="nav-links desktop-nav">
           {links.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
         </div>
+
         <div className="nav-actions">
-          <a className="nav-text-link" href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
-          <a className="nav-cta" href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon size={12} /></a>
+          <a className="nav-resume" href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon size={12} /></a>
           <button className="menu-button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
             <MenuIcon open={open} />
           </button>
         </div>
       </nav>
+
       <div className={`mobile-menu ${open ? 'is-open' : ''}`}>
         {links.map(([label, href]) => <a key={label} href={href} onClick={() => setOpen(false)}>{label}</a>)}
         <a href={`mailto:${profile.email}`} onClick={() => setOpen(false)}>Contact</a>
@@ -172,55 +164,57 @@ function Navbar() {
   )
 }
 
-function SignalStrip() {
+function CosmicField() {
+  const particles = useMemo(() => Array.from({ length: 42 }, (_, index) => ({
+    left: `${(index * 37 + 11) % 100}%`,
+    top: `${(index * 53 + 7) % 100}%`,
+    size: `${2 + (index % 3)}px`,
+    delay: `${-(index % 12) * 0.7}s`,
+    duration: `${7 + (index % 8)}s`,
+  })), [])
+
   return (
-    <div className="signal-strip" aria-label="Engineering signals">
-      <div className="signal-track">
-        {[...signals, ...signals].map(([label, value], index) => (
-          <div className="signal-item" key={`${label}-${index}`}>
-            <span>{label}</span><strong>{value}</strong><i>↗</i>
-          </div>
-        ))}
-      </div>
+    <div className="cosmic-field" aria-hidden="true">
+      <div className="cosmic-glow glow-one" />
+      <div className="cosmic-glow glow-two" />
+      <div className="cosmic-glow glow-three" />
+      {particles.map((particle, index) => (
+        <span
+          className="particle"
+          key={index}
+          style={{
+            '--left': particle.left,
+            '--top': particle.top,
+            '--size': particle.size,
+            '--delay': particle.delay,
+            '--duration': particle.duration,
+          }}
+        />
+      ))}
     </div>
   )
 }
 
-function PlatformPanel() {
-  const stages = ['Ingest', 'Orchestrate', 'Transform', 'Serve', 'Observe']
+function DataConstellation() {
+  const labels = ['Python', 'Spark', 'Databricks', 'AWS', 'SQL', 'Airflow']
   return (
-    <div className="platform-panel reveal reveal-delay-2">
-      <div className="panel-bar">
-        <span><i /> DATA PLATFORM / LIVE PROFILE</span>
-        <span>AV-01</span>
+    <div className="constellation-wrap reveal reveal-delay">
+      <div className="constellation-orbit orbit-one" />
+      <div className="constellation-orbit orbit-two" />
+      <div className="constellation-orbit orbit-three" />
+      <div className="constellation-core">
+        <span>DATA</span>
+        <strong>ENGINEERING</strong>
       </div>
-      <div className="panel-hero">
-        <div>
-          <span className="mono-label">Current focus</span>
-          <h3>Reliable systems for analytics & AI</h3>
+      {labels.map((label, index) => (
+        <div className={`constellation-node node-${index + 1}`} key={label}>
+          <i />
+          <span>{label}</span>
         </div>
-        <div className="status-orb"><span /></div>
-      </div>
-      <div className="panel-metrics">
-        <div><strong>4+</strong><span>years</span></div>
-        <div><strong>20M+</strong><span>rows / day</span></div>
-        <div><strong>100+</strong><span>dashboards</span></div>
-      </div>
-      <div className="flow-map">
-        <div className="flow-line" />
-        {stages.map((stage, index) => (
-          <div className="flow-step" key={stage}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <i />
-            <strong>{stage}</strong>
-          </div>
-        ))}
-      </div>
-      <div className="panel-terminal">
-        <div><span>$</span> stack --core</div>
-        <p>python sql pyspark databricks aws airflow</p>
-        <div><span>$</span> reliability --status</div>
-        <p className="terminal-ok">healthy / monitored / tested</p>
+      ))}
+      <div className="constellation-copy">
+        <span>Production systems</span>
+        <strong>Reliable by design.</strong>
       </div>
     </div>
   )
@@ -228,33 +222,44 @@ function PlatformPanel() {
 
 function Hero() {
   return (
-    <>
-      <SignalStrip />
-      <section id="top" className="hero section-shell">
+    <section id="top" className="hero-section">
+      <CosmicField />
+      <div className="hero section-shell">
         <div className="hero-copy reveal">
-          <div className="eyebrow"><span>DATA ENGINEERING</span><i />JERSEY CITY · NEW YORK METRO</div>
-          <h1>Data systems<br /><em>at production scale.</em></h1>
-          <p className="hero-lede">I design and build scalable pipelines, distributed processing systems, lakehouse architecture and analytics infrastructure—then make them observable, testable and useful.</p>
+          <div className="eyebrow"><span /> Data Engineer · 4+ years</div>
+          <h1>Data engineering<br /><em>at production scale.</em></h1>
+          <p>
+            I build reliable pipelines, lakehouse systems and analytics infrastructure with Python, SQL, Spark, Databricks and AWS—designed to move from raw data to trusted decisions.
+          </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#projects">Explore selected work <ArrowIcon /></a>
+            <a className="primary-button" href="#projects">Explore my work <ArrowIcon /></a>
             <a className="secondary-link" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a>
           </div>
-          <div className="hero-footnote">
-            <span>Python</span><span>SQL</span><span>PySpark</span><span>Databricks</span><span>AWS</span><span>Snowflake</span>
+          <div className="hero-tech">
+            {['Python', 'SQL', 'PySpark', 'Databricks', 'AWS', 'Snowflake'].map((item) => <span key={item}>{item}</span>)}
           </div>
         </div>
-        <PlatformPanel />
-      </section>
-    </>
+        <DataConstellation />
+      </div>
+    </section>
   )
 }
 
-function SectionHeader({ code, kicker, title, copy }) {
+function Metrics() {
   return (
-    <div className="section-header reveal">
-      <div className="section-code">{code}</div>
+    <section className="metrics section-shell reveal" aria-label="Selected engineering impact">
+      {metrics.map(([value, label]) => (
+        <div key={label}><strong>{value}</strong><span>{label}</span></div>
+      ))}
+    </section>
+  )
+}
+
+function SectionHeader({ label, title, copy }) {
+  return (
+    <div className="section-heading reveal">
+      <span className="section-label">{label}</span>
       <div>
-        <span className="mono-label">{kicker}</span>
         <h2>{title}</h2>
         {copy && <p>{copy}</p>}
       </div>
@@ -262,28 +267,53 @@ function SectionHeader({ code, kicker, title, copy }) {
   )
 }
 
+function Capabilities() {
+  return (
+    <section id="skills" className="section-shell section-block">
+      <SectionHeader
+        label="What I build"
+        title="Systems that turn complex data into something teams can trust."
+        copy="My work spans ingestion, distributed processing, analytics platforms, data quality and applied AI."
+      />
+      <div className="capability-grid">
+        {capabilities.map((item) => (
+          <article className="capability-card reveal" key={item.title}>
+            <span className="card-number">{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+            <div className="tool-list">{item.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function Experience() {
   return (
     <section id="experience" className="section-shell section-block">
-      <SectionHeader code="01" kicker="OPERATING HISTORY" title="Experience built around measurable systems." copy="Production work across advertising, eCommerce and financial data environments." />
-      <div className="experience-table">
+      <SectionHeader
+        label="Experience"
+        title="Production data engineering across enterprise environments."
+        copy="Advertising, eCommerce and financial data systems with measurable improvements in scale, reliability and delivery."
+      />
+      <div className="experience-list">
         {experiences.map((job, index) => (
-          <article className="experience-row reveal" key={job.company}>
-            <div className="experience-index">0{index + 1}</div>
-            <div className="experience-meta">
-              <span>{job.period}</span>
-              <h3>{job.company}</h3>
-              <p>{job.role}</p>
+          <article className="experience-card reveal" key={job.company}>
+            <div className="experience-side">
+              <span className="card-number">0{index + 1}</span>
+              <div>
+                <small>{job.period}</small>
+                <h3>{job.company}</h3>
+                <p>{job.role}</p>
+              </div>
             </div>
             <div className="experience-main">
-              <p className="experience-summary">{job.summary}</p>
-              <div className="metric-row">
-                {job.metrics.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}
-              </div>
-              <ul className="clean-list">
-                {job.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
+              <h4>{job.summary}</h4>
+              <ul>
+                {job.impact.map((item) => <li key={item}>{item}</li>)}
               </ul>
-              <div className="tag-row">{job.stack.map((item) => <span key={item}>{item}</span>)}</div>
+              <div className="tool-list">{job.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
             </div>
           </article>
         ))}
@@ -295,51 +325,26 @@ function Experience() {
 function Projects() {
   return (
     <section id="projects" className="section-shell section-block">
-      <SectionHeader code="02" kicker="SELECTED SYSTEMS" title="Builds that show the architecture, not just the outcome." copy="Two hands-on projects focused on reliable analytics, AI-assisted workflows and reproducible data infrastructure." />
-      <div className="project-grid">
-        {projects.map((project) => (
-          <article className="project-card reveal" key={project.title}>
-            <div className="project-bar">
-              <span>{project.number} / PROJECT</span>
-              <span className="project-status"><i />{project.status}</span>
+      <SectionHeader
+        label="Selected work"
+        title="Projects built to show the engineering, not just the screenshot."
+        copy="Each project is designed as a working system with validation, testing and a clear architecture."
+      />
+      <div className="project-list">
+        {projects.map((project, index) => (
+          <article className={`project-card reveal ${index % 2 ? 'is-reversed' : ''}`} key={project.title}>
+            <div className="project-copy">
+              <div className="project-label"><span>{project.number}</span>{project.label}</div>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div className="proof-list">{project.proof.map((item) => <span key={item}>{item}</span>)}</div>
+              <div className="tool-list">{project.tech.map((tool) => <span key={tool}>{tool}</span>)}</div>
+              <a className="project-link" href={project.href} target="_blank" rel="noreferrer">View repository <ExternalIcon /></a>
             </div>
             <figure className="project-visual">
               <img src={project.image} alt={project.imageAlt} loading="lazy" />
-              <figcaption>{project.flow.join(' → ')}</figcaption>
             </figure>
-            <div className="project-body">
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div className="project-stats">
-                {project.stats.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}
-              </div>
-              <div className="tag-row">{project.tech.map((item) => <span key={item}>{item}</span>)}</div>
-              <a className="inline-link" href={project.href} target="_blank" rel="noreferrer">Open repository <ExternalIcon /></a>
-            </div>
           </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function Stack() {
-  return (
-    <section id="stack" className="section-shell section-block">
-      <SectionHeader code="03" kicker="ENGINEERING LAYERS" title="A connected data engineering stack." copy="Grouped by the job each technology does inside a production system." />
-      <div className="stack-grid">
-        {skillGroups.map((group) => (
-          <article className="stack-card reveal" key={group.title}>
-            <div className="stack-card-top"><span>{group.index}</span><i>{group.label}</i></div>
-            <h3>{group.title}</h3>
-            <p>{group.copy}</p>
-            <div className="stack-list">{group.items.map((item) => <span key={item}>{item}</span>)}</div>
-          </article>
-        ))}
-      </div>
-      <div className="architecture-strip reveal">
-        {['Source', 'Ingestion', 'Orchestration', 'Transform', 'Warehouse', 'Quality', 'Analytics'].map((item, index) => (
-          <div key={item}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong>{index < 6 && <i>→</i>}</div>
         ))}
       </div>
     </section>
@@ -349,24 +354,25 @@ function Stack() {
 function Education() {
   return (
     <section id="education" className="section-shell section-block">
-      <SectionHeader code="04" kicker="FOUNDATION" title="Education & continuous development." copy="Academic study and technical training supporting data platforms and applied AI." />
-      <div className="education-layout">
+      <SectionHeader label="Education" title="Academic foundation and continued technical development." />
+      <div className="education-grid">
         <div className="education-list">
-          {education.map(([degree, school, period, status], index) => (
-            <article className="education-row reveal" key={degree}>
-              <span>0{index + 1}</span>
-              <div><i>{status}</i><h3>{degree}</h3><p>{school}</p></div>
-              <small>{period}</small>
+          {education.map(([degree, school, period]) => (
+            <article className="education-item reveal" key={degree}>
+              <div><h3>{degree}</h3><p>{school}</p></div>
+              <span>{period}</span>
             </article>
           ))}
         </div>
-        <div className="credential-panel reveal">
-          <span className="mono-label">CREDENTIALS</span>
-          <h3>Professional training</h3>
+        <aside className="credential-card reveal">
+          <span className="section-label">Credentials</span>
           {credentials.map(([title, issuer, year]) => (
-            <div className="credential-row" key={title}><div><strong>{title}</strong><span>{issuer}</span></div><small>{year}</small></div>
+            <div className="credential-item" key={title}>
+              <div><strong>{title}</strong><span>{issuer}</span></div>
+              <small>{year}</small>
+            </div>
           ))}
-        </div>
+        </aside>
       </div>
     </section>
   )
@@ -374,16 +380,20 @@ function Education() {
 
 function Contact() {
   return (
-    <section id="contact" className="section-shell contact-section">
-      <div className="contact-panel reveal">
-        <div className="contact-copy">
-          <span className="mono-label">OPEN CHANNEL</span>
-          <h2>Building a serious data platform?</h2>
-          <p>I’m interested in data engineering, platform and applied AI roles where reliability, scale and business impact matter.</p>
+    <section className="section-shell contact-section">
+      <div className="contact-card reveal">
+        <div>
+          <span className="section-label">Get in touch</span>
+          <h2>Let’s build reliable data systems.</h2>
+          <p>I’m open to data engineering, data platform and applied AI opportunities where scale, reliability and business impact matter.</p>
         </div>
         <div className="contact-actions">
           <a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}<ArrowIcon size={18} /></a>
-          <div><a href={profile.github} target="_blank" rel="noreferrer">GitHub <ExternalIcon /></a><a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a><a href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon /></a></div>
+          <div>
+            <a href={profile.github} target="_blank" rel="noreferrer">GitHub <ExternalIcon /></a>
+            <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a>
+            <a href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon /></a>
+          </div>
         </div>
       </div>
     </section>
@@ -392,7 +402,7 @@ function Contact() {
 
 function Footer() {
   const year = useMemo(() => new Date().getFullYear(), [])
-  return <footer className="section-shell footer"><span>© {year} Anvesh Sai Vemuri</span><span>DATA ENGINEERING / ANALYTICS / AI</span><a href="#top">Back to top ↑</a></footer>
+  return <footer className="section-shell footer"><span>© {year} Anvesh Sai Vemuri</span><span>Data Engineering · Analytics · AI</span><a href="#top">Back to top ↑</a></footer>
 }
 
 function App() {
@@ -405,7 +415,8 @@ function App() {
           observer.unobserve(entry.target)
         }
       })
-    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' })
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' })
+
     nodes.forEach((node) => observer.observe(node))
     return () => observer.disconnect()
   }, [])
@@ -414,7 +425,15 @@ function App() {
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <Navbar />
-      <main id="main-content"><Hero /><Experience /><Projects /><Stack /><Education /><Contact /></main>
+      <main id="main-content">
+        <Hero />
+        <Metrics />
+        <Capabilities />
+        <Experience />
+        <Projects />
+        <Education />
+        <Contact />
+      </main>
       <Footer />
     </div>
   )
