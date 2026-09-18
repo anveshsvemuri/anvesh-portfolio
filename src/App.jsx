@@ -176,25 +176,56 @@ function InteractiveDots() {
     if (!context) return undefined
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    let animationFrame = 0
+    const pointer = {
+      x: -1000,
+      y: -1000,
+      px: -1000,
+      py: -1000,
+      vx: 0,
+      vy: 0,
+      active: false,
+    }
+
     let width = 0
     let height = 0
     let ratio = 1
+    let frame = 0
     let points = []
-    const pointer = { x: -1000, y: -1000, active: false }
+    let ripples = []
+    let lastTime = performance.now()
 
-    const createPoints = () => {
-      const area = width * height
-      const count = Math.max(48, Math.min(115, Math.round(area / 14500)))
+    const seeded = (index, salt = 1) => {
+      const value = Math.sin(index * 12.9898 + salt * 78.233) * 43758.5453
+      return value - Math.floor(value)
+    }
+
+    const makePoints = () => {
+      const density = width < 700 ? 19000 : width > 1600 ? 11500 : 14000
+      const count = Math.max(56, Math.min(155, Math.round((width * height) / density)))
+
       points = Array.from({ length: count }, (_, index) => {
-        const bias = index % 3 === 0 ? 0.58 : 1
+        const normalizedX = seeded(index, 1)
+        const normalizedY = seeded(index, 2)
+
+        // Keep the text side quieter and concentrate more energy to the right.
+        const weightedX = normalizedX < 0.38
+          ? normalizedX * 0.88
+          : 0.30 + Math.pow(normalizedX, 0.72) * 0.70
+
+        const homeX = width * (0.025 + weightedX * 0.95)
+        const homeY = height * (0.045 + normalizedY * 0.90)
+
         return {
-          x: width * (0.05 + Math.random() * 0.92),
-          y: height * (0.05 + Math.random() * 0.90),
-          vx: (Math.random() - 0.5) * 0.16 * bias,
-          vy: (Math.random() - 0.5) * 0.16 * bias,
-          radius: 0.8 + Math.random() * 1.25,
-          alpha: 0.28 + Math.random() * 0.46,
+          x: homeX,
+          y: homeY,
+          homeX,
+          homeY,
+          vx: 0,
+          vy: 0,
+          size: 0.85 + seeded(index, 3) * 1.35,
+          alpha: 0.26 + seeded(index, 4) * 0.52,
+          phase: seeded(index, 5) * Math.PI * 2,
+          drift: 7 + seeded(index, 6) * 14,
         }
       })
     }
@@ -204,111 +235,214 @@ function InteractiveDots() {
       width = Math.max(1, bounds.width)
       height = Math.max(1, bounds.height)
       ratio = Math.min(window.devicePixelRatio || 1, 2)
+
       canvas.width = Math.round(width * ratio)
       canvas.height = Math.round(height * ratio)
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
+
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
-      createPoints()
+      makePoints()
     }
 
-    const draw = () => {
+    const addRipple = (x, y) => {
+      ripples.push({
+        x,
+        y,
+        radius: 10,
+        alpha: 0.30,
+        speed: 5.5,
+      })
+      if (ripples.length > 3) ripples = ripples.slice(-3)
+    }
+
+    const handlePointerMove = (event) => {
+      const bounds = hero.getBoundingClientRect()
+      const x = event.clientX - bounds.left
+      const y = event.clientY - bounds.top
+
+      if (!pointer.active) {
+        pointer.px = x
+        pointer.py = y
+      }
+
+      pointer.vx = x - pointer.px
+      pointer.vy = y - pointer.py
+      pointer.px = x
+      pointer.py = y
+      pointer.x = x
+      pointer.y = y
+      pointer.active = true
+    }
+
+    const handlePointerDown = (event) => {
+      const bounds = hero.getBoundingClientRect()
+      addRipple(event.clientX - bounds.left, event.clientY - bounds.top)
+    }
+
+    const handlePointerLeave = () => {
+      pointer.active = false
+      pointer.vx = 0
+      pointer.vy = 0
+    }
+
+    const draw = (now = performance.now()) => {
+      const elapsed = Math.min(32, now - lastTime)
+      const dt = elapsed / 16.667
+      lastTime = now
       context.clearRect(0, 0, width, height)
+
+      // Update ripple waves.
+      if (!reducedMotion) {
+        ripples = ripples
+          .map((ripple) => ({
+            ...ripple,
+            radius: ripple.radius + ripple.speed * dt,
+            alpha: ripple.alpha * Math.pow(0.975, dt),
+          }))
+          .filter((ripple) => ripple.alpha > 0.015 && ripple.radius < Math.max(width, height) * 0.55)
+      }
 
       for (let index = 0; index < points.length; index += 1) {
         const point = points[index]
 
         if (!reducedMotion) {
-          point.x += point.vx
-          point.y += point.vy
+          const ambientX = Math.cos(now * 0.00028 + point.phase) * point.drift
+          const ambientY = Math.sin(now * 0.00022 + point.phase * 1.3) * point.drift * 0.55
+          const targetX = point.homeX + ambientX
+          const targetY = point.homeY + ambientY
 
-          if (point.x < 0 || point.x > width) point.vx *= -1
-          if (point.y < 0 || point.y > height) point.vy *= -1
+          // Spring back to home position for a smooth, elastic feel.
+          point.vx += (targetX - point.x) * 0.0055 * dt
+          point.vy += (targetY - point.y) * 0.0055 * dt
 
           if (pointer.active) {
-            const dx = point.x - pointer.x
-            const dy = point.y - pointer.y
+            const dx = pointer.x - point.x
+            const dy = pointer.y - point.y
             const distance = Math.hypot(dx, dy)
-            const radius = 145
+            const influence = 210
 
-            if (distance > 0 && distance < radius) {
-              const force = (radius - distance) / radius
-              point.x += (dx / distance) * force * 1.3
-              point.y += (dy / distance) * force * 1.3
+            if (distance > 0.001 && distance < influence) {
+              const normalized = 1 - distance / influence
+              const ease = normalized * normalized
+
+              // Magnetic pull plus a little lateral flow based on pointer speed.
+              point.vx += (dx / distance) * ease * 0.34 * dt
+              point.vy += (dy / distance) * ease * 0.34 * dt
+              point.vx += pointer.vx * ease * 0.012
+              point.vy += pointer.vy * ease * 0.012
             }
           }
+
+          ripples.forEach((ripple) => {
+            const dx = point.x - ripple.x
+            const dy = point.y - ripple.y
+            const distance = Math.hypot(dx, dy)
+            const ringDistance = Math.abs(distance - ripple.radius)
+
+            if (distance > 0.001 && ringDistance < 42) {
+              const wave = (1 - ringDistance / 42) * ripple.alpha
+              point.vx += (dx / distance) * wave * 1.25 * dt
+              point.vy += (dy / distance) * wave * 1.25 * dt
+            }
+          })
+
+          point.vx *= Math.pow(0.90, dt)
+          point.vy *= Math.pow(0.90, dt)
+          point.x += point.vx * dt
+          point.y += point.vy * dt
         }
 
-        for (let nextIndex = index + 1; nextIndex < points.length; nextIndex += 1) {
-          const other = points[nextIndex]
+        // Only connect close points, and keep the network faint.
+        for (let next = index + 1; next < points.length; next += 1) {
+          const other = points[next]
           const dx = point.x - other.x
           const dy = point.y - other.y
           const distance = Math.hypot(dx, dy)
 
-          if (distance < 105) {
-            const opacity = (1 - distance / 105) * 0.11
+          if (distance < 92) {
+            let opacity = (1 - distance / 92) * 0.085
+
+            if (pointer.active) {
+              const midpointX = (point.x + other.x) / 2
+              const midpointY = (point.y + other.y) / 2
+              const cursorDistance = Math.hypot(midpointX - pointer.x, midpointY - pointer.y)
+              if (cursorDistance < 185) {
+                opacity += (1 - cursorDistance / 185) * 0.075
+              }
+            }
+
             context.beginPath()
             context.moveTo(point.x, point.y)
             context.lineTo(other.x, other.y)
-            context.strokeStyle = `rgba(102, 184, 255, ${opacity})`
-            context.lineWidth = 0.7
+            context.strokeStyle = `rgba(92, 169, 255, ${opacity})`
+            context.lineWidth = 0.6
             context.stroke()
           }
         }
 
-        let glow = point.alpha
+        let brightness = point.alpha
+        let scale = 1
+
         if (pointer.active) {
-          const distanceToPointer = Math.hypot(point.x - pointer.x, point.y - pointer.y)
-          if (distanceToPointer < 155) {
-            glow = Math.min(1, glow + (1 - distanceToPointer / 155) * 0.55)
+          const distance = Math.hypot(point.x - pointer.x, point.y - pointer.y)
+          if (distance < 190) {
+            const amount = 1 - distance / 190
+            brightness = Math.min(1, brightness + amount * 0.48)
+            scale += amount * 0.65
           }
         }
 
         context.beginPath()
-        context.arc(point.x, point.y, point.radius, 0, Math.PI * 2)
-        context.fillStyle = `rgba(117, 205, 255, ${glow})`
-        context.shadowColor = 'rgba(102, 177, 255, 0.58)'
-        context.shadowBlur = glow > 0.55 ? 9 : 4
+        context.arc(point.x, point.y, point.size * scale, 0, Math.PI * 2)
+        context.fillStyle = `rgba(104, 195, 255, ${brightness})`
+        context.shadowColor = 'rgba(82, 159, 255, 0.55)'
+        context.shadowBlur = brightness > 0.58 ? 10 : 4
         context.fill()
         context.shadowBlur = 0
       }
 
+      // Subtle cursor halo.
       if (pointer.active) {
-        const gradient = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 120)
-        gradient.addColorStop(0, 'rgba(92, 170, 255, 0.07)')
-        gradient.addColorStop(1, 'rgba(92, 170, 255, 0)')
-        context.fillStyle = gradient
+        const halo = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 155)
+        halo.addColorStop(0, 'rgba(80, 157, 255, 0.075)')
+        halo.addColorStop(0.5, 'rgba(80, 157, 255, 0.025)')
+        halo.addColorStop(1, 'rgba(80, 157, 255, 0)')
+        context.fillStyle = halo
         context.beginPath()
-        context.arc(pointer.x, pointer.y, 120, 0, Math.PI * 2)
+        context.arc(pointer.x, pointer.y, 155, 0, Math.PI * 2)
         context.fill()
       }
 
-      if (!reducedMotion) animationFrame = requestAnimationFrame(draw)
-    }
+      // Draw ripple rings last so clicks/taps feel responsive but restrained.
+      ripples.forEach((ripple) => {
+        context.beginPath()
+        context.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2)
+        context.strokeStyle = `rgba(109, 190, 255, ${ripple.alpha * 0.45})`
+        context.lineWidth = 1
+        context.stroke()
+      })
 
-    const handlePointerMove = (event) => {
-      const bounds = hero.getBoundingClientRect()
-      pointer.x = event.clientX - bounds.left
-      pointer.y = event.clientY - bounds.top
-      pointer.active = true
-    }
+      pointer.vx *= 0.80
+      pointer.vy *= 0.80
 
-    const handlePointerLeave = () => {
-      pointer.active = false
+      if (!reducedMotion) frame = requestAnimationFrame(draw)
     }
 
     const observer = new ResizeObserver(resize)
     observer.observe(hero)
     hero.addEventListener('pointermove', handlePointerMove)
+    hero.addEventListener('pointerdown', handlePointerDown)
     hero.addEventListener('pointerleave', handlePointerLeave)
 
     resize()
     draw()
 
     return () => {
-      cancelAnimationFrame(animationFrame)
+      cancelAnimationFrame(frame)
       observer.disconnect()
       hero.removeEventListener('pointermove', handlePointerMove)
+      hero.removeEventListener('pointerdown', handlePointerDown)
       hero.removeEventListener('pointerleave', handlePointerLeave)
     }
   }, [])
@@ -336,14 +470,9 @@ function Hero() {
           </div>
         </div>
 
-        <div className="hero-proof reveal reveal-delay">
-          <span>Production data systems</span>
-          <strong>Built for scale, reliability and clarity.</strong>
-          <div>
-            <i /><span>Batch + streaming</span>
-            <i /><span>Lakehouse + warehouse</span>
-            <i /><span>Quality + observability</span>
-          </div>
+        <div className="interaction-hint reveal reveal-delay" aria-hidden="true">
+          <span />
+          Move your cursor · click to ripple
         </div>
       </div>
     </section>
