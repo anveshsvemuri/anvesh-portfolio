@@ -747,6 +747,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      <ScrollInteractiveField />
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <Navbar />
       <main id="main-content">
