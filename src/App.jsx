@@ -21,10 +21,9 @@ const experiences = [
     period: 'Sep 2024 — Aug 2026',
     summary: 'Built and modernized enterprise data pipelines for advertising and eCommerce analytics.',
     impact: [
-      'Designed Python, SQL, Databricks, S3, Redshift and REST API pipelines across 20+ external platforms.',
-      'Migrated 50+ legacy Alteryx workflows to Databricks with PySpark and SQL, reducing execution time by 35%.',
-      'Built reusable API, SFTP and cloud-storage ingestion patterns supporting analytics across 100+ dashboards.',
-      'Automated reconciliation, schema-change detection and source-to-target QA, saving about 10 hours per week.',
+      'Built Python, SQL, Databricks and AWS pipelines across 20+ advertising and eCommerce platforms.',
+      'Migrated 50+ Alteryx workflows to PySpark/SQL in Databricks, reducing execution time by 35%.',
+      'Automated ingestion and data-quality checks supporting 100+ dashboards and saving about 10 hours of QA per week.',
     ],
     stack: ['Databricks', 'PySpark', 'Python', 'SQL', 'AWS', 'Redshift', 'REST APIs'],
   },
@@ -34,10 +33,9 @@ const experiences = [
     period: 'Sep 2023 — Aug 2024',
     summary: 'Developed distributed processing and orchestration for enterprise financial datasets.',
     impact: [
-      'Developed PySpark ETL pipelines processing 20M+ financial and transactional records daily.',
-      'Built 100+ SQL and dbt transformations in Snowflake and Hive for analytical workloads.',
-      'Optimized Spark and Hive workloads with partition-aware processing, Parquet storage and Spark SQL tuning.',
-      'Automated 25+ Airflow workflows and strengthened reliability across downstream reporting.',
+      'Built PySpark ETL pipelines processing 20M+ financial and transactional records daily.',
+      'Developed 100+ SQL/dbt transformations in Snowflake and Hive and improved distributed processing performance.',
+      'Automated 25+ Airflow workflows with testing and monitoring for reliable downstream reporting.',
     ],
     stack: ['PySpark', 'Airflow', 'Snowflake', 'Hive', 'Parquet', 'dbt'],
   },
@@ -47,10 +45,9 @@ const experiences = [
     period: 'Aug 2020 — Jul 2021',
     summary: 'Built warehouse, streaming and automation systems across AWS and distributed data tools.',
     impact: [
-      'Developed custom Airflow operators in Python integrating Snowflake, Slack and Tableau workflows.',
-      'Designed Redshift warehouse schemas and ETL pipelines for high-volume analytics workloads.',
-      'Built Spark Streaming and AWS Lambda pipelines processing 5M+ real-time events daily.',
-      'Automated S3 ingestion and object management with Boto3 to improve cloud efficiency.',
+      'Built Python/Airflow automation integrating Snowflake, Slack and Tableau workflows.',
+      'Designed Redshift ETL and warehouse structures for high-volume analytics.',
+      'Developed Spark Streaming and AWS Lambda pipelines processing 5M+ events daily.',
     ],
     stack: ['Airflow', 'Spark Streaming', 'AWS Lambda', 'S3', 'Glue', 'Boto3', 'Redshift'],
   },
@@ -60,19 +57,19 @@ const capabilities = [
   {
     number: '01',
     title: 'Data pipelines',
-    copy: 'Reliable batch, streaming and API-driven pipelines built for scale, observability and maintainability.',
+    copy: 'Batch, streaming and API pipelines built for scale and reliability.',
     tools: ['Python', 'SQL', 'PySpark', 'Airflow', 'REST APIs'],
   },
   {
     number: '02',
     title: 'Analytics platforms',
-    copy: 'Lakehouse, warehouse and cloud data systems that make trusted data easier to use downstream.',
+    copy: 'Lakehouse and warehouse systems that turn raw data into trusted analytics.',
     tools: ['Databricks', 'Snowflake', 'Redshift', 'AWS', 'Delta Lake'],
   },
   {
     number: '03',
     title: 'Applied AI systems',
-    copy: 'Tested AI-assisted analytics experiences grounded in structured data, validation and clear system boundaries.',
+    copy: 'AI-assisted analytics built with validation, testing and clear system boundaries.',
     tools: ['OpenAI API', 'Pydantic', 'Streamlit', 'Pandas', 'GitHub Actions'],
   },
 ]
@@ -82,7 +79,7 @@ const projects = [
     number: '01',
     title: 'AI Analytics Assistant',
     label: 'Applied AI / Analytics',
-    description: 'A tested Streamlit application that profiles CSV datasets, answers deterministic analytics questions, and uses schema-validated AI responses for open-ended analysis.',
+    description: 'A tested analytics assistant for profiling datasets, answering structured questions and generating validated AI analysis.',
     href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
     image: '/projects/ai-analytics-preview.svg',
     imageAlt: 'AI Analytics Assistant interface preview',
@@ -93,7 +90,7 @@ const projects = [
     number: '02',
     title: 'Housing Data Lakehouse',
     label: 'Lakehouse / Data Platform',
-    description: 'A reproducible PySpark medallion pipeline with incremental Bronze processing, typed Silver records, rejected-row quarantine, partitioned Gold KPIs and Terraform-defined AWS storage.',
+    description: 'A reproducible PySpark medallion pipeline with incremental processing, data-quality controls and Terraform-defined AWS storage.',
     href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
     image: '/projects/housing-lakehouse-preview.svg',
     imageAlt: 'Housing Data Lakehouse architecture preview',
@@ -289,8 +286,8 @@ function ScrollInteractiveField() {
     }
 
     const makePoints = () => {
-      const density = width < 700 ? 15000 : width > 1600 ? 9000 : 11500
-      const count = Math.max(64, Math.min(185, Math.round((width * height) / density)))
+      const density = width < 700 ? 11500 : width > 1600 ? 5600 : 7200
+      const count = Math.max(88, Math.min(285, Math.round((width * height) / density)))
 
       points = Array.from({ length: count }, (_, index) => {
         const target = targetFor(index, 0)
