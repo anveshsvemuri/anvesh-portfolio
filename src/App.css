@@ -1931,3 +1931,200 @@ main,
     padding: 25px 20px;
   }
 }
+
+
+/* Compact interactive experience accordion */
+.experience-accordion {
+  gap: 10px;
+}
+
+.experience-card-interactive {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(12, 23, 53, .56), rgba(7, 14, 34, .48));
+}
+
+.experience-card-interactive.is-open {
+  border-color: rgba(127, 183, 255, .26);
+  background:
+    radial-gradient(circle at 86% 14%, rgba(72, 129, 255, .08), transparent 28%),
+    linear-gradient(145deg, rgba(14, 27, 61, .68), rgba(7, 14, 34, .56));
+}
+
+.experience-toggle {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: clamp(14px, 2vw, 28px);
+  align-items: center;
+  width: 100%;
+  min-height: 104px;
+  padding: clamp(18px, 1.8vw, 26px);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.experience-toggle:hover .experience-open-label,
+.experience-toggle:focus-visible .experience-open-label {
+  color: #80ddff;
+}
+
+.experience-toggle-main {
+  display: grid;
+  min-width: 0;
+}
+
+.experience-meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  color: #79ccff;
+  font-size: 9px;
+}
+
+.experience-meta-line small {
+  color: #70809f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8px;
+}
+
+.experience-toggle-main > strong {
+  margin-top: 7px;
+  color: #f0f5ff;
+  font-size: clamp(20px, 1.45vw, 27px);
+  font-weight: 650;
+  letter-spacing: -.035em;
+}
+
+.experience-summary-compact {
+  max-width: 820px;
+  margin-top: 7px;
+  color: #93a3be;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.experience-open-label {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: #8190ad;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.experience-open-label i {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(136, 175, 255, .14);
+  border-radius: 50%;
+  background: rgba(255,255,255,.018);
+  color: #84dfff;
+  font-size: 15px;
+  font-style: normal;
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.experience-card-interactive.is-open .experience-open-label i {
+  border-color: rgba(116, 198, 255, .28);
+  background: rgba(83, 151, 255, .07);
+  transform: rotate(180deg);
+}
+
+.experience-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  border-top: 1px solid transparent;
+  transition: grid-template-rows 320ms cubic-bezier(.22, .8, .24, 1), border-color 220ms ease;
+}
+
+.experience-card-interactive.is-open .experience-details {
+  grid-template-rows: 1fr;
+  border-top-color: rgba(136, 175, 255, .10);
+}
+
+.experience-details-inner {
+  overflow: hidden;
+  padding: 0 clamp(18px, 1.8vw, 26px) 0 calc(clamp(18px, 1.8vw, 26px) + 36px + clamp(14px, 2vw, 28px));
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 220ms ease, transform 280ms ease, padding 280ms ease;
+}
+
+.experience-card-interactive.is-open .experience-details-inner {
+  padding-top: 18px;
+  padding-bottom: 22px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience-details-inner ul {
+  display: grid;
+  gap: 8px;
+  max-width: 950px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experience-details-inner li {
+  position: relative;
+  padding-left: 14px;
+  color: #9aa9c3;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.experience-details-inner li::before {
+  position: absolute;
+  top: .72em;
+  left: 0;
+  width: 5px;
+  height: 1px;
+  content: '';
+  background: #78dfff;
+}
+
+.experience-details-inner .tool-list {
+  margin-top: 15px;
+}
+
+@media (max-width: 620px) {
+  .experience-toggle {
+    grid-template-columns: 26px minmax(0, 1fr) auto;
+    gap: 10px;
+    min-height: 92px;
+    padding: 16px;
+  }
+
+  .experience-open-label > span {
+    display: none;
+  }
+
+  .experience-toggle-main > strong {
+    font-size: 20px;
+  }
+
+  .experience-summary-compact {
+    display: none;
+  }
+
+  .experience-details-inner {
+    padding-right: 16px;
+    padding-left: 52px;
+  }
+
+  .experience-card-interactive.is-open .experience-details-inner {
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+}
