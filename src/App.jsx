@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const profile = {
   email: 'anveshsvemuri@gmail.com',
@@ -164,66 +164,162 @@ function Navbar() {
   )
 }
 
-function CosmicField() {
-  const particles = useMemo(() => Array.from({ length: 42 }, (_, index) => ({
-    left: `${(index * 37 + 11) % 100}%`,
-    top: `${(index * 53 + 7) % 100}%`,
-    size: `${2 + (index % 3)}px`,
-    delay: `${-(index % 12) * 0.7}s`,
-    duration: `${7 + (index % 8)}s`,
-  })), [])
+function InteractiveDots() {
+  const canvasRef = useRef(null)
 
-  return (
-    <div className="cosmic-field" aria-hidden="true">
-      <div className="cosmic-glow glow-one" />
-      <div className="cosmic-glow glow-two" />
-      <div className="cosmic-glow glow-three" />
-      {particles.map((particle, index) => (
-        <span
-          className="particle"
-          key={index}
-          style={{
-            '--left': particle.left,
-            '--top': particle.top,
-            '--size': particle.size,
-            '--delay': particle.delay,
-            '--duration': particle.duration,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const hero = canvas?.parentElement
+    if (!canvas || !hero) return undefined
 
-function DataConstellation() {
-  const labels = ['Python', 'Spark', 'Databricks', 'AWS', 'SQL', 'Airflow']
-  return (
-    <div className="constellation-wrap reveal reveal-delay">
-      <div className="constellation-orbit orbit-one" />
-      <div className="constellation-orbit orbit-two" />
-      <div className="constellation-orbit orbit-three" />
-      <div className="constellation-core">
-        <span>DATA</span>
-        <strong>ENGINEERING</strong>
-      </div>
-      {labels.map((label, index) => (
-        <div className={`constellation-node node-${index + 1}`} key={label}>
-          <i />
-          <span>{label}</span>
-        </div>
-      ))}
-      <div className="constellation-copy">
-        <span>Production systems</span>
-        <strong>Reliable by design.</strong>
-      </div>
-    </div>
-  )
+    const context = canvas.getContext('2d')
+    if (!context) return undefined
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let animationFrame = 0
+    let width = 0
+    let height = 0
+    let ratio = 1
+    let points = []
+    const pointer = { x: -1000, y: -1000, active: false }
+
+    const createPoints = () => {
+      const area = width * height
+      const count = Math.max(48, Math.min(115, Math.round(area / 14500)))
+      points = Array.from({ length: count }, (_, index) => {
+        const bias = index % 3 === 0 ? 0.58 : 1
+        return {
+          x: width * (0.05 + Math.random() * 0.92),
+          y: height * (0.05 + Math.random() * 0.90),
+          vx: (Math.random() - 0.5) * 0.16 * bias,
+          vy: (Math.random() - 0.5) * 0.16 * bias,
+          radius: 0.8 + Math.random() * 1.25,
+          alpha: 0.28 + Math.random() * 0.46,
+        }
+      })
+    }
+
+    const resize = () => {
+      const bounds = hero.getBoundingClientRect()
+      width = Math.max(1, bounds.width)
+      height = Math.max(1, bounds.height)
+      ratio = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.round(width * ratio)
+      canvas.height = Math.round(height * ratio)
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      context.setTransform(ratio, 0, 0, ratio, 0, 0)
+      createPoints()
+    }
+
+    const draw = () => {
+      context.clearRect(0, 0, width, height)
+
+      for (let index = 0; index < points.length; index += 1) {
+        const point = points[index]
+
+        if (!reducedMotion) {
+          point.x += point.vx
+          point.y += point.vy
+
+          if (point.x < 0 || point.x > width) point.vx *= -1
+          if (point.y < 0 || point.y > height) point.vy *= -1
+
+          if (pointer.active) {
+            const dx = point.x - pointer.x
+            const dy = point.y - pointer.y
+            const distance = Math.hypot(dx, dy)
+            const radius = 145
+
+            if (distance > 0 && distance < radius) {
+              const force = (radius - distance) / radius
+              point.x += (dx / distance) * force * 1.3
+              point.y += (dy / distance) * force * 1.3
+            }
+          }
+        }
+
+        for (let nextIndex = index + 1; nextIndex < points.length; nextIndex += 1) {
+          const other = points[nextIndex]
+          const dx = point.x - other.x
+          const dy = point.y - other.y
+          const distance = Math.hypot(dx, dy)
+
+          if (distance < 105) {
+            const opacity = (1 - distance / 105) * 0.11
+            context.beginPath()
+            context.moveTo(point.x, point.y)
+            context.lineTo(other.x, other.y)
+            context.strokeStyle = `rgba(102, 184, 255, ${opacity})`
+            context.lineWidth = 0.7
+            context.stroke()
+          }
+        }
+
+        let glow = point.alpha
+        if (pointer.active) {
+          const distanceToPointer = Math.hypot(point.x - pointer.x, point.y - pointer.y)
+          if (distanceToPointer < 155) {
+            glow = Math.min(1, glow + (1 - distanceToPointer / 155) * 0.55)
+          }
+        }
+
+        context.beginPath()
+        context.arc(point.x, point.y, point.radius, 0, Math.PI * 2)
+        context.fillStyle = `rgba(117, 205, 255, ${glow})`
+        context.shadowColor = 'rgba(102, 177, 255, 0.58)'
+        context.shadowBlur = glow > 0.55 ? 9 : 4
+        context.fill()
+        context.shadowBlur = 0
+      }
+
+      if (pointer.active) {
+        const gradient = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 120)
+        gradient.addColorStop(0, 'rgba(92, 170, 255, 0.07)')
+        gradient.addColorStop(1, 'rgba(92, 170, 255, 0)')
+        context.fillStyle = gradient
+        context.beginPath()
+        context.arc(pointer.x, pointer.y, 120, 0, Math.PI * 2)
+        context.fill()
+      }
+
+      if (!reducedMotion) animationFrame = requestAnimationFrame(draw)
+    }
+
+    const handlePointerMove = (event) => {
+      const bounds = hero.getBoundingClientRect()
+      pointer.x = event.clientX - bounds.left
+      pointer.y = event.clientY - bounds.top
+      pointer.active = true
+    }
+
+    const handlePointerLeave = () => {
+      pointer.active = false
+    }
+
+    const observer = new ResizeObserver(resize)
+    observer.observe(hero)
+    hero.addEventListener('pointermove', handlePointerMove)
+    hero.addEventListener('pointerleave', handlePointerLeave)
+
+    resize()
+    draw()
+
+    return () => {
+      cancelAnimationFrame(animationFrame)
+      observer.disconnect()
+      hero.removeEventListener('pointermove', handlePointerMove)
+      hero.removeEventListener('pointerleave', handlePointerLeave)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="interactive-dots" aria-hidden="true" />
 }
 
 function Hero() {
   return (
     <section id="top" className="hero-section">
-      <CosmicField />
+      <InteractiveDots />
       <div className="hero section-shell">
         <div className="hero-copy reveal">
           <div className="eyebrow"><span /> Data Engineer · 4+ years</div>
@@ -239,7 +335,16 @@ function Hero() {
             {['Python', 'SQL', 'PySpark', 'Databricks', 'AWS', 'Snowflake'].map((item) => <span key={item}>{item}</span>)}
           </div>
         </div>
-        <DataConstellation />
+
+        <div className="hero-proof reveal reveal-delay">
+          <span>Production data systems</span>
+          <strong>Built for scale, reliability and clarity.</strong>
+          <div>
+            <i /><span>Batch + streaming</span>
+            <i /><span>Lakehouse + warehouse</span>
+            <i /><span>Quality + observability</span>
+          </div>
+        </div>
       </div>
     </section>
   )
