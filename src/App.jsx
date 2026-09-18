@@ -354,6 +354,16 @@ function ScrollInteractiveField() {
       pointer.vy = 0
     }
 
+    const handleExperiencePulse = (event) => {
+      const { x = width * 0.5, y = height * 0.5 } = event.detail || {}
+      ripples.push(
+        { x, y, radius: 8, alpha: 0.34, speed: 5.6 },
+        { x, y, radius: 34, alpha: 0.22, speed: 4.8 },
+        { x, y, radius: 62, alpha: 0.14, speed: 4.2 },
+      )
+      if (ripples.length > 6) ripples = ripples.slice(-6)
+    }
+
     const handleScroll = () => {
       updateScrollState()
     }
@@ -519,6 +529,7 @@ function ScrollInteractiveField() {
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
     window.addEventListener('pointerdown', handlePointerDown, { passive: true })
+    window.addEventListener('experience-pulse', handleExperiencePulse)
     document.documentElement.addEventListener('mouseleave', handlePointerLeave)
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', handleResize)
@@ -534,6 +545,7 @@ function ScrollInteractiveField() {
       cancelAnimationFrame(frame)
       window.removeEventListener('pointermove', handlePointerMove)
       window.removeEventListener('pointerdown', handlePointerDown)
+      window.removeEventListener('experience-pulse', handleExperiencePulse)
       document.documentElement.removeEventListener('mouseleave', handlePointerLeave)
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
@@ -611,33 +623,76 @@ function Capabilities() {
 }
 
 function Experience() {
+  const [openExperience, setOpenExperience] = useState(null)
+
+  const toggleExperience = (index, event) => {
+    const next = openExperience === index ? null : index
+    setOpenExperience(next)
+
+    if (next !== null) {
+      const rect = event.currentTarget.getBoundingClientRect()
+      window.dispatchEvent(new CustomEvent('experience-pulse', {
+        detail: {
+          x: rect.left + rect.width * 0.72,
+          y: Math.min(window.innerHeight - 40, Math.max(40, rect.top + rect.height * 0.5)),
+        },
+      }))
+    }
+  }
+
   return (
     <section id="experience" className="section-shell section-block">
       <SectionHeader
         label="Experience"
-        title="Production data engineering across enterprise environments."
-        copy="Advertising, eCommerce and financial data systems with measurable improvements in scale, reliability and delivery."
+        title="Where I’ve built production data systems."
+        copy="Open a role to see selected impact."
       />
-      <div className="experience-list">
-        {experiences.map((job, index) => (
-          <article className="experience-card reveal" key={job.company}>
-            <div className="experience-side">
-              <span className="card-number">0{index + 1}</span>
-              <div>
-                <small>{job.period}</small>
-                <h3>{job.company}</h3>
-                <p>{job.role}</p>
+
+      <div className="experience-list experience-accordion">
+        {experiences.map((job, index) => {
+          const isOpen = openExperience === index
+
+          return (
+            <article className={`experience-card experience-card-interactive reveal ${isOpen ? 'is-open' : ''}`} key={job.company}>
+              <button
+                type="button"
+                className="experience-toggle"
+                aria-expanded={isOpen}
+                aria-controls={`experience-details-${index}`}
+                onClick={(event) => toggleExperience(index, event)}
+              >
+                <span className="card-number">0{index + 1}</span>
+
+                <span className="experience-toggle-main">
+                  <span className="experience-meta-line">
+                    <span>{job.role}</span>
+                    <small>{job.period}</small>
+                  </span>
+                  <strong>{job.company}</strong>
+                  <span className="experience-summary-compact">{job.summary}</span>
+                </span>
+
+                <span className="experience-open-label">
+                  <span>{isOpen ? 'Close' : 'View impact'}</span>
+                  <i aria-hidden="true">{isOpen ? '−' : '+'}</i>
+                </span>
+              </button>
+
+              <div
+                id={`experience-details-${index}`}
+                className="experience-details"
+                aria-hidden={!isOpen}
+              >
+                <div className="experience-details-inner">
+                  <ul>
+                    {job.impact.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                  <div className="tool-list">{job.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
+                </div>
               </div>
-            </div>
-            <div className="experience-main">
-              <h4>{job.summary}</h4>
-              <ul>
-                {job.impact.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-              <div className="tool-list">{job.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
-            </div>
-          </article>
-        ))}
+            </article>
+          )
+        })}
       </div>
     </section>
   )
