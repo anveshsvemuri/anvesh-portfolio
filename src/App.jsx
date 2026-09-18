@@ -164,27 +164,19 @@ function Navbar() {
   )
 }
 
-function InteractiveDots() {
+function ScrollInteractiveField() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
-    const hero = canvas?.parentElement
-    if (!canvas || !hero) return undefined
+    if (!canvas) return undefined
 
     const context = canvas.getContext('2d')
     if (!context) return undefined
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const pointer = {
-      x: -1000,
-      y: -1000,
-      px: -1000,
-      py: -1000,
-      vx: 0,
-      vy: 0,
-      active: false,
-    }
+    const stageIds = ['top', 'skills', 'experience', 'projects', 'education', 'contact']
+    const pointer = { x: -1000, y: -1000, px: -1000, py: -1000, vx: 0, vy: 0, active: false }
 
     let width = 0
     let height = 0
@@ -192,6 +184,8 @@ function InteractiveDots() {
     let frame = 0
     let points = []
     let ripples = []
+    let anchors = []
+    let scrollState = { from: 0, to: 0, mix: 0 }
     let lastTime = performance.now()
 
     const seeded = (index, salt = 1) => {
@@ -199,67 +193,144 @@ function InteractiveDots() {
       return value - Math.floor(value)
     }
 
+    const targetFor = (index, stage) => {
+      const a = seeded(index, 1)
+      const b = seeded(index, 2)
+      const c = seeded(index, 3)
+      const angle = a * Math.PI * 2
+
+      if (stage === 0) {
+        // Hero: loose field, with a little more visual weight on the right.
+        const x = a < 0.36 ? a * 0.86 : 0.28 + Math.pow(a, 0.74) * 0.72
+        return { x: 0.03 + x * 0.94, y: 0.05 + b * 0.90 }
+      }
+
+      if (stage === 1) {
+        // Skills: three calm vertical bands.
+        const lane = index % 3
+        const centers = [0.22, 0.50, 0.78]
+        return {
+          x: centers[lane] + (a - 0.5) * 0.18,
+          y: 0.10 + b * 0.80 + Math.sin((b + lane) * Math.PI * 2) * 0.025,
+        }
+      }
+
+      if (stage === 2) {
+        // Experience: flowing horizontal data streams.
+        const lane = index % 4
+        const yCenter = 0.20 + lane * 0.18
+        return {
+          x: 0.06 + a * 0.88,
+          y: yCenter + Math.sin(a * Math.PI * 2.4 + lane) * 0.055 + (b - 0.5) * 0.055,
+        }
+      }
+
+      if (stage === 3) {
+        // Projects: two soft clusters echoing the two showcased builds.
+        const cluster = index % 2
+        const centerX = cluster === 0 ? 0.30 : 0.72
+        const centerY = cluster === 0 ? 0.42 : 0.60
+        const radiusX = 0.10 + c * 0.16
+        const radiusY = 0.08 + b * 0.14
+        return {
+          x: centerX + Math.cos(angle) * radiusX,
+          y: centerY + Math.sin(angle) * radiusY,
+        }
+      }
+
+      if (stage === 4) {
+        // Education: an ascending diagonal constellation.
+        return {
+          x: 0.10 + a * 0.80,
+          y: 0.72 - a * 0.46 + (b - 0.5) * 0.17,
+        }
+      }
+
+      // Contact: gather into an open halo, leaving the copy readable.
+      const radiusX = 0.18 + c * 0.22
+      const radiusY = 0.14 + b * 0.18
+      return {
+        x: 0.62 + Math.cos(angle) * radiusX,
+        y: 0.50 + Math.sin(angle) * radiusY,
+      }
+    }
+
+    const updateAnchors = () => {
+      anchors = stageIds
+        .map((id) => document.getElementById(id))
+        .filter(Boolean)
+        .map((element) => {
+          const rect = element.getBoundingClientRect()
+          return rect.top + window.scrollY + rect.height * 0.5
+        })
+    }
+
+    const updateScrollState = () => {
+      if (!anchors.length) return
+      const center = window.scrollY + window.innerHeight * 0.52
+
+      if (center <= anchors[0]) {
+        scrollState = { from: 0, to: 0, mix: 0 }
+        return
+      }
+
+      for (let index = 0; index < anchors.length - 1; index += 1) {
+        if (center <= anchors[index + 1]) {
+          const span = Math.max(1, anchors[index + 1] - anchors[index])
+          const raw = (center - anchors[index]) / span
+          const mix = raw * raw * (3 - 2 * raw)
+          scrollState = { from: index, to: index + 1, mix }
+          return
+        }
+      }
+
+      const last = anchors.length - 1
+      scrollState = { from: last, to: last, mix: 0 }
+    }
+
     const makePoints = () => {
-      const density = width < 700 ? 19000 : width > 1600 ? 11500 : 14000
-      const count = Math.max(56, Math.min(155, Math.round((width * height) / density)))
+      const density = width < 700 ? 15000 : width > 1600 ? 9000 : 11500
+      const count = Math.max(64, Math.min(185, Math.round((width * height) / density)))
 
       points = Array.from({ length: count }, (_, index) => {
-        const normalizedX = seeded(index, 1)
-        const normalizedY = seeded(index, 2)
-
-        // Keep the text side quieter and concentrate more energy to the right.
-        const weightedX = normalizedX < 0.38
-          ? normalizedX * 0.88
-          : 0.30 + Math.pow(normalizedX, 0.72) * 0.70
-
-        const homeX = width * (0.025 + weightedX * 0.95)
-        const homeY = height * (0.045 + normalizedY * 0.90)
-
+        const target = targetFor(index, 0)
         return {
-          x: homeX,
-          y: homeY,
-          homeX,
-          homeY,
+          x: target.x * width,
+          y: target.y * height,
           vx: 0,
           vy: 0,
-          size: 0.85 + seeded(index, 3) * 1.35,
-          alpha: 0.26 + seeded(index, 4) * 0.52,
-          phase: seeded(index, 5) * Math.PI * 2,
-          drift: 7 + seeded(index, 6) * 14,
+          size: 0.75 + seeded(index, 4) * 1.45,
+          alpha: 0.22 + seeded(index, 5) * 0.50,
+          phase: seeded(index, 6) * Math.PI * 2,
+          drift: 4 + seeded(index, 7) * 10,
         }
       })
     }
 
     const resize = () => {
-      const bounds = hero.getBoundingClientRect()
-      width = Math.max(1, bounds.width)
-      height = Math.max(1, bounds.height)
+      width = Math.max(1, window.innerWidth)
+      height = Math.max(1, window.innerHeight)
       ratio = Math.min(window.devicePixelRatio || 1, 2)
 
       canvas.width = Math.round(width * ratio)
       canvas.height = Math.round(height * ratio)
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
-
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
+
       makePoints()
+      updateAnchors()
+      updateScrollState()
     }
 
     const addRipple = (x, y) => {
-      ripples.push({
-        x,
-        y,
-        radius: 10,
-        alpha: 0.30,
-        speed: 5.5,
-      })
+      ripples.push({ x, y, radius: 8, alpha: 0.28, speed: 5.2 })
       if (ripples.length > 3) ripples = ripples.slice(-3)
     }
 
     const handlePointerMove = (event) => {
-      const bounds = hero.getBoundingClientRect()
-      const x = event.clientX - bounds.left
-      const y = event.clientY - bounds.top
+      const x = event.clientX
+      const y = event.clientY
 
       if (!pointer.active) {
         pointer.px = x
@@ -276,8 +347,8 @@ function InteractiveDots() {
     }
 
     const handlePointerDown = (event) => {
-      const bounds = hero.getBoundingClientRect()
-      addRipple(event.clientX - bounds.left, event.clientY - bounds.top)
+      if (event.target.closest('a, button, input, textarea, select')) return
+      addRipple(event.clientX, event.clientY)
     }
 
     const handlePointerLeave = () => {
@@ -286,51 +357,74 @@ function InteractiveDots() {
       pointer.vy = 0
     }
 
+    const handleScroll = () => {
+      updateScrollState()
+    }
+
+    const handleResize = () => {
+      resize()
+    }
+
     const draw = (now = performance.now()) => {
       const elapsed = Math.min(32, now - lastTime)
       const dt = elapsed / 16.667
       lastTime = now
       context.clearRect(0, 0, width, height)
 
-      // Update ripple waves.
+      const fromStage = scrollState.from
+      const toStage = scrollState.to
+      const mix = scrollState.mix
+
+      const lineProfiles = [
+        { radius: 95, alpha: 0.060 },
+        { radius: 78, alpha: 0.050 },
+        { radius: 112, alpha: 0.072 },
+        { radius: 92, alpha: 0.056 },
+        { radius: 76, alpha: 0.045 },
+        { radius: 110, alpha: 0.070 },
+      ]
+      const lineRadius = lineProfiles[fromStage].radius * (1 - mix) + lineProfiles[toStage].radius * mix
+      const lineAlpha = lineProfiles[fromStage].alpha * (1 - mix) + lineProfiles[toStage].alpha * mix
+
       if (!reducedMotion) {
         ripples = ripples
           .map((ripple) => ({
             ...ripple,
             radius: ripple.radius + ripple.speed * dt,
-            alpha: ripple.alpha * Math.pow(0.975, dt),
+            alpha: ripple.alpha * Math.pow(0.974, dt),
           }))
-          .filter((ripple) => ripple.alpha > 0.015 && ripple.radius < Math.max(width, height) * 0.55)
+          .filter((ripple) => ripple.alpha > 0.014 && ripple.radius < Math.max(width, height) * 0.55)
       }
 
       for (let index = 0; index < points.length; index += 1) {
         const point = points[index]
+        const from = targetFor(index, fromStage)
+        const to = targetFor(index, toStage)
+        const normalizedX = from.x * (1 - mix) + to.x * mix
+        const normalizedY = from.y * (1 - mix) + to.y * mix
+
+        const ambientX = reducedMotion ? 0 : Math.cos(now * 0.00025 + point.phase) * point.drift
+        const ambientY = reducedMotion ? 0 : Math.sin(now * 0.00020 + point.phase * 1.2) * point.drift * 0.55
+        const targetX = normalizedX * width + ambientX
+        const targetY = normalizedY * height + ambientY
 
         if (!reducedMotion) {
-          const ambientX = Math.cos(now * 0.00028 + point.phase) * point.drift
-          const ambientY = Math.sin(now * 0.00022 + point.phase * 1.3) * point.drift * 0.55
-          const targetX = point.homeX + ambientX
-          const targetY = point.homeY + ambientY
-
-          // Spring back to home position for a smooth, elastic feel.
-          point.vx += (targetX - point.x) * 0.0055 * dt
-          point.vy += (targetY - point.y) * 0.0055 * dt
+          point.vx += (targetX - point.x) * 0.0065 * dt
+          point.vy += (targetY - point.y) * 0.0065 * dt
 
           if (pointer.active) {
             const dx = pointer.x - point.x
             const dy = pointer.y - point.y
             const distance = Math.hypot(dx, dy)
-            const influence = 210
+            const influence = 190
 
             if (distance > 0.001 && distance < influence) {
-              const normalized = 1 - distance / influence
-              const ease = normalized * normalized
-
-              // Magnetic pull plus a little lateral flow based on pointer speed.
-              point.vx += (dx / distance) * ease * 0.34 * dt
-              point.vy += (dy / distance) * ease * 0.34 * dt
-              point.vx += pointer.vx * ease * 0.012
-              point.vy += pointer.vy * ease * 0.012
+              const amount = 1 - distance / influence
+              const ease = amount * amount
+              point.vx += (dx / distance) * ease * 0.28 * dt
+              point.vy += (dy / distance) * ease * 0.28 * dt
+              point.vx += pointer.vx * ease * 0.010
+              point.vy += pointer.vy * ease * 0.010
             }
           }
 
@@ -340,43 +434,43 @@ function InteractiveDots() {
             const distance = Math.hypot(dx, dy)
             const ringDistance = Math.abs(distance - ripple.radius)
 
-            if (distance > 0.001 && ringDistance < 42) {
-              const wave = (1 - ringDistance / 42) * ripple.alpha
-              point.vx += (dx / distance) * wave * 1.25 * dt
-              point.vy += (dy / distance) * wave * 1.25 * dt
+            if (distance > 0.001 && ringDistance < 36) {
+              const wave = (1 - ringDistance / 36) * ripple.alpha
+              point.vx += (dx / distance) * wave * 1.12 * dt
+              point.vy += (dy / distance) * wave * 1.12 * dt
             }
           })
 
-          point.vx *= Math.pow(0.90, dt)
-          point.vy *= Math.pow(0.90, dt)
+          point.vx *= Math.pow(0.895, dt)
+          point.vy *= Math.pow(0.895, dt)
           point.x += point.vx * dt
           point.y += point.vy * dt
+        } else {
+          point.x = targetX
+          point.y = targetY
         }
 
-        // Only connect close points, and keep the network faint.
         for (let next = index + 1; next < points.length; next += 1) {
           const other = points[next]
           const dx = point.x - other.x
           const dy = point.y - other.y
           const distance = Math.hypot(dx, dy)
 
-          if (distance < 92) {
-            let opacity = (1 - distance / 92) * 0.085
+          if (distance < lineRadius) {
+            let opacity = (1 - distance / lineRadius) * lineAlpha
 
             if (pointer.active) {
-              const midpointX = (point.x + other.x) / 2
-              const midpointY = (point.y + other.y) / 2
-              const cursorDistance = Math.hypot(midpointX - pointer.x, midpointY - pointer.y)
-              if (cursorDistance < 185) {
-                opacity += (1 - cursorDistance / 185) * 0.075
-              }
+              const midX = (point.x + other.x) / 2
+              const midY = (point.y + other.y) / 2
+              const cursorDistance = Math.hypot(midX - pointer.x, midY - pointer.y)
+              if (cursorDistance < 170) opacity += (1 - cursorDistance / 170) * 0.050
             }
 
             context.beginPath()
             context.moveTo(point.x, point.y)
             context.lineTo(other.x, other.y)
-            context.strokeStyle = `rgba(92, 169, 255, ${opacity})`
-            context.lineWidth = 0.6
+            context.strokeStyle = `rgba(88, 160, 255, ${opacity})`
+            context.lineWidth = 0.55
             context.stroke()
           }
         }
@@ -386,74 +480,75 @@ function InteractiveDots() {
 
         if (pointer.active) {
           const distance = Math.hypot(point.x - pointer.x, point.y - pointer.y)
-          if (distance < 190) {
-            const amount = 1 - distance / 190
-            brightness = Math.min(1, brightness + amount * 0.48)
-            scale += amount * 0.65
+          if (distance < 175) {
+            const amount = 1 - distance / 175
+            brightness = Math.min(0.95, brightness + amount * 0.44)
+            scale += amount * 0.55
           }
         }
 
         context.beginPath()
         context.arc(point.x, point.y, point.size * scale, 0, Math.PI * 2)
-        context.fillStyle = `rgba(104, 195, 255, ${brightness})`
-        context.shadowColor = 'rgba(82, 159, 255, 0.55)'
-        context.shadowBlur = brightness > 0.58 ? 10 : 4
+        context.fillStyle = `rgba(104, 190, 255, ${brightness})`
+        context.shadowColor = 'rgba(79, 145, 255, 0.52)'
+        context.shadowBlur = brightness > 0.58 ? 9 : 3
         context.fill()
         context.shadowBlur = 0
       }
 
-      // Subtle cursor halo.
       if (pointer.active) {
-        const halo = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 155)
-        halo.addColorStop(0, 'rgba(80, 157, 255, 0.075)')
-        halo.addColorStop(0.5, 'rgba(80, 157, 255, 0.025)')
-        halo.addColorStop(1, 'rgba(80, 157, 255, 0)')
+        const halo = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 135)
+        halo.addColorStop(0, 'rgba(76, 147, 255, 0.060)')
+        halo.addColorStop(1, 'rgba(76, 147, 255, 0)')
         context.fillStyle = halo
         context.beginPath()
-        context.arc(pointer.x, pointer.y, 155, 0, Math.PI * 2)
+        context.arc(pointer.x, pointer.y, 135, 0, Math.PI * 2)
         context.fill()
       }
 
-      // Draw ripple rings last so clicks/taps feel responsive but restrained.
       ripples.forEach((ripple) => {
         context.beginPath()
         context.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2)
-        context.strokeStyle = `rgba(109, 190, 255, ${ripple.alpha * 0.45})`
+        context.strokeStyle = `rgba(108, 185, 255, ${ripple.alpha * 0.38})`
         context.lineWidth = 1
         context.stroke()
       })
 
-      pointer.vx *= 0.80
-      pointer.vy *= 0.80
+      pointer.vx *= 0.78
+      pointer.vy *= 0.78
 
       if (!reducedMotion) frame = requestAnimationFrame(draw)
     }
 
-    const observer = new ResizeObserver(resize)
-    observer.observe(hero)
-    hero.addEventListener('pointermove', handlePointerMove)
-    hero.addEventListener('pointerdown', handlePointerDown)
-    hero.addEventListener('pointerleave', handlePointerLeave)
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
+    document.documentElement.addEventListener('mouseleave', handlePointerLeave)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
 
     resize()
+    requestAnimationFrame(() => {
+      updateAnchors()
+      updateScrollState()
+    })
     draw()
 
     return () => {
       cancelAnimationFrame(frame)
-      observer.disconnect()
-      hero.removeEventListener('pointermove', handlePointerMove)
-      hero.removeEventListener('pointerdown', handlePointerDown)
-      hero.removeEventListener('pointerleave', handlePointerLeave)
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerdown', handlePointerDown)
+      document.documentElement.removeEventListener('mouseleave', handlePointerLeave)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="interactive-dots" aria-hidden="true" />
+  return <canvas ref={canvasRef} className="scroll-interactive-field" aria-hidden="true" />
 }
 
 function Hero() {
   return (
     <section id="top" className="hero-section">
-      <InteractiveDots />
       <div className="hero section-shell">
         <div className="hero-copy reveal">
           <div className="eyebrow"><span /> Data Engineer · 4+ years</div>
@@ -468,11 +563,6 @@ function Hero() {
           <div className="hero-tech">
             {['Python', 'SQL', 'PySpark', 'Databricks', 'AWS', 'Snowflake'].map((item) => <span key={item}>{item}</span>)}
           </div>
-        </div>
-
-        <div className="interaction-hint reveal reveal-delay" aria-hidden="true">
-          <span />
-          Move your cursor · click to ripple
         </div>
       </div>
     </section>
@@ -614,7 +704,7 @@ function Education() {
 
 function Contact() {
   return (
-    <section className="section-shell contact-section">
+    <section id="contact" className="section-shell contact-section">
       <div className="contact-card reveal">
         <div>
           <span className="section-label">Get in touch</span>
