@@ -633,7 +633,7 @@ function Experience() {
       const rect = event.currentTarget.getBoundingClientRect()
       window.dispatchEvent(new CustomEvent('experience-pulse', {
         detail: {
-          x: rect.left + rect.width * 0.72,
+          x: Math.min(window.innerWidth - 40, rect.left + rect.width * 0.78),
           y: Math.min(window.innerHeight - 40, Math.max(40, rect.top + rect.height * 0.5)),
         },
       }))
@@ -641,53 +641,46 @@ function Experience() {
   }
 
   return (
-    <section id="experience" className="section-shell section-block">
-      <SectionHeader
-        label="Experience"
-        title="Where I’ve built production data systems."
-        copy="Open a role to see selected impact."
-      />
+    <section id="experience" className="section-shell section-block experience-section-clean">
+      <div className="experience-heading-clean reveal">
+        <span className="section-label">Experience</span>
+        <h2>Work experience</h2>
+      </div>
 
-      <div className="experience-list experience-accordion">
+      <div className="experience-timeline">
         {experiences.map((job, index) => {
           const isOpen = openExperience === index
 
           return (
-            <article className={`experience-card experience-card-interactive reveal ${isOpen ? 'is-open' : ''}`} key={job.company}>
+            <article className={`experience-row-clean reveal ${isOpen ? 'is-open' : ''}`} key={job.company}>
               <button
                 type="button"
-                className="experience-toggle"
+                className="experience-row-button"
                 aria-expanded={isOpen}
                 aria-controls={`experience-details-${index}`}
                 onClick={(event) => toggleExperience(index, event)}
               >
-                <span className="card-number">0{index + 1}</span>
-
-                <span className="experience-toggle-main">
-                  <span className="experience-meta-line">
-                    <span>{job.role}</span>
-                    <small>{job.period}</small>
-                  </span>
+                <span className="experience-company-block">
                   <strong>{job.company}</strong>
-                  <span className="experience-summary-compact">{job.summary}</span>
+                  <span>{job.role}</span>
                 </span>
 
-                <span className="experience-open-label">
-                  <span>{isOpen ? 'Close' : 'View impact'}</span>
-                  <i aria-hidden="true">{isOpen ? '−' : '+'}</i>
-                </span>
+                <span className="experience-period-clean">{job.period}</span>
+
+                <span className="experience-plus" aria-hidden="true">{isOpen ? '−' : '+'}</span>
               </button>
 
               <div
                 id={`experience-details-${index}`}
-                className="experience-details"
+                className="experience-details-clean"
                 aria-hidden={!isOpen}
               >
-                <div className="experience-details-inner">
+                <div className="experience-details-clean-inner">
+                  <p>{job.summary}</p>
                   <ul>
                     {job.impact.map((item) => <li key={item}>{item}</li>)}
                   </ul>
-                  <div className="tool-list">{job.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
+                  <span className="experience-stack-line">{job.stack.join(' · ')}</span>
                 </div>
               </div>
             </article>
