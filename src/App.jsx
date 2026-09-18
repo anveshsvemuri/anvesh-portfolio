@@ -670,19 +670,20 @@ function Experience() {
                 <span className="experience-plus" aria-hidden="true">{isOpen ? '−' : '+'}</span>
               </button>
 
-              <div
-                id={`experience-details-${index}`}
-                className="experience-details-clean"
-                aria-hidden={!isOpen}
-              >
-                <div className="experience-details-clean-inner">
-                  <p>{job.summary}</p>
-                  <ul>
-                    {job.impact.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                  <span className="experience-stack-line">{job.stack.join(' · ')}</span>
+              {isOpen && (
+                <div
+                  id={`experience-details-${index}`}
+                  className="experience-details-clean is-visible"
+                >
+                  <div className="experience-details-clean-inner">
+                    <p>{job.summary}</p>
+                    <ul>
+                      {job.impact.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                    <span className="experience-stack-line">{job.stack.join(' · ')}</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </article>
           )
         })}
@@ -692,6 +693,25 @@ function Experience() {
 }
 
 function Projects() {
+  const [activeProject, setActiveProject] = useState(null)
+
+  useEffect(() => {
+    if (!activeProject) return undefined
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setActiveProject(null)
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [activeProject])
+
   return (
     <section id="projects" className="section-shell section-block">
       <SectionHeader
@@ -699,6 +719,7 @@ function Projects() {
         title="Projects built to show the engineering, not just the screenshot."
         copy="Each project is designed as a working system with validation, testing and a clear architecture."
       />
+
       <div className="project-list">
         {projects.map((project, index) => (
           <article className={`project-card reveal ${index % 2 ? 'is-reversed' : ''}`} key={project.title}>
@@ -710,12 +731,48 @@ function Projects() {
               <div className="tool-list">{project.tech.map((tool) => <span key={tool}>{tool}</span>)}</div>
               <a className="project-link" href={project.href} target="_blank" rel="noreferrer">View repository <ExternalIcon /></a>
             </div>
-            <figure className="project-visual">
+
+            <button
+              type="button"
+              className="project-visual project-visual-button"
+              aria-label={`Enlarge ${project.title} preview`}
+              onClick={() => setActiveProject(project)}
+            >
               <img src={project.image} alt={project.imageAlt} loading="lazy" />
-            </figure>
+              <span className="project-zoom-label">Click to enlarge</span>
+            </button>
           </article>
         ))}
       </div>
+
+      {activeProject && (
+        <div
+          className="project-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeProject.title} preview`}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setActiveProject(null)
+          }}
+        >
+          <button
+            type="button"
+            className="project-lightbox-close"
+            aria-label="Close project preview"
+            onClick={() => setActiveProject(null)}
+          >
+            ×
+          </button>
+
+          <div className="project-lightbox-content">
+            <div className="project-lightbox-header">
+              <span>{activeProject.label}</span>
+              <strong>{activeProject.title}</strong>
+            </div>
+            <img src={activeProject.image} alt={activeProject.imageAlt} />
+          </div>
+        </div>
+      )}
     </section>
   )
 }
