@@ -1652,3 +1652,282 @@ main,
     opacity: .45;
   }
 }
+
+
+/* Compact recruiter-first layout */
+.scroll-interactive-field {
+  opacity: 1;
+}
+
+.hero {
+  min-height: 82svh;
+  padding-top: 108px;
+  padding-bottom: clamp(54px, 5vw, 82px);
+}
+
+.hero-copy {
+  max-width: min(1040px, 78vw);
+}
+
+.hero h1 {
+  font-size: clamp(52px, 5.7vw, 96px);
+}
+
+.hero-copy > p {
+  max-width: 690px;
+  margin-top: 22px;
+  font-size: clamp(13px, .92vw, 16px);
+  line-height: 1.65;
+}
+
+.hero-actions {
+  margin-top: 28px;
+}
+
+.hero-tech {
+  margin-top: 32px;
+}
+
+.metrics {
+  margin-top: -28px;
+}
+
+.metrics div {
+  padding: clamp(16px, 1.5vw, 22px);
+}
+
+.metrics strong {
+  font-size: clamp(21px, 1.7vw, 30px);
+}
+
+.section-block {
+  padding-top: clamp(68px, 5.5vw, 96px);
+}
+
+.section-heading {
+  grid-template-columns: clamp(82px, 8vw, 130px) minmax(0, 1fr);
+  gap: clamp(18px, 2.5vw, 40px);
+  padding-bottom: 24px;
+}
+
+.section-heading h2 {
+  max-width: min(72vw, 980px);
+  font-size: clamp(32px, 3.7vw, 60px);
+  line-height: 1.02;
+}
+
+.section-heading p {
+  max-width: 650px;
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.capability-grid {
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.capability-card {
+  min-height: 230px;
+  padding: clamp(20px, 1.7vw, 28px);
+}
+
+.capability-card h3 {
+  margin-top: 34px;
+  font-size: clamp(22px, 1.5vw, 27px);
+}
+
+.capability-card > p {
+  margin-top: 11px;
+  line-height: 1.55;
+}
+
+.tool-list {
+  margin-top: 17px;
+}
+
+.experience-list {
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.experience-card {
+  grid-template-columns: minmax(230px, .54fr) minmax(0, 1.46fr);
+  gap: clamp(24px, 3vw, 48px);
+  padding: clamp(22px, 2vw, 32px);
+  border-radius: 18px;
+}
+
+.experience-side {
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.experience-side h3 {
+  margin-top: 9px;
+  font-size: clamp(20px, 1.35vw, 25px);
+}
+
+.experience-main h4 {
+  font-size: clamp(14px, .95vw, 17px);
+  line-height: 1.45;
+}
+
+.experience-main ul {
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.experience-main li {
+  font-size: 9.5px;
+  line-height: 1.55;
+}
+
+.project-list {
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.project-card {
+  grid-template-columns: minmax(320px, .75fr) minmax(0, 1.25fr);
+  gap: clamp(24px, 3vw, 46px);
+  padding: clamp(18px, 1.7vw, 26px);
+  border-radius: 20px;
+}
+
+.project-copy {
+  padding: 6px;
+}
+
+.project-copy h3 {
+  margin-top: 17px;
+  font-size: clamp(28px, 2.2vw, 40px);
+}
+
+.project-copy > p {
+  margin-top: 11px;
+  line-height: 1.58;
+}
+
+.proof-list {
+  gap: 8px 14px;
+  margin-top: 15px;
+  padding-top: 13px;
+}
+
+.project-link {
+  margin-top: 17px;
+}
+
+.project-visual {
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+}
+
+.education-grid {
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.education-item {
+  min-height: 112px;
+  padding: clamp(18px, 1.8vw, 28px);
+}
+
+.education-item h3 {
+  font-size: clamp(19px, 1.35vw, 25px);
+}
+
+.credential-card {
+  padding: clamp(20px, 1.8vw, 28px);
+}
+
+.credential-item {
+  padding: 15px 0;
+}
+
+.contact-section {
+  padding-top: clamp(72px, 5.5vw, 100px);
+  padding-bottom: clamp(48px, 4vw, 70px);
+}
+
+.contact-card {
+  gap: clamp(28px, 4vw, 70px);
+  padding: clamp(28px, 3.5vw, 54px);
+  border-radius: 22px;
+}
+
+.contact-card h2 {
+  font-size: clamp(36px, 4.2vw, 66px);
+}
+
+.contact-card p {
+  margin-top: 15px;
+}
+
+.footer {
+  padding-top: 22px;
+  padding-bottom: 28px;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    min-height: auto;
+    padding-top: 126px;
+    padding-bottom: 58px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .experience-card,
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .section-block {
+    padding-top: 62px;
+  }
+
+  .section-heading {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-bottom: 20px;
+  }
+
+  .section-heading h2 {
+    font-size: 34px;
+  }
+
+  .capability-card {
+    min-height: auto;
+  }
+
+  .capability-card h3 {
+    margin-top: 28px;
+  }
+
+  .experience-card {
+    padding: 18px;
+  }
+
+  .experience-main ul {
+    margin-top: 13px;
+  }
+
+  .project-card {
+    padding: 14px;
+  }
+
+  .education-item {
+    min-height: 0;
+  }
+
+  .contact-card {
+    padding: 25px 20px;
+  }
+}
