@@ -97,6 +97,28 @@ const projects = [
     proof: ['Bronze → Silver → Gold', '24 automated tests', 'AWS infrastructure as code'],
     tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform'],
   },
+  {
+    number: '03',
+    title: 'Customer Churn MLOps',
+    label: 'Machine Learning / MLOps',
+    description: 'A reproducible telecom churn platform spanning synthetic data, model evaluation and promotion, batch scoring, drift signals and FastAPI inference.',
+    href: 'https://github.com/anveshsvemuri/customer-churn-mlops',
+    image: '/projects/customer-churn-preview.svg',
+    imageAlt: 'Customer Churn MLOps training and inference architecture',
+    proof: ['0.8513 validation ROC-AUC', '6 automated tests', 'PII-free synthetic data'],
+    tech: ['Python', 'scikit-learn', 'FastAPI', 'Docker', 'GitHub Actions'],
+  },
+  {
+    number: '04',
+    title: 'Data Platform Copilot',
+    label: 'LLM / RAG / MCP',
+    description: 'A grounded data-platform assistant with citations, safe abstention, structured responses and allowlisted MCP tools over approved operational documentation.',
+    href: 'https://github.com/anveshsvemuri/data-platform-copilot',
+    image: '/projects/data-platform-copilot-preview.svg',
+    imageAlt: 'Data Platform Copilot RAG and MCP architecture',
+    proof: ['100% evaluation pass rate', '7 automated tests', 'No-key deterministic mode'],
+    tech: ['Python', 'LLM', 'RAG', 'MCP', 'Pydantic', 'OpenAI API'],
+  },
 ]
 
 const education = [
