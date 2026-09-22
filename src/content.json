@@ -1,0 +1,285 @@
+{
+  "contact": {
+    "email": "anveshsvemuri@gmail.com",
+    "github": "https://github.com/anveshsvemuri",
+    "linkedin": "https://www.linkedin.com/in/anveshvemuri",
+    "resume": "/resume/AnveshSVemuri_Resume.pdf"
+  },
+  "stats": [
+    [
+      "4+",
+      "years in data engineering"
+    ],
+    [
+      "20M+",
+      "records processed daily"
+    ],
+    [
+      "20+",
+      "external platforms integrated"
+    ],
+    [
+      "50+",
+      "workflows migrated"
+    ]
+  ],
+  "experience": [
+    {
+      "company": "Publicis Groupe",
+      "role": "Data Engineer",
+      "period": "Sep 2024 — Aug 2026",
+      "summary": "Built and modernized enterprise data pipelines for advertising and eCommerce analytics.",
+      "impact": [
+        "Engineered Python and SQL pipelines across BigQuery, Redshift, and Databricks, integrating 20+ platforms for 6+ enterprise clients and reducing reporting latency by 40%.",
+        "Migrated 50+ production Alteryx workflows to Databricks, redesigning transformations and orchestration and reducing execution time by 35%.",
+        "Optimized SQL, stored procedures, and incremental processing across cloud warehouses, improving query performance by 30%.",
+        "Automated data-quality checks, reconciliation, schema validation, and monitoring, reducing manual QA by 10+ hours per week.",
+        "Standardized advertising and commerce data from platforms including DV360/YouTube, Amazon, Walmart, Meta, TikTok, Pinterest, and DoubleVerify for 100+ dashboards."
+      ],
+      "stack": [
+        "Python",
+        "SQL",
+        "BigQuery",
+        "Redshift",
+        "Databricks",
+        "PySpark",
+        "REST APIs"
+      ],
+      "division": "Zenith Media Services"
+    },
+    {
+      "company": "JPMorgan Chase & Co.",
+      "role": "Data Engineer",
+      "period": "Sep 2023 — Aug 2024",
+      "summary": "Developed distributed processing and orchestration for enterprise financial datasets.",
+      "impact": [
+        "Built distributed PySpark ETL pipelines processing 20M+ financial and transactional records daily, improving processing performance by 45%.",
+        "Developed 100+ SQL and dbt transformations in Snowflake and Hive, improving analytical query performance by 35%.",
+        "Optimized Spark and Hive workloads with partition-aware processing, Parquet, and Spark SQL tuning.",
+        "Automated 25+ Airflow workflows and implemented dbt tests and data-quality checks, reducing manual intervention by 12 hours per week."
+      ],
+      "stack": [
+        "PySpark",
+        "Airflow",
+        "Snowflake",
+        "Hive",
+        "Parquet",
+        "dbt"
+      ]
+    },
+    {
+      "company": "Dixon Technologies",
+      "role": "Data Engineer",
+      "period": "Aug 2020 — Jul 2021",
+      "summary": "Built warehouse, streaming and automation systems across AWS and distributed data tools.",
+      "impact": [
+        "Developed 15+ custom Python Airflow operators integrating Snowflake, Slack, and Tableau workflows.",
+        "Designed Redshift warehouse schemas and ETL pipelines, improving query performance by 35% and reducing report generation time by 40%.",
+        "Built event-driven Spark Streaming and AWS Lambda pipelines processing 5M+ events daily for low-latency anomaly detection.",
+        "Built pipelines with AWS Glue, S3, Lambda, Boto3, Databricks, and PySpark, reducing cloud compute costs by 25%."
+      ],
+      "stack": [
+        "Airflow",
+        "Spark Streaming",
+        "AWS Lambda",
+        "S3",
+        "Glue",
+        "Boto3",
+        "Redshift"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "title": "Languages & engineering",
+      "tools": [
+        "Python",
+        "SQL",
+        "Java",
+        "Apache Spark",
+        "PySpark",
+        "Databricks",
+        "Airflow",
+        "dbt",
+        "Pandas",
+        "NumPy",
+        "ETL/ELT",
+        "REST APIs",
+        "Delta Lake",
+        "Dimensional Data Modeling",
+        "Kafka",
+        "Hadoop",
+        "Hive",
+        "HDFS",
+        "Boto3"
+      ]
+    },
+    {
+      "title": "Cloud & databases",
+      "tools": [
+        "AWS S3",
+        "AWS Glue",
+        "AWS Lambda",
+        "Redshift",
+        "Athena",
+        "Lake Formation",
+        "EMR",
+        "GCP",
+        "BigQuery",
+        "Snowflake",
+        "MySQL",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "title": "Tools & visualization",
+      "tools": [
+        "Git",
+        "GitHub",
+        "Azure DevOps",
+        "Jenkins",
+        "Docker",
+        "Linux",
+        "Alteryx",
+        "Jupyter Notebook",
+        "Tableau",
+        "Power BI"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "number": "02",
+      "title": "Housing Data Lakehouse",
+      "label": "Lakehouse / Data Platform",
+      "description": "A reproducible PySpark medallion pipeline with incremental processing, data-quality controls and Terraform-defined AWS storage.",
+      "href": "https://github.com/anveshsvemuri/housing-data-lakehouse",
+      "image": "/projects/housing-lakehouse-preview.svg",
+      "imageAlt": "Housing Data Lakehouse architecture preview",
+      "proof": [
+        "Incremental processing",
+        "Data quality & audit logs",
+        "Terraform storage"
+      ],
+      "tech": [
+        "Python",
+        "PySpark",
+        "Parquet",
+        "AWS S3",
+        "Terraform"
+      ],
+      "note": "A local PySpark pipeline using reproducible synthetic housing data. Terraform defines AWS storage; direct S3 adapters remain on the roadmap.",
+      "category": "platforms"
+    },
+    {
+      "number": "01",
+      "title": "AI Analytics Assistant",
+      "label": "Applied AI / Analytics",
+      "description": "A tested analytics assistant for profiling datasets, answering structured questions and generating validated AI analysis.",
+      "href": "https://github.com/anveshsvemuri/ai-analytics-assistant",
+      "image": "/projects/ai-analytics-preview.svg",
+      "imageAlt": "AI Analytics Assistant interface preview",
+      "proof": [
+        "CSV profiling",
+        "Validated AI responses",
+        "No-key demo mode"
+      ],
+      "tech": [
+        "Python",
+        "Streamlit",
+        "Pandas",
+        "OpenAI API",
+        "Pydantic"
+      ],
+      "note": "A Streamlit application with deterministic local analysis and optional OpenAI-powered answers. This image is an interface illustration, not a live product screenshot.",
+      "category": "ai"
+    },
+    {
+      "number": "04",
+      "title": "Data Platform Copilot",
+      "label": "LLM / RAG / MCP",
+      "description": "A grounded data-platform assistant with citations, safe abstention, structured responses and allowlisted MCP tools over approved operational documentation.",
+      "href": "https://github.com/anveshsvemuri/data-platform-copilot",
+      "image": "/projects/data-platform-copilot-preview.svg",
+      "imageAlt": "Data Platform Copilot RAG and MCP architecture",
+      "proof": [
+        "Cited answers",
+        "Safe abstention",
+        "Read-only MCP tools"
+      ],
+      "tech": [
+        "Python",
+        "LLM",
+        "RAG",
+        "MCP",
+        "Pydantic",
+        "OpenAI API"
+      ],
+      "note": "A portfolio implementation grounded in approved documentation, with deterministic retrieval, optional LLM synthesis, and allowlisted MCP tools.",
+      "category": "ai"
+    },
+    {
+      "number": "03",
+      "title": "Customer Churn MLOps",
+      "label": "Machine Learning / MLOps",
+      "description": "A reproducible telecom churn platform spanning synthetic data, model evaluation and promotion, batch scoring, drift signals and FastAPI inference.",
+      "href": "https://github.com/anveshsvemuri/customer-churn-mlops",
+      "image": "/projects/customer-churn-preview.svg",
+      "imageAlt": "Customer Churn MLOps training and inference architecture",
+      "proof": [
+        "Model promotion gates",
+        "Batch & API inference",
+        "Synthetic data"
+      ],
+      "tech": [
+        "Python",
+        "scikit-learn",
+        "FastAPI",
+        "Docker",
+        "GitHub Actions"
+      ],
+      "note": "A reference implementation using synthetic telecom data, with validation, training, evaluation, promotion, scoring, and FastAPI inference.",
+      "category": "ml"
+    }
+  ],
+  "education": [
+    {
+      "degree": "PhD, Technology and Artificial Intelligence",
+      "institution": "Southwest Baptist University",
+      "period": "Sep 2026 — Present",
+      "status": "In progress"
+    },
+    {
+      "degree": "Master of Science, Computer Information Systems",
+      "institution": "New England College",
+      "period": "Dec 2023",
+      "status": "Completed"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "SQL (Advanced) Certificate",
+      "issuer": "HackerRank",
+      "year": "2026",
+      "type": "Certificate",
+      "details": ""
+    },
+    {
+      "name": "Advanced Data Engineering Training",
+      "issuer": "Databricks Academy",
+      "year": "2025",
+      "type": "Training",
+      "details": "Unity Catalog · Lakeflow Jobs · Lakeflow Connect · Spark Declarative Pipelines"
+    }
+  ],
+  "toolkit": [
+    "Python",
+    "SQL",
+    "PySpark",
+    "Databricks",
+    "AWS",
+    "BigQuery",
+    "Snowflake",
+    "Airflow"
+  ]
+}

@@ -1,891 +1,109 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import content from './content.json'
+import DotField from './DotField.jsx'
 
-const profile = {
-  email: 'anveshsvemuri@gmail.com',
-  github: 'https://github.com/anveshsvemuri',
-  linkedin: 'https://www.linkedin.com/in/anveshvemuri',
-  resume: '/resume/AnveshSVemuri_Resume.pdf',
+const links = [['Experience', '#experience'], ['Projects', '#projects'], ['Education', '#education'], ['Certifications', '#certifications']]
+const { contact, experience, education, certifications, projects, toolkit, skills } = content
+
+function Arrow({ external = false, size = 18 }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={external ? 'M7 17 17 7M7 7h10v10' : 'M5 12h14m-6-6 6 6-6 6'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+}
+function ExternalLink({ href, children, className, label }) {
+  return <a href={href} className={className} target="_blank" rel="noopener noreferrer" aria-label={label ? `${label} (opens in new tab)` : undefined}>{children}<Arrow external size={15} />{!label && <span className="sr-only"> (opens in new tab)</span>}</a>
 }
 
-const metrics = [
-  ['4+', 'years in data engineering'],
-  ['20M+', 'records processed daily'],
-  ['20+', 'external platforms integrated'],
-  ['50+', 'workflows migrated'],
-]
-
-const experiences = [
-  {
-    company: 'Publicis Groupe',
-    role: 'Data Engineer',
-    period: 'Sep 2024 — Aug 2026',
-    summary: 'Built and modernized enterprise data pipelines for advertising and eCommerce analytics.',
-    impact: [
-      'Built Python, SQL, Databricks and AWS pipelines across 20+ advertising and eCommerce platforms.',
-      'Migrated 50+ Alteryx workflows to PySpark/SQL in Databricks, reducing execution time by 35%.',
-      'Automated ingestion and data-quality checks supporting 100+ dashboards and saving about 10 hours of QA per week.',
-    ],
-    stack: ['Databricks', 'PySpark', 'Python', 'SQL', 'AWS', 'Redshift', 'REST APIs'],
-  },
-  {
-    company: 'JPMorgan Chase & Co.',
-    role: 'Data Engineer',
-    period: 'Sep 2023 — Aug 2024',
-    summary: 'Developed distributed processing and orchestration for enterprise financial datasets.',
-    impact: [
-      'Built PySpark ETL pipelines processing 20M+ financial and transactional records daily.',
-      'Developed 100+ SQL/dbt transformations in Snowflake and Hive and improved distributed processing performance.',
-      'Automated 25+ Airflow workflows with testing and monitoring for reliable downstream reporting.',
-    ],
-    stack: ['PySpark', 'Airflow', 'Snowflake', 'Hive', 'Parquet', 'dbt'],
-  },
-  {
-    company: 'Dixon Technologies',
-    role: 'Data Engineer',
-    period: 'Aug 2020 — Jul 2021',
-    summary: 'Built warehouse, streaming and automation systems across AWS and distributed data tools.',
-    impact: [
-      'Built Python/Airflow automation integrating Snowflake, Slack and Tableau workflows.',
-      'Designed Redshift ETL and warehouse structures for high-volume analytics.',
-      'Developed Spark Streaming and AWS Lambda pipelines processing 5M+ events daily.',
-    ],
-    stack: ['Airflow', 'Spark Streaming', 'AWS Lambda', 'S3', 'Glue', 'Boto3', 'Redshift'],
-  },
-]
-
-const capabilities = [
-  {
-    number: '01',
-    title: 'Data pipelines',
-    copy: 'Batch, streaming and API pipelines built for scale and reliability.',
-    tools: ['Python', 'SQL', 'PySpark', 'Airflow', 'REST APIs'],
-  },
-  {
-    number: '02',
-    title: 'Analytics platforms',
-    copy: 'Lakehouse and warehouse systems that turn raw data into trusted analytics.',
-    tools: ['Databricks', 'Snowflake', 'Redshift', 'AWS', 'Delta Lake'],
-  },
-  {
-    number: '03',
-    title: 'Applied AI systems',
-    copy: 'AI-assisted analytics built with validation, testing and clear system boundaries.',
-    tools: ['OpenAI API', 'Pydantic', 'Streamlit', 'Pandas', 'GitHub Actions'],
-  },
-]
-
-const projects = [
-  {
-    number: '01',
-    title: 'AI Analytics Assistant',
-    label: 'Applied AI / Analytics',
-    description: 'A tested analytics assistant for profiling datasets, answering structured questions and generating validated AI analysis.',
-    href: 'https://github.com/anveshsvemuri/ai-analytics-assistant',
-    image: '/projects/ai-analytics-preview.svg',
-    imageAlt: 'AI Analytics Assistant interface preview',
-    proof: ['25 MB guarded uploads', '200K rows supported', '27 automated tests'],
-    tech: ['Python', 'Streamlit', 'Pandas', 'OpenAI API', 'Pydantic'],
-  },
-  {
-    number: '02',
-    title: 'Housing Data Lakehouse',
-    label: 'Lakehouse / Data Platform',
-    description: 'A reproducible PySpark medallion pipeline with incremental processing, data-quality controls and Terraform-defined AWS storage.',
-    href: 'https://github.com/anveshsvemuri/housing-data-lakehouse',
-    image: '/projects/housing-lakehouse-preview.svg',
-    imageAlt: 'Housing Data Lakehouse architecture preview',
-    proof: ['Bronze → Silver → Gold', '24 automated tests', 'AWS infrastructure as code'],
-    tech: ['Python', 'PySpark', 'Parquet', 'AWS S3', 'Terraform'],
-  },
-  {
-    number: '03',
-    title: 'Customer Churn MLOps',
-    label: 'Machine Learning / MLOps',
-    description: 'A reproducible telecom churn platform spanning synthetic data, model evaluation and promotion, batch scoring, drift signals and FastAPI inference.',
-    href: 'https://github.com/anveshsvemuri/customer-churn-mlops',
-    image: '/projects/customer-churn-preview.svg',
-    imageAlt: 'Customer Churn MLOps training and inference architecture',
-    proof: ['0.8513 validation ROC-AUC', '6 automated tests', 'PII-free synthetic data'],
-    tech: ['Python', 'scikit-learn', 'FastAPI', 'Docker', 'GitHub Actions'],
-  },
-  {
-    number: '04',
-    title: 'Data Platform Copilot',
-    label: 'LLM / RAG / MCP',
-    description: 'A grounded data-platform assistant with citations, safe abstention, structured responses and allowlisted MCP tools over approved operational documentation.',
-    href: 'https://github.com/anveshsvemuri/data-platform-copilot',
-    image: '/projects/data-platform-copilot-preview.svg',
-    imageAlt: 'Data Platform Copilot RAG and MCP architecture',
-    proof: ['100% evaluation pass rate', '7 automated tests', 'No-key deterministic mode'],
-    tech: ['Python', 'LLM', 'RAG', 'MCP', 'Pydantic', 'OpenAI API'],
-  },
-]
-
-const education = [
-  ['Ph.D. in Technology & Artificial Intelligence', 'Southwest Baptist University', 'Sep 2026 — Present'],
-  ['M.S. in Computer Information Systems', 'New England College', 'Completed 2023'],
-]
-
-const credentials = [
-  ['SQL (Advanced) Certificate', 'HackerRank', '2026'],
-  ['Advanced Data Engineering', 'Databricks Academy', '2025'],
-]
-
-function ArrowIcon({ size = 15 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function ExternalIcon({ size = 14 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M14 5h5v5M10 14 19 5M19 13v6H5V5h6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function MenuIcon({ open }) {
-  return <span className={`menu-icon ${open ? 'is-open' : ''}`}><i /><i /></span>
-}
-
-function Navbar() {
+function Navigation() {
   const [open, setOpen] = useState(false)
-  const links = [['Experience', '#experience'], ['Projects', '#projects'], ['Skills', '#skills'], ['Education', '#education']]
-
-  return (
-    <header className="nav-wrap">
-      <nav className="nav-shell" aria-label="Primary navigation">
-        <a className="brand" href="#top" aria-label="Anvesh Vemuri home">
-          <span className="brand-mark">AV</span>
-          <span className="brand-name">Anvesh Vemuri</span>
-        </a>
-
-        <div className="nav-links desktop-nav">
-          {links.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
-        </div>
-
-        <div className="nav-actions">
-          <a className="nav-resume" href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon size={12} /></a>
-          <button className="menu-button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-            <MenuIcon open={open} />
-          </button>
-        </div>
-      </nav>
-
-      <div className={`mobile-menu ${open ? 'is-open' : ''}`}>
-        {links.map(([label, href]) => <a key={label} href={href} onClick={() => setOpen(false)}>{label}</a>)}
-        <a href={`mailto:${profile.email}`} onClick={() => setOpen(false)}>Contact</a>
-      </div>
-    </header>
-  )
-}
-
-function ScrollInteractiveField() {
-  const canvasRef = useRef(null)
-
+  const [active, setActive] = useState('overview')
+  const button = useRef(null)
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return undefined
-
-    const context = canvas.getContext('2d')
-    if (!context) return undefined
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const stageIds = ['top', 'skills', 'experience', 'projects', 'education', 'contact']
-    const pointer = { x: -1000, y: -1000, px: -1000, py: -1000, vx: 0, vy: 0, active: false }
-
-    let width = 0
-    let height = 0
-    let ratio = 1
-    let frame = 0
-    let points = []
-    let ripples = []
-    let anchors = []
-    let scrollState = { from: 0, to: 0, mix: 0 }
-    let lastTime = performance.now()
-
-    const seeded = (index, salt = 1) => {
-      const value = Math.sin(index * 12.9898 + salt * 78.233) * 43758.5453
-      return value - Math.floor(value)
+    const media = matchMedia('(min-width: 901px)')
+    const reset = event => { if (event.matches) setOpen(false) }
+    const escape = event => { if (event.key === 'Escape' && open) { setOpen(false); button.current?.focus() } }
+    media.addEventListener('change', reset)
+    document.addEventListener('keydown', escape)
+    return () => { media.removeEventListener('change', reset); document.removeEventListener('keydown', escape) }
+  }, [open])
+  useEffect(() => {
+    let queued = false, frame = 0
+    const update = () => {
+      const range = document.documentElement.scrollHeight - innerHeight
+      document.querySelector('.reading-progress')?.style.setProperty('transform', `scaleX(${range > 0 ? scrollY / range : 0})`)
+      let current = 'overview'
+      document.querySelectorAll('main section[id]').forEach(section => { if (section.getBoundingClientRect().top < innerHeight * 0.4) current = section.id })
+      setActive(current); queued = false
     }
-
-    const targetFor = (index, stage) => {
-      const a = seeded(index, 1)
-      const b = seeded(index, 2)
-      const c = seeded(index, 3)
-      const angle = a * Math.PI * 2
-
-      if (stage === 0) {
-        // Hero: loose field, with a little more visual weight on the right.
-        const x = a < 0.36 ? a * 0.86 : 0.28 + Math.pow(a, 0.74) * 0.72
-        return { x: 0.03 + x * 0.94, y: 0.05 + b * 0.90 }
-      }
-
-      if (stage === 1) {
-        // Skills: three calm vertical bands.
-        const lane = index % 3
-        const centers = [0.22, 0.50, 0.78]
-        return {
-          x: centers[lane] + (a - 0.5) * 0.18,
-          y: 0.10 + b * 0.80 + Math.sin((b + lane) * Math.PI * 2) * 0.025,
-        }
-      }
-
-      if (stage === 2) {
-        // Experience: flowing horizontal data streams.
-        const lane = index % 4
-        const yCenter = 0.20 + lane * 0.18
-        return {
-          x: 0.06 + a * 0.88,
-          y: yCenter + Math.sin(a * Math.PI * 2.4 + lane) * 0.055 + (b - 0.5) * 0.055,
-        }
-      }
-
-      if (stage === 3) {
-        // Projects: two soft clusters echoing the two showcased builds.
-        const cluster = index % 2
-        const centerX = cluster === 0 ? 0.30 : 0.72
-        const centerY = cluster === 0 ? 0.42 : 0.60
-        const radiusX = 0.10 + c * 0.16
-        const radiusY = 0.08 + b * 0.14
-        return {
-          x: centerX + Math.cos(angle) * radiusX,
-          y: centerY + Math.sin(angle) * radiusY,
-        }
-      }
-
-      if (stage === 4) {
-        // Education: an ascending diagonal constellation.
-        return {
-          x: 0.10 + a * 0.80,
-          y: 0.72 - a * 0.46 + (b - 0.5) * 0.17,
-        }
-      }
-
-      // Contact: gather into an open halo, leaving the copy readable.
-      const radiusX = 0.18 + c * 0.22
-      const radiusY = 0.14 + b * 0.18
-      return {
-        x: 0.62 + Math.cos(angle) * radiusX,
-        y: 0.50 + Math.sin(angle) * radiusY,
-      }
-    }
-
-    const updateAnchors = () => {
-      anchors = stageIds
-        .map((id) => document.getElementById(id))
-        .filter(Boolean)
-        .map((element) => {
-          const rect = element.getBoundingClientRect()
-          return rect.top + window.scrollY + rect.height * 0.5
-        })
-    }
-
-    const updateScrollState = () => {
-      if (!anchors.length) return
-      const center = window.scrollY + window.innerHeight * 0.52
-
-      if (center <= anchors[0]) {
-        scrollState = { from: 0, to: 0, mix: 0 }
-        return
-      }
-
-      for (let index = 0; index < anchors.length - 1; index += 1) {
-        if (center <= anchors[index + 1]) {
-          const span = Math.max(1, anchors[index + 1] - anchors[index])
-          const raw = (center - anchors[index]) / span
-          const mix = raw * raw * (3 - 2 * raw)
-          scrollState = { from: index, to: index + 1, mix }
-          return
-        }
-      }
-
-      const last = anchors.length - 1
-      scrollState = { from: last, to: last, mix: 0 }
-    }
-
-    const makePoints = () => {
-      const density = width < 700 ? 11500 : width > 1600 ? 5600 : 7200
-      const count = Math.max(88, Math.min(285, Math.round((width * height) / density)))
-
-      points = Array.from({ length: count }, (_, index) => {
-        const target = targetFor(index, 0)
-        return {
-          x: target.x * width,
-          y: target.y * height,
-          vx: 0,
-          vy: 0,
-          size: 0.75 + seeded(index, 4) * 1.45,
-          alpha: 0.22 + seeded(index, 5) * 0.50,
-          phase: seeded(index, 6) * Math.PI * 2,
-          drift: 4 + seeded(index, 7) * 10,
-        }
-      })
-    }
-
-    const resize = () => {
-      width = Math.max(1, window.innerWidth)
-      height = Math.max(1, window.innerHeight)
-      ratio = Math.min(window.devicePixelRatio || 1, 2)
-
-      canvas.width = Math.round(width * ratio)
-      canvas.height = Math.round(height * ratio)
-      canvas.style.width = `${width}px`
-      canvas.style.height = `${height}px`
-      context.setTransform(ratio, 0, 0, ratio, 0, 0)
-
-      makePoints()
-      updateAnchors()
-      updateScrollState()
-    }
-
-    const addRipple = (x, y) => {
-      ripples.push({ x, y, radius: 8, alpha: 0.28, speed: 5.2 })
-      if (ripples.length > 3) ripples = ripples.slice(-3)
-    }
-
-    const handlePointerMove = (event) => {
-      const x = event.clientX
-      const y = event.clientY
-
-      if (!pointer.active) {
-        pointer.px = x
-        pointer.py = y
-      }
-
-      pointer.vx = x - pointer.px
-      pointer.vy = y - pointer.py
-      pointer.px = x
-      pointer.py = y
-      pointer.x = x
-      pointer.y = y
-      pointer.active = true
-    }
-
-    const handlePointerDown = (event) => {
-      if (event.target.closest('a, button, input, textarea, select')) return
-      addRipple(event.clientX, event.clientY)
-    }
-
-    const handlePointerLeave = () => {
-      pointer.active = false
-      pointer.vx = 0
-      pointer.vy = 0
-    }
-
-    const handleExperiencePulse = (event) => {
-      const { x = width * 0.5, y = height * 0.5 } = event.detail || {}
-      ripples.push(
-        { x, y, radius: 8, alpha: 0.34, speed: 5.6 },
-        { x, y, radius: 34, alpha: 0.22, speed: 4.8 },
-        { x, y, radius: 62, alpha: 0.14, speed: 4.2 },
-      )
-      if (ripples.length > 6) ripples = ripples.slice(-6)
-    }
-
-    const handleScroll = () => {
-      updateScrollState()
-    }
-
-    const handleResize = () => {
-      resize()
-    }
-
-    const draw = (now = performance.now()) => {
-      const elapsed = Math.min(32, now - lastTime)
-      const dt = elapsed / 16.667
-      lastTime = now
-      context.clearRect(0, 0, width, height)
-
-      const fromStage = scrollState.from
-      const toStage = scrollState.to
-      const mix = scrollState.mix
-
-      const lineProfiles = [
-        { radius: 95, alpha: 0.060 },
-        { radius: 78, alpha: 0.050 },
-        { radius: 112, alpha: 0.072 },
-        { radius: 92, alpha: 0.056 },
-        { radius: 76, alpha: 0.045 },
-        { radius: 110, alpha: 0.070 },
-      ]
-      const lineRadius = lineProfiles[fromStage].radius * (1 - mix) + lineProfiles[toStage].radius * mix
-      const lineAlpha = lineProfiles[fromStage].alpha * (1 - mix) + lineProfiles[toStage].alpha * mix
-
-      if (!reducedMotion) {
-        ripples = ripples
-          .map((ripple) => ({
-            ...ripple,
-            radius: ripple.radius + ripple.speed * dt,
-            alpha: ripple.alpha * Math.pow(0.974, dt),
-          }))
-          .filter((ripple) => ripple.alpha > 0.014 && ripple.radius < Math.max(width, height) * 0.55)
-      }
-
-      for (let index = 0; index < points.length; index += 1) {
-        const point = points[index]
-        const from = targetFor(index, fromStage)
-        const to = targetFor(index, toStage)
-        const normalizedX = from.x * (1 - mix) + to.x * mix
-        const normalizedY = from.y * (1 - mix) + to.y * mix
-
-        const ambientX = reducedMotion ? 0 : Math.cos(now * 0.00025 + point.phase) * point.drift
-        const ambientY = reducedMotion ? 0 : Math.sin(now * 0.00020 + point.phase * 1.2) * point.drift * 0.55
-        const targetX = normalizedX * width + ambientX
-        const targetY = normalizedY * height + ambientY
-
-        if (!reducedMotion) {
-          point.vx += (targetX - point.x) * 0.0065 * dt
-          point.vy += (targetY - point.y) * 0.0065 * dt
-
-          if (pointer.active) {
-            const dx = pointer.x - point.x
-            const dy = pointer.y - point.y
-            const distance = Math.hypot(dx, dy)
-            const influence = 190
-
-            if (distance > 0.001 && distance < influence) {
-              const amount = 1 - distance / influence
-              const ease = amount * amount
-              point.vx += (dx / distance) * ease * 0.28 * dt
-              point.vy += (dy / distance) * ease * 0.28 * dt
-              point.vx += pointer.vx * ease * 0.010
-              point.vy += pointer.vy * ease * 0.010
-            }
-          }
-
-          ripples.forEach((ripple) => {
-            const dx = point.x - ripple.x
-            const dy = point.y - ripple.y
-            const distance = Math.hypot(dx, dy)
-            const ringDistance = Math.abs(distance - ripple.radius)
-
-            if (distance > 0.001 && ringDistance < 36) {
-              const wave = (1 - ringDistance / 36) * ripple.alpha
-              point.vx += (dx / distance) * wave * 1.12 * dt
-              point.vy += (dy / distance) * wave * 1.12 * dt
-            }
-          })
-
-          point.vx *= Math.pow(0.895, dt)
-          point.vy *= Math.pow(0.895, dt)
-          point.x += point.vx * dt
-          point.y += point.vy * dt
-        } else {
-          point.x = targetX
-          point.y = targetY
-        }
-
-        for (let next = index + 1; next < points.length; next += 1) {
-          const other = points[next]
-          const dx = point.x - other.x
-          const dy = point.y - other.y
-          const distance = Math.hypot(dx, dy)
-
-          if (distance < lineRadius) {
-            let opacity = (1 - distance / lineRadius) * lineAlpha
-
-            if (pointer.active) {
-              const midX = (point.x + other.x) / 2
-              const midY = (point.y + other.y) / 2
-              const cursorDistance = Math.hypot(midX - pointer.x, midY - pointer.y)
-              if (cursorDistance < 170) opacity += (1 - cursorDistance / 170) * 0.050
-            }
-
-            context.beginPath()
-            context.moveTo(point.x, point.y)
-            context.lineTo(other.x, other.y)
-            context.strokeStyle = `rgba(88, 160, 255, ${opacity})`
-            context.lineWidth = 0.55
-            context.stroke()
-          }
-        }
-
-        let brightness = point.alpha
-        let scale = 1
-
-        if (pointer.active) {
-          const distance = Math.hypot(point.x - pointer.x, point.y - pointer.y)
-          if (distance < 175) {
-            const amount = 1 - distance / 175
-            brightness = Math.min(0.95, brightness + amount * 0.44)
-            scale += amount * 0.55
-          }
-        }
-
-        context.beginPath()
-        context.arc(point.x, point.y, point.size * scale, 0, Math.PI * 2)
-        context.fillStyle = `rgba(104, 190, 255, ${brightness})`
-        context.shadowColor = 'rgba(79, 145, 255, 0.52)'
-        context.shadowBlur = brightness > 0.58 ? 9 : 3
-        context.fill()
-        context.shadowBlur = 0
-      }
-
-      if (pointer.active) {
-        const halo = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 135)
-        halo.addColorStop(0, 'rgba(76, 147, 255, 0.060)')
-        halo.addColorStop(1, 'rgba(76, 147, 255, 0)')
-        context.fillStyle = halo
-        context.beginPath()
-        context.arc(pointer.x, pointer.y, 135, 0, Math.PI * 2)
-        context.fill()
-      }
-
-      ripples.forEach((ripple) => {
-        context.beginPath()
-        context.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2)
-        context.strokeStyle = `rgba(108, 185, 255, ${ripple.alpha * 0.38})`
-        context.lineWidth = 1
-        context.stroke()
-      })
-
-      pointer.vx *= 0.78
-      pointer.vy *= 0.78
-
-      if (!reducedMotion) frame = requestAnimationFrame(draw)
-    }
-
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
-    window.addEventListener('experience-pulse', handleExperiencePulse)
-    document.documentElement.addEventListener('mouseleave', handlePointerLeave)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize)
-
-    resize()
-    requestAnimationFrame(() => {
-      updateAnchors()
-      updateScrollState()
-    })
-    draw()
-
-    return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('pointerdown', handlePointerDown)
-      window.removeEventListener('experience-pulse', handleExperiencePulse)
-      document.documentElement.removeEventListener('mouseleave', handlePointerLeave)
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-    }
+    const request = () => { if (!queued) { queued = true; frame = requestAnimationFrame(update) } }
+    addEventListener('scroll', request, { passive: true }); addEventListener('resize', request)
+    document.addEventListener('toggle', request, true); update()
+    return () => { removeEventListener('scroll', request); removeEventListener('resize', request); document.removeEventListener('toggle', request, true); cancelAnimationFrame(frame) }
   }, [])
-
-  return <canvas ref={canvasRef} className="scroll-interactive-field" aria-hidden="true" />
+  return <header className="site-header"><nav className="nav container" aria-label="Main navigation">
+    <a className="wordmark" href="#overview" aria-label="Anvesh Vemuri, home"><span className="brand-dots" aria-hidden="true"><i /><i /><i /><i /></span>Anvesh Vemuri<span className="wordmark-period">.</span></a>
+    <div className="desktop-nav">{links.map(([label, href]) => <a key={href} href={href} aria-current={active === href.slice(1) ? 'location' : undefined}>{label}</a>)}</div>
+    <a className="nav-contact" href={`mailto:${contact.email}`}>Let’s talk <Arrow /></a>
+    <button ref={button} className="menu-toggle" type="button" aria-expanded={open} aria-controls="mobile-nav" onClick={() => setOpen(!open)}><span className="sr-only">{open ? 'Close' : 'Open'} navigation</span><span className="menu-lines" aria-hidden="true" /></button>
+    </nav><nav id="mobile-nav" className="mobile-nav container" aria-label="Mobile navigation" hidden={!open}>{links.map(([label, href]) => <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>)}<a href={contact.resume} target="_blank" rel="noopener noreferrer">Résumé <span className="sr-only">(PDF, opens in new tab)</span></a><a href={`mailto:${contact.email}`}>Let’s talk</a></nav></header>
 }
 
-function Hero() {
-  return (
-    <section id="top" className="hero-section">
-      <div className="hero section-shell">
-        <div className="hero-copy reveal">
-          <div className="eyebrow"><span /> Data Engineer · 4+ years</div>
-          <h1>Data engineering<br /><em>at production scale.</em></h1>
-          <p>
-            I build reliable pipelines, lakehouse systems and analytics infrastructure with Python, SQL, Spark, Databricks and AWS—designed to move from raw data to trusted decisions.
-          </p>
-          <div className="hero-actions">
-            <a className="primary-button" href="#projects">Explore my work <ArrowIcon /></a>
-            <a className="secondary-link" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a>
-          </div>
-          <div className="hero-tech">
-            {['Python', 'SQL', 'PySpark', 'Databricks', 'AWS', 'Snowflake'].map((item) => <span key={item}>{item}</span>)}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Metrics() {
-  return (
-    <section className="metrics section-shell reveal" aria-label="Selected engineering impact">
-      {metrics.map(([value, label]) => (
-        <div key={label}><strong>{value}</strong><span>{label}</span></div>
-      ))}
-    </section>
-  )
-}
-
-function SectionHeader({ label, title, copy }) {
-  return (
-    <div className="section-heading reveal">
-      <span className="section-label">{label}</span>
-      <div>
-        <h2>{title}</h2>
-        {copy && <p>{copy}</p>}
-      </div>
-    </div>
-  )
-}
-
-function Capabilities() {
-  return (
-    <section id="skills" className="section-shell section-block">
-      <SectionHeader
-        label="What I build"
-        title="Systems that turn complex data into something teams can trust."
-        copy="My work spans ingestion, distributed processing, analytics platforms, data quality and applied AI."
-      />
-      <div className="capability-grid">
-        {capabilities.map((item) => (
-          <article className="capability-card reveal" key={item.title}>
-            <span className="card-number">{item.number}</span>
-            <h3>{item.title}</h3>
-            <p>{item.copy}</p>
-            <div className="tool-list">{item.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
+function Overview() {
+  return <section id="overview" className="hero container" aria-labelledby="hero-title"><div className="hero-grid"><div className="hero-copy">
+    <p className="eyebrow"><span className="status-dot" aria-hidden="true" /> DATA ENGINEER <span className="eyebrow-divider">/</span> JERSEY CITY, NJ</p>
+    <h1 id="hero-title">Data that works.<br />Systems that <span>scale.</span></h1>
+    <p className="hero-intro">I’m Anvesh. I build reliable data pipelines, cloud platforms, and practical AI applications that turn complex data into something useful.</p>
+    <div className="hero-actions"><a className="button button-primary" href={`mailto:${contact.email}`}>Get in touch <Arrow /></a><a className="text-link" href="#projects">Explore my work <span aria-hidden="true">↘</span></a></div>
+    <div className="hero-social"><ExternalLink href={contact.github}>GitHub</ExternalLink><span aria-hidden="true">/</span><ExternalLink href={contact.linkedin}>LinkedIn</ExternalLink><ExternalLink className="hero-resume" href={contact.resume}>View résumé <span className="sr-only">PDF</span></ExternalLink></div>
+    </div><DotField /></div><div className="capability-strip"><p className="micro-label">MY TOOLKIT</p><ul aria-label="Core technologies">{toolkit.map(tool => <li key={tool}>{tool}</li>)}</ul><a className="toolkit-note" href="#skills" onClick={() => { document.getElementById('skills').open = true }}>View full toolkit ↗</a></div></section>
 }
 
 function Experience() {
-  const [openExperience, setOpenExperience] = useState(null)
+  return <section id="experience" className="section experience-section" aria-labelledby="experience-title"><div className="container section-layout">
+    <div className="section-heading"><p className="eyebrow section-index">01 / EXPERIENCE</p><h2 id="experience-title">Built in the<br />real world.</h2><p>Data engineering across advertising, financial services, and technology.</p><span className="section-hint"><span aria-hidden="true">+</span> Open a role for the details</span></div>
+    <div className="experience-content"><div className="experience-list">{experience.map((job, index) => <details className="experience-card" key={job.company}>
+      <summary><span className="role-number">0{index + 1}</span><span className="role-heading"><span className="company">{job.company}</span><span className="role-title">{job.role}{job.division && <> · {job.division}</>}</span></span><span className="role-period">{job.period}</span><span className="expand-icon" aria-hidden="true" /></summary>
+      <div className="experience-body"><p>{job.summary}</p><ul className="impact-list">{job.impact.map(item => <li key={item}>{item}</li>)}</ul><ul className="tags" aria-label="Technologies used">{job.stack.map(tool => <li key={tool}>{tool}</li>)}</ul></div>
+    </details>)}</div>
+    <details id="skills" className="background-details"><summary>Full technical toolkit <span aria-hidden="true">+</span></summary><div className="skills-grid">{skills.map(group => <div key={group.title}><h3>{group.title}</h3><ul className="tags">{group.tools.map(tool => <li key={tool}>{tool}</li>)}</ul></div>)}</div></details>
+    <div className="credentials-grid">
+      <section id="education" className="credential-section" aria-labelledby="education-title"><p className="micro-label">ACADEMIC BACKGROUND</p><h2 id="education-title">Education</h2>{education.map(item => <article className="credential-entry" key={item.institution}><h3>{item.degree}</h3><p>{item.institution}</p><div className="credential-meta"><span>{item.period}</span>{item.status === 'In progress' && <span className="credential-badge">In progress</span>}</div></article>)}</section>
+      <section id="certifications" className="credential-section" aria-labelledby="certifications-title"><p className="micro-label">CONTINUED LEARNING</p><h2 id="certifications-title">Certifications</h2>{certifications.map(item => <article className="credential-entry" key={item.name}><h3>{item.name}</h3><p>{item.issuer}</p><div className="credential-meta"><span>{item.year}</span><span className="credential-badge">{item.type}</span></div>{item.details && <p className="credential-detail">{item.details}</p>}</article>)}</section>
+    </div></div></div></section>
+}
 
-  const toggleExperience = (index, event) => {
-    const next = openExperience === index ? null : index
-    setOpenExperience(next)
-
-    if (next !== null) {
-      const rect = event.currentTarget.getBoundingClientRect()
-      window.dispatchEvent(new CustomEvent('experience-pulse', {
-        detail: {
-          x: Math.min(window.innerWidth - 40, rect.left + rect.width * 0.78),
-          y: Math.min(window.innerHeight - 40, Math.max(40, rect.top + rect.height * 0.5)),
-        },
-      }))
-    }
-  }
-
-  return (
-    <section id="experience" className="section-shell section-block experience-section-clean">
-      <div className="experience-heading-clean reveal">
-        <span className="section-label">Experience</span>
-        <h2>Work experience</h2>
-      </div>
-
-      <div className="experience-timeline">
-        {experiences.map((job, index) => {
-          const isOpen = openExperience === index
-
-          return (
-            <article className={`experience-row-clean reveal ${isOpen ? 'is-open' : ''}`} key={job.company}>
-              <button
-                type="button"
-                className="experience-row-button"
-                aria-expanded={isOpen}
-                aria-controls={`experience-details-${index}`}
-                onClick={(event) => toggleExperience(index, event)}
-              >
-                <span className="experience-company-block">
-                  <strong>{job.company}</strong>
-                  <span>{job.role}</span>
-                </span>
-
-                <span className="experience-period-clean">{job.period}</span>
-
-                <span className="experience-plus" aria-hidden="true">{isOpen ? '−' : '+'}</span>
-              </button>
-
-              {isOpen && (
-                <div
-                  id={`experience-details-${index}`}
-                  className="experience-details-clean is-visible"
-                >
-                  <div className="experience-details-clean-inner">
-                    <p>{job.summary}</p>
-                    <ul>
-                      {job.impact.map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                    <span className="experience-stack-line">{job.stack.join(' · ')}</span>
-                  </div>
-                </div>
-              )}
-            </article>
-          )
-        })}
-      </div>
-    </section>
-  )
+function ProjectDialog({ project, onClose, trigger }) {
+  const dialog = useRef(null), close = useRef(null)
+  useEffect(() => {
+    const element = dialog.current
+    if (!project) return
+    element.showModal(); document.body.classList.add('modal-open'); close.current?.focus()
+    return () => { if (element.open) element.close(); document.body.classList.remove('modal-open'); trigger?.focus({ preventScroll: true }) }
+  }, [project, trigger])
+  return <dialog ref={dialog} id="image-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-caption" onClose={onClose} onClick={event => {
+    const rect = dialog.current.getBoundingClientRect()
+    if (event.target === dialog.current && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.current.close()
+  }}><div className="dialog-header"><div><p className="micro-label">PROJECT PREVIEW</p><h2 id="dialog-title">{project?.title}</h2></div><button ref={close} id="close-dialog" type="button" aria-label="Close project preview" onClick={() => dialog.current.close()}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.6" /></svg></button></div><div className="dialog-image-wrap">{project && <img id="dialog-image" src={project.image} alt={project.imageAlt} />}</div><p id="dialog-caption">{project?.note}</p></dialog>
 }
 
 function Projects() {
-  const [activeProject, setActiveProject] = useState(null)
-
-  useEffect(() => {
-    if (!activeProject) return undefined
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setActiveProject(null)
-    }
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [activeProject])
-
-  return (
-    <section id="projects" className="section-shell section-block">
-      <SectionHeader
-        label="Selected work"
-        title="Projects built to show the engineering, not just the screenshot."
-        copy="Each project is designed as a working system with validation, testing and a clear architecture."
-      />
-
-      <div className="project-list">
-        {projects.map((project, index) => (
-          <article className={`project-card reveal ${index % 2 ? 'is-reversed' : ''}`} key={project.title}>
-            <div className="project-copy">
-              <div className="project-label"><span>{project.number}</span>{project.label}</div>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div className="proof-list">{project.proof.map((item) => <span key={item}>{item}</span>)}</div>
-              <div className="tool-list">{project.tech.map((tool) => <span key={tool}>{tool}</span>)}</div>
-              <a className="project-link" href={project.href} target="_blank" rel="noreferrer">View repository <ExternalIcon /></a>
-            </div>
-
-            <button
-              type="button"
-              className="project-visual project-visual-button"
-              aria-label={`Enlarge ${project.title} preview`}
-              onClick={() => setActiveProject(project)}
-            >
-              <img src={project.image} alt={project.imageAlt} loading="lazy" />
-              <span className="project-zoom-label">Click to enlarge</span>
-            </button>
-          </article>
-        ))}
-      </div>
-
-      {activeProject && (
-        <div
-          className="project-lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${activeProject.title} preview`}
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setActiveProject(null)
-          }}
-        >
-          <button
-            type="button"
-            className="project-lightbox-close"
-            aria-label="Close project preview"
-            onClick={() => setActiveProject(null)}
-          >
-            ×
-          </button>
-
-          <div className="project-lightbox-content">
-            <div className="project-lightbox-header">
-              <span>{activeProject.label}</span>
-              <strong>{activeProject.title}</strong>
-            </div>
-            <img src={activeProject.image} alt={activeProject.imageAlt} />
-          </div>
-        </div>
-      )}
-    </section>
-  )
-}
-
-function Education() {
-  return (
-    <section id="education" className="section-shell section-block">
-      <SectionHeader label="Education" title="Academic foundation and continued technical development." />
-      <div className="education-grid">
-        <div className="education-list">
-          {education.map(([degree, school, period]) => (
-            <article className="education-item reveal" key={degree}>
-              <div><h3>{degree}</h3><p>{school}</p></div>
-              <span>{period}</span>
-            </article>
-          ))}
-        </div>
-        <aside className="credential-card reveal">
-          <span className="section-label">Credentials</span>
-          {credentials.map(([title, issuer, year]) => (
-            <div className="credential-item" key={title}>
-              <div><strong>{title}</strong><span>{issuer}</span></div>
-              <small>{year}</small>
-            </div>
-          ))}
-        </aside>
-      </div>
-    </section>
-  )
-}
-
-function Contact() {
-  return (
-    <section id="contact" className="section-shell contact-section">
-      <div className="contact-card reveal">
-        <div>
-          <span className="section-label">Get in touch</span>
-          <h2>Let’s build reliable data systems.</h2>
-          <p>I’m open to data engineering, data platform and applied AI opportunities where scale, reliability and business impact matter.</p>
-        </div>
-        <div className="contact-actions">
-          <a className="contact-email" href={`mailto:${profile.email}`}>{profile.email}<ArrowIcon size={18} /></a>
-          <div>
-            <a href={profile.github} target="_blank" rel="noreferrer">GitHub <ExternalIcon /></a>
-            <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <ExternalIcon /></a>
-            <a href={profile.resume} target="_blank" rel="noreferrer">Résumé <ExternalIcon /></a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+  const [filter, setFilter] = useState('all'), [preview, setPreview] = useState(null)
+  const visible = projects.filter(project => filter === 'all' || project.category === filter)
+  const filters = [['all', 'All'], ['platforms', 'Data platforms'], ['ai', 'Applied AI'], ['ml', 'MLOps']]
+  return <section id="projects" className="section projects-section container" aria-labelledby="projects-title">
+    <div className="projects-heading"><div><p className="eyebrow section-index">02 / SELECTED PROJECTS</p><h2 id="projects-title">From idea to implementation.</h2><p>Four hands-on projects in data platforms, analytics, and applied AI.</p></div><ExternalLink className="text-link all-repos" href={`${contact.github}?tab=repositories`}>All repositories</ExternalLink></div>
+    <div className="project-toolbar"><div className="filters" role="group" aria-label="Filter projects">{filters.map(([key, label]) => <button key={key} type="button" className={`filter ${filter === key ? 'active' : ''}`} data-filter={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}{key === 'all' && <span>04</span>}</button>)}</div><span className="project-helper">Click an image to take a closer look</span></div>
+    <p id="filter-status" className="sr-only" aria-live="polite" aria-atomic="true">Showing {visible.length} {filter === 'all' ? '' : filters.find(([key]) => key === filter)[1]} project{visible.length === 1 ? '' : 's'}</p>
+    <div className="project-grid">{projects.map((project, index) => <article className="project-card" data-category={project.category} hidden={filter !== 'all' && filter !== project.category} key={project.title}>
+      <div className="project-top"><span className="project-number">0{index + 1}</span><span className="project-category">{project.label}</span><ExternalLink className="source-icon" href={project.href} label={`${project.title} source on GitHub`} /></div>
+      <div className="project-main"><button className="project-preview" type="button" aria-label={`Enlarge ${project.title} preview`} onClick={event => setPreview({ project, trigger: event.currentTarget })}><img src={project.image} alt={project.imageAlt} width="192" height="120" loading="lazy" /><span className="zoom-label" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" stroke="currentColor" strokeWidth="1.8" /></svg> View</span></button><div className="project-copy"><h3>{project.title}</h3><p>{project.description}</p></div></div>
+      <ul className="project-features">{project.proof.map(item => <li key={item}>{item}</li>)}</ul>
+      <div className="project-bottom"><ul className="tech-line" aria-label="Project technologies">{project.tech.map(tool => <li key={tool}>{tool}</li>)}</ul><a className="project-link" href={project.href} target="_blank" rel="noopener noreferrer" aria-label={`Explore ${project.title} code (opens in new tab)`}>Explore code <Arrow /></a></div>
+    </article>)}</div><ProjectDialog project={preview?.project} trigger={preview?.trigger} onClose={() => setPreview(null)} /></section>
 }
 
 function Footer() {
-  const year = useMemo(() => new Date().getFullYear(), [])
-  return <footer className="section-shell footer"><span>© {year} Anvesh Sai Vemuri</span><span>Data Engineering · Analytics · AI</span><a href="#top">Back to top ↑</a></footer>
+  return <footer id="contact" className="site-footer"><div className="container"><div className="footer-main"><div><p className="eyebrow">LET’S BUILD SOMETHING USEFUL</p><h2>Your next data challenge,<br />my next conversation.</h2></div><div className="footer-contact"><a href={`mailto:${contact.email}`}>{contact.email}<Arrow /></a><span>Data engineering · Cloud platforms · Applied AI</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Anvesh Sai Vemuri</span><span className="footer-location">Jersey City, NJ</span><a href="#overview">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>
 }
 
-function App() {
-  useEffect(() => {
-    const nodes = document.querySelectorAll('.reveal')
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' })
-
-    nodes.forEach((node) => observer.observe(node))
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div className="app-shell">
-      <ScrollInteractiveField />
-      <a className="skip-link" href="#main-content">Skip to main content</a>
-      <Navbar />
-      <main id="main-content">
-        <Hero />
-        <Metrics />
-        <Capabilities />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  )
+export default function App() {
+  return <><a className="skip-link" href="#main">Skip to content</a><div className="reading-progress" aria-hidden="true" /><Navigation /><main id="main" tabIndex={-1}><Overview /><Experience /><Projects /></main><Footer /></>
 }
-
-export default App

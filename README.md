@@ -1,42 +1,24 @@
-# Anvesh Sai Vemuri — Portfolio
+# Anvesh Vemuri — Portfolio
 
-A responsive recruiter-facing portfolio for a Data and AI Engineer focused on scalable data platforms, distributed processing, cloud analytics, and applied AI.
+Responsive React/Vite portfolio at https://anveshvemuri.vercel.app. The Vercel project deploys the `main` branch.
 
-## Stack
-
-- React
-- Vite
-- CSS (no UI framework required)
-
-## Run locally
+## Development
 
 ```bash
-npm install
+npm ci
 npm run dev
-```
-
-## Build
-
-```bash
 npm run lint
 npm run build
 ```
 
-The production Vercel project redeploys from the `main` branch.
+## Content and design
 
-## Where to update content later
+- `src/content.json`: profile, résumé-based experience, technical toolkit, education, certifications, and four portfolio projects.
+- `src/App.jsx`: compact layout, native experience disclosures, separate education and certification sections, project filters, and accessible image dialogs.
+- `src/DotField.jsx`: pointer-responsive blue-dot animation, pause control, reduced-motion preference, and visibility suspension.
+- `src/App.css`: responsive styles and design tokens.
+- `public/resume/AnveshSVemuri_Resume.pdf`: current résumé download.
 
-All portfolio content currently lives near the top of `src/App.jsx` in plain data arrays:
+The September 22, 2026 content refresh uses the supplied September 18 résumé, including BigQuery/GCP, Publicis Groupe (Zenith Media Services), the PhD beginning September 2026, and the master's completed December 2023. Databricks Academy is labeled as training rather than a professional certification. Project descriptions preserve verified repository capabilities and distinguish illustrations/reference implementations from hosted production systems.
 
-- `profile`
-- `metrics`
-- `experiences`
-- `skillGroups`
-- `projects`
-- `foundations`
-
-When you begin your PhD, add it to `foundations` or create a dedicated AI / Research section without redesigning the whole site.
-
-## GitHub Pages later
-
-The site is Vite-compatible and can be moved to GitHub Pages later. For a project-site URL such as `anveshsvemuri.github.io/anvesh-portfolio/`, the Vite `base` path and a GitHub Actions deployment workflow should be added at that time. A custom domain can use `/` as the base.
+The previous dark design has been replaced. Git history retains prior versions for rollback. No analytics or third-party tracking is added.
