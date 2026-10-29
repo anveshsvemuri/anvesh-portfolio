@@ -1,6 +1,6 @@
 {
   "contact": {
-    "email": "anveshsvemuri@gmail.com",
+    "email": "anveshsaivemurii@gmail.com",
     "github": "https://github.com/anveshsvemuri",
     "linkedin": "https://www.linkedin.com/in/anveshvemuri",
     "resume": "/resume/AnveshSVemuri_Resume.pdf"
@@ -25,6 +25,32 @@
   ],
   "experience": [
     {
+      "company": "Citibank",
+      "role": "Data Engineer – GenAI & Data Platforms",
+      "period": "Sep 2026 — Present",
+      "summary": "Builds data pipelines and prepares structured and unstructured enterprise datasets for analytics and GenAI applications.",
+      "impact": [
+        "Engineered Python and SQL pipelines to ingest, cleanse, normalize, and transform structured and unstructured enterprise data for analytics and AI/ML workloads.",
+        "Built LLM data-processing workflows for document chunking, metadata enrichment, embedding generation, and retrieval.",
+        "Integrated AWS S3, AWS Glue, Lambda, Databricks, and Python to automate unstructured data processing and deliver validated GenAI datasets.",
+        "Implemented RAG data preparation, including document preprocessing, validation, metadata management, and vectorization.",
+        "Applied schema, completeness, duplicate, and reconciliation checks to AI/ML datasets before downstream model consumption.",
+        "Optimized Spark and PySpark transformations to improve scalability and reduce processing overhead across AI-ready workloads.",
+        "Orchestrated production workflows in Airflow with automated monitoring, logging, and failure handling."
+      ],
+      "stack": [
+        "Python",
+        "SQL",
+        "AWS S3",
+        "AWS Glue",
+        "AWS Lambda",
+        "Databricks",
+        "PySpark",
+        "Airflow",
+        "RAG"
+      ]
+    },
+    {
       "company": "Publicis Groupe",
       "role": "Data Engineer",
       "period": "Sep 2024 — Aug 2026",
@@ -34,7 +60,7 @@
         "Migrated 50+ production Alteryx workflows to Databricks, redesigning transformations and orchestration and reducing execution time by 35%.",
         "Optimized SQL, stored procedures, and incremental processing across cloud warehouses, improving query performance by 30%.",
         "Automated data-quality checks, reconciliation, schema validation, and monitoring, reducing manual QA by 10+ hours per week.",
-        "Standardized advertising and commerce data from platforms including DV360/YouTube, Amazon, Walmart, Meta, TikTok, Pinterest, and DoubleVerify for 100+ dashboards."
+        "Standardized data from 20+ advertising and commerce platforms, including Pinterest, DoubleVerify, DV360/YouTube, Amazon, Walmart, Meta, TikTok, Snapchat, Reddit, and TTD, for 100+ downstream dashboards."
       ],
       "stack": [
         "Python",
@@ -54,7 +80,7 @@
       "summary": "Developed distributed processing and orchestration for enterprise financial datasets.",
       "impact": [
         "Built distributed PySpark ETL pipelines processing 20M+ financial and transactional records daily, improving processing performance by 45%.",
-        "Developed 100+ SQL and dbt transformations in Snowflake and Hive, improving analytical query performance by 35%.",
+        "Developed 100+ SQL and dbt transformations in Snowflake and Hive, implementing reusable star-schema models and improving analytical query performance by 35%.",
         "Optimized Spark and Hive workloads with partition-aware processing, Parquet, and Spark SQL tuning.",
         "Automated 25+ Airflow workflows and implemented dbt tests and data-quality checks, reducing manual intervention by 12 hours per week."
       ],
@@ -68,7 +94,7 @@
       ]
     },
     {
-      "company": "Dixon Technologies",
+      "company": "Cognizant",
       "role": "Data Engineer",
       "period": "Aug 2020 — Jul 2021",
       "summary": "Built warehouse, streaming and automation systems across AWS and distributed data tools.",
@@ -91,44 +117,71 @@
   ],
   "skills": [
     {
-      "title": "Languages & engineering",
+      "title": "Languages & data engineering",
       "tools": [
         "Python",
         "SQL",
         "Java",
+        "Pandas",
+        "NumPy",
         "Apache Spark",
         "PySpark",
         "Databricks",
+        "Delta Lake",
         "Airflow",
         "dbt",
-        "Pandas",
-        "NumPy",
         "ETL/ELT",
+        "Data Integration",
+        "Data Transformation",
         "REST APIs",
-        "Delta Lake",
-        "Dimensional Data Modeling",
+        "API-based Ingestion",
         "Kafka",
-        "Hadoop",
-        "Hive",
-        "HDFS",
-        "Boto3"
+        "Spark Streaming"
       ]
     },
     {
-      "title": "Cloud & databases",
+      "title": "Cloud & data platforms",
       "tools": [
-        "AWS S3",
+        "AWS",
+        "Amazon S3",
         "AWS Glue",
         "AWS Lambda",
         "Redshift",
         "Athena",
-        "Lake Formation",
         "EMR",
+        "Lake Formation",
         "GCP",
         "BigQuery",
-        "Snowflake",
-        "MySQL",
-        "PostgreSQL"
+        "Snowflake"
+      ]
+    },
+    {
+      "title": "GenAI & AI/ML data engineering",
+      "tools": [
+        "LLM Data Processing",
+        "AI/ML Data Pipelines",
+        "Embedding Pipelines",
+        "Vectorized Data",
+        "RAG Data Preparation",
+        "Unstructured Data Processing",
+        "Amazon Bedrock"
+      ]
+    },
+    {
+      "title": "Warehousing, modeling & data quality",
+      "tools": [
+        "Data Warehousing",
+        "Dimensional Data Modeling",
+        "Star Schema",
+        "Data Lakes",
+        "Lakehouse Architecture",
+        "Hive",
+        "HDFS",
+        "Data Quality",
+        "Schema Validation",
+        "Data Reconciliation",
+        "Data Governance",
+        "Pipeline Monitoring"
       ]
     },
     {
@@ -136,10 +189,11 @@
       "tools": [
         "Git",
         "GitHub",
-        "Azure DevOps",
         "Jenkins",
         "Docker",
+        "Azure DevOps",
         "Linux",
+        "CI/CD",
         "Alteryx",
         "Jupyter Notebook",
         "Tableau",
@@ -246,7 +300,7 @@
     {
       "degree": "PhD, Technology and Artificial Intelligence",
       "institution": "Southwest Baptist University",
-      "period": "Sep 2026 — Present",
+      "period": "Expected Apr 2029",
       "status": "In progress"
     },
     {
@@ -257,6 +311,13 @@
     }
   ],
   "certifications": [
+    {
+      "name": "AWS Certified Data Engineer – Associate",
+      "issuer": "Amazon Web Services",
+      "year": "",
+      "type": "In progress",
+      "details": ""
+    },
     {
       "name": "SQL (Advanced) Certificate",
       "issuer": "HackerRank",

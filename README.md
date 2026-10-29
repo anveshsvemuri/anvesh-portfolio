@@ -1,6 +1,6 @@
 # Anvesh Vemuri — Portfolio
 
-Responsive React/Vite portfolio at https://anveshvemuri.vercel.app. The Vercel project deploys the `main` branch.
+Responsive React/Vite portfolio at https://anveshsvemuri.vercel.app. The Vercel project deploys the `main` branch.
 
 ## Development
 
@@ -19,6 +19,6 @@ npm run build
 - `src/App.css`: responsive styles and design tokens.
 - `public/resume/AnveshSVemuri_Resume.pdf`: current résumé download.
 
-The September 22, 2026 content refresh uses the supplied September 18 résumé, including BigQuery/GCP, Publicis Groupe (Zenith Media Services), the PhD beginning September 2026, and the master's completed December 2023. Databricks Academy is labeled as training rather than a professional certification. Project descriptions preserve verified repository capabilities and distinguish illustrations/reference implementations from hosted production systems.
+The October 29, 2026 content refresh uses Anvesh_DE_Resume(2).pdf, uploaded October 28. It includes the current Citibank GenAI and Data Platforms role, Publicis Groupe (Zenith Media Services), JPMorgan Chase, and Cognizant; the résumé contact email; the expected April 2029 PhD completion; and the master's completed December 2023. AWS Data Engineer Associate preparation is explicitly marked in progress. Databricks Academy is labeled as training rather than a professional certification. Project descriptions preserve verified repository capabilities and distinguish illustrations/reference implementations from hosted production systems.
 
 The previous dark design has been replaced. Git history retains prior versions for rollback. No analytics or third-party tracking is added.
