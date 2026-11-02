@@ -294,6 +294,29 @@
       ],
       "note": "A reference implementation using synthetic telecom data, with validation, training, evaluation, promotion, scoring, and FastAPI inference.",
       "category": "ml"
+    },
+    {
+      "number": "05",
+      "title": "Commerce Reconciliation & Inventory Ledger",
+      "label": "Commerce / Data Quality",
+      "description": "A runnable multi-channel order event ledger with idempotent ingestion, out-of-order handling and WMS stock reconciliation.",
+      "href": "https://github.com/anveshsvemuri/anvesh-portfolio/tree/main/projects/commerce-reconciliation",
+      "image": "/projects/commerce-reconciliation-preview.svg",
+      "imageAlt": "Architecture illustration showing commerce events, inventory ledger and WMS discrepancy detection",
+      "proof": [
+        "Replay-safe ingestion",
+        "Order-line anomaly alerts",
+        "WMS variance reporting"
+      ],
+      "tech": [
+        "Python",
+        "SQL",
+        "SQLite",
+        "Data Quality",
+        "GitHub Actions"
+      ],
+      "note": "A tested local reference using synthetic Shopify-like, Amazon-like and POS event feeds, not actual marketplace API integrations. Includes an intentional warehouse count mismatch.",
+      "category": "platforms"
     }
   ],
   "education": [

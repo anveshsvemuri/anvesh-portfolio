@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-labelledby="title desc">
+  <title id="title">Commerce reconciliation and inventory ledger</title>
+  <desc id="desc">Shopify, Amazon, and point of sale feed an idempotent event ledger, which is compared with WMS stock counts to identify inventory variance.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#112b49"/><stop offset="1" stop-color="#0b182e"/></linearGradient></defs>
+  <rect width="1200" height="800" rx="40" fill="url(#bg)"/>
+  <circle cx="1110" cy="110" r="290" fill="#53dbcb" opacity=".08"/>
+  <circle cx="120" cy="735" r="250" fill="#677eff" opacity=".10"/>
+  <g font-family="Arial,Helvetica,sans-serif">
+    <text x="72" y="89" font-size="32" font-weight="700" fill="#f3f8ff">Commerce Reconciliation</text>
+    <text x="72" y="122" font-size="15" letter-spacing="2" fill="#96afcc">ORDER EVENTS → INVENTORY LEDGER → WMS AUDIT</text>
+    <g fill="#152e4b" stroke="#3e607c" stroke-width="2">
+      <rect x="70" y="194" rx="21" width="250" height="290"/>
+      <rect x="401" y="194" rx="21" width="388" height="290"/>
+      <rect x="870" y="194" rx="21" width="260" height="290"/>
+    </g>
+    <text x="99" y="236" fill="#5be4cf" font-size="18" font-weight="700">CHANNELS</text>
+    <g font-size="20" fill="#e1eeff">
+      <text x="105" y="293">●  Shopify</text>
+      <text x="105" y="349">●  Amazon</text>
+      <text x="105" y="405">●  POS</text>
+    </g>
+    <text x="430" y="236" fill="#5be4cf" font-size="18" font-weight="700">EVENT LEDGER</text>
+    <text x="430" y="293" fill="#f4f7ff" font-size="27" font-weight="700">Exactly-once effect</text>
+    <text x="430" y="336" fill="#a2b8d3" font-size="19">Replay detection · data contracts</text>
+    <text x="430" y="378" fill="#a2b8d3" font-size="19">Atomic ingestion · audit log</text>
+    <text x="430" y="420" fill="#a2b8d3" font-size="19">Order-line quality checks</text>
+    <text x="900" y="236" fill="#5be4cf" font-size="18" font-weight="700">RECONCILIATION</text>
+    <text x="900" y="299" fill="#f4f7ff" font-size="24" font-weight="700">WMS counts</text>
+    <text x="900" y="344" fill="#a2b8d3" font-size="18">Expected vs actual</text>
+    <text x="900" y="390" fill="#a2b8d3" font-size="18">Variance alerts</text>
+    <g stroke="#66d8ce" stroke-width="5" fill="none" stroke-linecap="round"><path d="M327 339h64m-13-14 14 14-14 14"/><path d="M796 339h62m-13-14 14 14-14 14"/></g>
+    <rect x="70" y="549" width="1060" height="166" rx="23" fill="#122b45" stroke="#466b8a"/>
+    <text x="102" y="591" fill="#8faaca" font-size="16" letter-spacing="2">SYNTHETIC RUN • RESULT</text>
+    <text x="102" y="656" fill="#e8f5ff" font-size="39" font-weight="700">7</text>
+    <text x="144" y="655" fill="#a8c2db" font-size="18">ingested</text>
+    <text x="361" y="656" fill="#e8f5ff" font-size="39" font-weight="700">1</text>
+    <text x="402" y="655" fill="#a8c2db" font-size="18">replay skipped</text>
+    <text x="727" y="656" fill="#ffbc84" font-size="39" font-weight="700">−1</text>
+    <text x="785" y="655" fill="#a8c2db" font-size="18">WMS variance flagged</text>
+  </g>
+</svg>
