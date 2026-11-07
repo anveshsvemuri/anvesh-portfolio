@@ -336,10 +336,11 @@
   "certifications": [
     {
       "name": "AWS Certified Data Engineer – Associate",
-      "issuer": "Amazon Web Services",
-      "year": "",
-      "type": "In progress",
-      "details": ""
+      "issuer": "Amazon Web Services (AWS)",
+      "year": "Nov 2026",
+      "type": "Certification",
+      "details": "",
+      "credentialUrl": "https://www.credly.com/badges/098a6aa4-5857-4533-9070-07187d1b6281/public_url"
     },
     {
       "name": "SQL (Advanced) Certificate",
